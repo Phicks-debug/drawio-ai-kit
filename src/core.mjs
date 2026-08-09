@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join, isAbsolute, basename } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-export const DEFAULT_CATALOG = join(__dirname, "..", "catalog", "aws.json");
+export const DEFAULT_CATALOG = join(__dirname, "..", "icons", "aws.json");
 
 const FAMILY = "mxgraph.aws4";
 
@@ -21,7 +21,7 @@ export function loadCatalog(path = DEFAULT_CATALOG) {
   const icons = tag(raw.icons ?? [], basePack);
   const groups = tag(raw.groups ?? [], basePack);
   const categoryColors = { ...(raw.categoryColors ?? {}) };
-  // Merge any sibling catalog/*.json icon packs (e.g. bigdata.json, databricks.json) so their
+  // Merge any sibling icons/*.json packs (e.g. bigdata.json, databricks.json) so their
   // icons are searchable alongside AWS. Each pack contributes icons/groups/categoryColors.
   try {
     for (const f of readdirSync(dirname(file))) {
@@ -161,7 +161,6 @@ export function styleForGroup(catalog, name) {
 const RE_RESICON = /resIcon=mxgraph\.aws4\.([a-z0-9_]+)/g;
 const RE_GRICON = /grIcon=mxgraph\.aws4\.([a-z0-9_]+)/g;
 const RE_SHAPE = /shape=mxgraph\.aws4\.([a-zA-Z0-9_]+)/g;
-const RE_ID = /\bid="([^"]+)"/g;
 const RE_SRC = /\bsource="([^"]+)"/g;
 const RE_TGT = /\btarget="([^"]+)"/g;
 
@@ -218,7 +217,7 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
   for (const n of shapes) checkRef(n, "shape");
 
   // duplicate id check
-  const allIds = collect(RE_ID, xml);
+  const allIds = [...xml.matchAll(/<mxCell\b[^>]*\bid="([^"]+)"/g)].map((match) => match[1]);
   const ids = new Set(allIds);
   if (allIds.length !== ids.size) {
     const seen = new Set();
@@ -239,6 +238,9 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
     warnings.push(`Edge references a non-existent id: "${d}"`);
   }
 
+  errors.push(...validateBranches(xml));
+  errors.push(...validateEdgeClearance(xml));
+
   // lint: every style containing resourceIcon should have aspect=fixed
   const iconStyles = xml.match(/style="[^"]*mxgraph\.aws4\.resourceIcon[^"]*"/g) ?? [];
   for (const c of iconStyles) {
@@ -256,7 +258,6 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
   audit.advice.push(...auditEdgeLabels(xml));
   audit.advice.push(...auditGeometry(xml));
   audit.advice.push(...auditEdges(xml));
-  audit.advice.push(...auditBpmn(xml));
   audit.advice.push(...auditArchitecture(xml));
 
   return {
@@ -272,6 +273,124 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
       cellIds: ids.size,
     },
   };
+}
+
+/** Enforce shared-trunk branching and merging. */
+export function validateBranches(xml) {
+  const errors = [];
+  const cells = parseCells(xml);
+  const byId = new Map(cells.filter((c) => c.id).map((c) => [c.id, c]));
+  const branchIds = new Set(cells.filter((c) => /(?:^|;)branchPoint=1(?:;|$)/.test(c.style)).map((c) => c.id));
+  const mergeIds = new Set(cells.filter((c) => /(?:^|;)mergePoint=1(?:;|$)/.test(c.style)).map((c) => c.id));
+  const junctionIds = new Set([...branchIds, ...mergeIds]);
+  const incoming = new Map(), outgoing = new Map();
+  const edges = [];
+  for (const c of cells) {
+    if (c.edge !== "1") continue;
+    if (c.source) (outgoing.get(c.source) ?? outgoing.set(c.source, []).get(c.source)).push(c.target || "?");
+    if (c.target) (incoming.get(c.target) ?? incoming.set(c.target, []).get(c.target)).push(c.source || "?");
+    if (c.source && c.target) edges.push(c);
+  }
+
+  const typeOf = (id) => {
+    const style = byId.get(id)?.style || "";
+    const fn = (style.match(/(?:^|;)functionGroup=([^;]+)/) || [])[1];
+    if (fn) return `function:${fn}`;
+    return (style.match(/(?:^|;)catalogIcon=([^;]+)/) || [])[1]
+      || (style.match(/resIcon=mxgraph\.aws4\.([a-zA-Z0-9_]+)/) || [])[1]
+      || (style.match(/(?:^|;)serviceIcon=([^;]+)/) || [])[1]
+      || null;
+  };
+  const sideOf = (edge, end) => {
+    const prefix = end === "source" ? "exit" : "entry";
+    const x = num(edge.style, `${prefix}X`), y = num(edge.style, `${prefix}Y`);
+    if (x === 0 && y !== 0 && y !== 1) return "left";
+    if (x === 1 && y !== 0 && y !== 1) return "right";
+    if (y === 0) return "top";
+    if (y === 1) return "bottom";
+    if (x === 0) return "left";
+    if (x === 1) return "right";
+    const here = byId.get(edge[end])?.absGeo, other = byId.get(edge[end === "source" ? "target" : "source"])?.absGeo;
+    if (!here || !other) return "unknown";
+    const dx = other.x + other.w / 2 - (here.x + here.w / 2), dy = other.y + other.h / 2 - (here.y + here.h / 2);
+    return Math.abs(dx) >= Math.abs(dy) ? (dx >= 0 ? "right" : "left") : (dy >= 0 ? "bottom" : "top");
+  };
+  const grouped = (direction) => {
+    const groups = new Map();
+    for (const edge of edges) {
+      const node = edge[direction === "out" ? "source" : "target"];
+      if (junctionIds.has(node)) continue;
+      const peer = edge[direction === "out" ? "target" : "source"], type = typeOf(peer);
+      if (!type) continue;
+      const side = sideOf(edge, direction === "out" ? "source" : "target");
+      const key = `${node}|${side}|${type}`;
+      (groups.get(key) ?? groups.set(key, []).get(key)).push(peer);
+    }
+    return groups;
+  };
+  const typeLabel = (type) => type.startsWith("function:") ? `function group "${type.slice(9)}"` : `catalog type "${type}"`;
+  for (const [key, peers] of grouped("out")) if (peers.length >= 3) {
+    const [source, side, type] = key.split("|");
+    errors.push(`Service "${source}" has ${peers.length} direct connections to equivalent targets in ${typeLabel(type)} on its ${side} side (${peers.join(", ")}) — group only these targets behind one branch point; keep different service types as individual links.`);
+  }
+  for (const [key, peers] of grouped("in")) if (peers.length >= 3) {
+    const [target, side, type] = key.split("|");
+    errors.push(`Service "${target}" has ${peers.length} direct inputs from equivalent sources in ${typeLabel(type)} on its ${side} side (${peers.join(", ")}) — group only these sources through one merge point; keep different service types as individual links.`);
+  }
+  const sideDegree = new Map();
+  for (const edge of edges) for (const end of ["source", "target"]) {
+    const id = edge[end]; if (junctionIds.has(id)) continue;
+    const key = `${id}|${sideOf(edge, end)}`;
+    sideDegree.set(key, (sideDegree.get(key) ?? 0) + 1);
+  }
+  for (const [key, count] of sideDegree) if (count > 4) {
+    const [id, side] = key.split("|");
+    errors.push(`Service "${id}" has ${count} incoming/outgoing connections on its ${side} side — keep at most 4; consolidate same-type groups with branch/merge points or move individual links to another side.`);
+  }
+  for (const id of branchIds) {
+    const ins = incoming.get(id)?.length ?? 0, outs = outgoing.get(id)?.length ?? 0;
+    if (ins !== 1 || outs < 3)
+      errors.push(`Branch point "${id}" must have exactly 1 incoming trunk and at least 3 outgoing equivalent-service branches; found ${ins} incoming and ${outs} outgoing.`);
+    const types = new Set((outgoing.get(id) || []).map(typeOf).filter(Boolean));
+    if (outs >= 3 && (types.size !== 1 || (outgoing.get(id) || []).some((peer) => !typeOf(peer))))
+      errors.push(`Branch point "${id}" may connect only equivalent targets — use the same catalog icon type or functionGroup, and keep different service types on individual links.`);
+  }
+  for (const id of mergeIds) {
+    const ins = incoming.get(id)?.length ?? 0, outs = outgoing.get(id)?.length ?? 0;
+    if (ins < 3 || outs !== 1)
+      errors.push(`Merge point "${id}" must have at least 3 incoming equivalent-service branches and exactly 1 outgoing trunk; found ${ins} incoming and ${outs} outgoing.`);
+    const types = new Set((incoming.get(id) || []).map(typeOf).filter(Boolean));
+    if (ins >= 3 && (types.size !== 1 || (incoming.get(id) || []).some((peer) => !typeOf(peer))))
+      errors.push(`Merge point "${id}" may connect only equivalent sources — use the same catalog icon type or functionGroup, and keep different service types on individual links.`);
+  }
+  const styleValue = (style, key, fallback = "") => {
+    const matches = [...style.matchAll(new RegExp(`(?:^|;)${key}=([^;]+)`, "g"))];
+    return matches.length ? matches[matches.length - 1][1] : fallback;
+  };
+  const lineType = (edge) => [
+    styleValue(edge.style, "strokeColor", "default"),
+    styleValue(edge.style, "strokeWidth", "1"),
+    styleValue(edge.style, "dashed", "0"),
+    styleValue(edge.style, "dashPattern", ""),
+    styleValue(edge.style, "rounded", "0"),
+    styleValue(edge.style, "flowAnimation", "0"),
+    styleValue(edge.style, "edgeArrow", styleValue(edge.style, "endArrow", "classic")),
+    styleValue(edge.style, "startArrow", "none"),
+    styleValue(edge.style, "endFill", "1"),
+    styleValue(edge.style, "endSize", "8"),
+  ].join("|");
+  for (const id of junctionIds) {
+    const incident = edges.filter((edge) => edge.source === id || edge.target === id);
+    const types = new Map();
+    for (const edge of incident) (types.get(lineType(edge)) ?? types.set(lineType(edge), []).get(lineType(edge))).push(edge.id || `${edge.source}→${edge.target}`);
+    if (types.size > 1) {
+      const details = [...types.values()].map((ids) => ids.join(", ")).join(" versus ");
+      errors.push(`${branchIds.has(id) ? "Branch" : "Merge"} point "${id}" uses inconsistent line types (${details}) — every trunk and branch must use the same stroke, width, dash pattern, corner style, animation, and arrow selection.`);
+    }
+  }
+  for (const id of branchIds) if (mergeIds.has(id))
+    errors.push(`Junction "${id}" cannot be both a branch point and a merge point.`);
+  return errors;
 }
 
 const RE_OPENCELL = /<mxCell\b[^>]*?>/g;
@@ -609,6 +728,94 @@ function parseCells(xml) {
   return out;
 }
 
+const MIN_EDGE_CLEARANCE = 10;
+
+/** Hard geometry gate for routed edges: protect unrelated primitives and separate independent links. */
+export function validateEdgeClearance(xml, { minClearance = MIN_EDGE_CLEARANCE } = {}) {
+  const errors = [];
+  const cells = parseCells(xml);
+  const byId = new Map(cells.filter((c) => c.id).map((c) => [c.id, c]));
+  const rectOf = (c) => c?.absGeo || c?.geo || null;
+  const isJunction = (c) => /(?:^|;)(?:branchPoint|mergePoint)=1(?:;|$)/.test(c?.style || "");
+  const pointOn = (r, x, y) => ({ x: r.x + (x ?? 0.5) * r.w, y: r.y + (y ?? 0.5) * r.h });
+  const holds = (outer, inner) => inner.x >= outer.x - 2 && inner.y >= outer.y - 2 && inner.x + inner.w <= outer.x + outer.w + 2 && inner.y + inner.h <= outer.y + outer.h + 2;
+  const cleanPoints = (points) => points.filter((p, i) => !i || Math.abs(p.x - points[i - 1].x) > 0.1 || Math.abs(p.y - points[i - 1].y) > 0.1);
+
+  const routed = [];
+  for (const edge of cells) {
+    if (edge.edge !== "1" || !edge.source || !edge.target) continue;
+    const sg = rectOf(byId.get(edge.source)), tg = rectOf(byId.get(edge.target));
+    if (!sg || !tg) continue;
+    const start = pointOn(sg, num(edge.style, "exitX"), num(edge.style, "exitY"));
+    const end = pointOn(tg, num(edge.style, "entryX"), num(edge.style, "entryY"));
+    let points = [start, ...(edge.wp || []), end];
+    if (!(edge.wp || []).length && Math.abs(start.x - end.x) > 1 && Math.abs(start.y - end.y) > 1) {
+      const horizontal = num(edge.style, "exitX") != null;
+      points = horizontal
+        ? [start, { x: (start.x + end.x) / 2, y: start.y }, { x: (start.x + end.x) / 2, y: end.y }, end]
+        : [start, { x: start.x, y: (start.y + end.y) / 2 }, { x: end.x, y: (start.y + end.y) / 2 }, end];
+    }
+    points = cleanPoints(points);
+    routed.push({ edge, sg, tg, points, segments: points.slice(0, -1).map((a, i) => ({ a, b: points[i + 1], index: i, last: points.length - 2 })) });
+  }
+
+  const segmentHitsRect = (a, b, rect) => {
+    const inset = Math.min(rect.w, rect.h) > 4 ? 1 : 0;
+    const r = { x: rect.x + inset, y: rect.y + inset, w: Math.max(0, rect.w - inset * 2), h: Math.max(0, rect.h - inset * 2) };
+    let t0 = 0, t1 = 1;
+    const dx = b.x - a.x, dy = b.y - a.y;
+    for (const [p, q] of [[-dx, a.x - r.x], [dx, r.x + r.w - a.x], [-dy, a.y - r.y], [dy, r.y + r.h - a.y]]) {
+      if (Math.abs(p) < 1e-9) { if (q < 0) return false; continue; }
+      const t = q / p;
+      if (p < 0) { if (t > t1) return false; t0 = Math.max(t0, t); }
+      else { if (t < t0) return false; t1 = Math.min(t1, t); }
+    }
+    return t1 - t0 > 1e-4;
+  };
+
+  const primitives = cells.filter((c) => c.edge !== "1" && c.id && rectOf(c) && !isJunction(c) && c.id !== "0" && c.id !== "1");
+  for (const route of routed) {
+    for (const primitive of primitives) {
+      if (primitive.id === route.edge.source || primitive.id === route.edge.target) continue;
+      const pr = rectOf(primitive);
+      if (holds(pr, route.sg) || holds(pr, route.tg)) continue;
+      if (route.segments.some((segment) => segmentHitsRect(segment.a, segment.b, pr)))
+        errors.push(`Edge "${route.edge.id || `${route.edge.source}→${route.edge.target}`}" (${route.edge.source}→${route.edge.target}) crosses unrelated primitive "${primitive.id}" — route around its visible geometry or connect directly to it.`);
+    }
+  }
+
+  const parallelDistance = (s, t) => {
+    const sv = Math.abs(s.a.x - s.b.x) < 1, tv = Math.abs(t.a.x - t.b.x) < 1;
+    const sh = Math.abs(s.a.y - s.b.y) < 1, th = Math.abs(t.a.y - t.b.y) < 1;
+    if ((!sv && !sh) || (!tv && !th) || sv !== tv) return Infinity;
+    const overlap = sv
+      ? Math.min(Math.max(s.a.y, s.b.y), Math.max(t.a.y, t.b.y)) - Math.max(Math.min(s.a.y, s.b.y), Math.min(t.a.y, t.b.y))
+      : Math.min(Math.max(s.a.x, s.b.x), Math.max(t.a.x, t.b.x)) - Math.max(Math.min(s.a.x, s.b.x), Math.min(t.a.x, t.b.x));
+    if (overlap <= 1) return Infinity;
+    return sv ? Math.abs(s.a.x - t.a.x) : Math.abs(s.a.y - t.a.y);
+  };
+  const touches = (segment, route, node) => (node === route.edge.source && segment.index === 0) || (node === route.edge.target && segment.index === segment.last);
+  const pairErrors = new Set();
+  for (let i = 0; i < routed.length; i++) for (let j = i + 1; j < routed.length; j++) {
+    const a = routed[i], b = routed[j];
+    if (a.edge.source === b.edge.source && a.edge.target === b.edge.target) {
+      pairErrors.add(`Edges "${a.edge.id || i}" and "${b.edge.id || j}" duplicate the same ${a.edge.source}→${a.edge.target} route — keep one link.`);
+      continue;
+    }
+    const sameBundle = [a.edge.source, a.edge.target].some((n) => isJunction(byId.get(n)) && (n === b.edge.source || n === b.edge.target));
+    const shared = [a.edge.source, a.edge.target].filter((id) => id === b.edge.source || id === b.edge.target);
+    let best = Infinity;
+    for (const sa of a.segments) for (const sb of b.segments) {
+      if (sameBundle) continue;
+      if (shared.some((node) => touches(sa, a, node) && touches(sb, b, node))) continue;
+      best = Math.min(best, parallelDistance(sa, sb));
+    }
+    if (best < minClearance) pairErrors.add(`Edges "${a.edge.id || i}" (${a.edge.source}→${a.edge.target}) and "${b.edge.id || j}" (${b.edge.source}→${b.edge.target}) ${best < 0.5 ? "overlap on the same track" : `run ${best.toFixed(1)}px apart`} — maintain at least ${minClearance}px clearance between parallel independent links.`);
+  }
+  errors.push(...pairErrors);
+  return errors;
+}
+
 /**
  * Edge labels on bent routes (L/Z): when source & target are offset in both X and Y but the edge
  * has no waypoint, the label (by default at the midpoint of the arc) tends to fall on the bend / box
@@ -695,8 +902,10 @@ export function auditGeometry(xml) {
 
   // 3) stacked arrowheads: ≥2 edges into the same target at the same entry point
   const entryCount = new Map();
+  const junctionIds = new Set(cells.filter((c) => /(?:^|;)(?:branchPoint|mergePoint)=1(?:;|$)/.test(c.style)).map((c) => c.id));
   for (const c of cells) {
     if (c.edge !== "1" || !c.target) continue;
+    if (junctionIds.has(c.target)) continue; // hidden junction targets intentionally have no arrowhead
     const ex = (c.style.match(/entryX=([\d.]+)/) ?? [, "c"])[1];
     const ey = (c.style.match(/entryY=([\d.]+)/) ?? [, "c"])[1];
     const k = `${c.target}@${ex},${ey}`;
@@ -755,19 +964,10 @@ export function auditArchitecture(xml) {
   return advice;
 }
 
-// Do two segments (p1-p2, p3-p4) properly cross? (orientation test, excludes shared endpoints)
-function segsIntersect(p1, p2, p3, p4) {
-  const o = (a, b, c) => Math.sign((b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y));
-  const o1 = o(p1, p2, p3), o2 = o(p1, p2, p4), o3 = o(p3, p4, p1), o4 = o(p3, p4, p2);
-  return o1 !== o2 && o3 !== o4 && o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0;
-}
-
 /**
- * Edge orchestration audit — catches the "ugly lines" the static checks miss, WITHOUT a render:
- *  1. very long connectors that span most of the diagram (a sign a node is parked far from its
- *     consumers — e.g. shared ECR/S3/CloudWatch dumped in a far row → long detour edges);
- *  2. an excessive number of edge crossings (the flow is tangled).
- * Both are PLACEMENT smells: the fix is to move nodes closer / group fan-out-fan-in, not to reroute.
+ * Edge orchestration advice for long connectors and invisible endpoint placeholders.
+ * Primitive collisions, parallel overlap, and parallel link clearance are hard errors in
+ * validateEdgeClearance(); perpendicular link crossings remain valid.
  */
 export function auditEdges(xml) {
   const advice = [];
@@ -803,49 +1003,8 @@ export function auditEdges(xml) {
     advice.push(`Long connector(s) spanning most of the diagram (${longs.length}: ${names.join(", ")}${longs.length > 4 ? "…" : ""}) — place these nodes closer; keep shared resources (ECR/S3/CloudWatch/registries) in a band NEXT TO their consumers instead of a far-away row, to avoid long detour edges.`);
   }
 
-  // 2) tangled flow (too many crossings)
-  let crossings = 0;
-  for (let i = 0; i < segs.length; i++) for (let j = i + 1; j < segs.length; j++) {
-    const e = segs[i], f = segs[j];
-    if (e.src === f.src || e.src === f.tgt || e.tgt === f.src || e.tgt === f.tgt) continue; // share an endpoint
-    if (segsIntersect(e.a, e.b, f.a, f.b)) crossings++;
-  }
-  if (crossings > Math.max(4, Math.round(segs.length * 0.3)))
-    advice.push(`${crossings} edge crossings — the flow looks tangled. Align the main flow on one row (spine), group fan-out/fan-in through a shared lane, and place shared nodes near their consumers.`);
-
-  // 3) clearance: an edge's ACTUAL routed path (exit → waypoints → entry) must not run through a
-  //    node it isn't connected to. Walls/containers (nodes holding an endpoint) are skipped.
-  const onEdge = (g, fx, fy) => ({ x: g.x + (fx ?? 0.5) * g.w, y: g.y + (fy ?? 0.5) * g.h });
-  const holds = (p, q) => q.x >= p.x - 2 && q.y >= p.y - 2 && q.x + q.w <= p.x + p.w + 2 && q.y + q.h <= p.y + p.h + 2;
-  const segHitsRect = (a, b, r) => {                // segment passes through the node's CORE (not grazing its edge)
-    const ix = Math.min(r.w, r.h) * 0.3;
-    return Math.max(a.x, b.x) > r.x + ix && Math.min(a.x, b.x) < r.x + r.w - ix &&
-           Math.max(a.y, b.y) > r.y + ix && Math.min(a.y, b.y) < r.y + r.h - ix;
-  };
   const hasChildren = new Set(cells.map((c) => c.parent).filter(Boolean));
-  const isContainer = (c) => hasChildren.has(c.id) || /container=1|shape=mxgraph\.aws4\.group|grIcon=/.test(c.style) || /fillColor=none/.test(c.style);
-  const vts = cells
-    .filter((c) => c.edge !== "1" && c.id && (c.absGeo || c.geo) && !isContainer(c) && !/(?:^|;)text;/.test(c.style))
-    .map((c) => ({ id: c.id, r: boxOf(c) }))
-    .filter((v) => v.r.w > 2 && v.r.h > 2);
-  const hit = new Set();
-  for (const c of cells) {
-    if (c.edge !== "1" || !c.source || !c.target) continue;
-    const sg = geoOf.get(c.source), tg = geoOf.get(c.target);
-    if (!sg || !tg) continue;
-    const poly = [onEdge(sg, num(c.style, "exitX"), num(c.style, "exitY")), ...(c.wp || []), onEdge(tg, num(c.style, "entryX"), num(c.style, "entryY"))];
-    for (const v of vts) {
-      if (v.id === c.source || v.id === c.target) continue;
-      if (holds(v.r, sg) || holds(v.r, tg)) continue;   // a container of an endpoint
-      for (let i = 0; i < poly.length - 1; i++) {
-        if (segHitsRect(poly[i], poly[i + 1], v.r)) { hit.add(`${c.source}→${c.target} ⟂ ${v.id}`); break; }
-      }
-    }
-  }
-  if (hit.size)
-    advice.push(`Edge(s) run THROUGH a node they don't connect to (${[...hit].slice(0, 4).join(", ")}${hit.size > 4 ? "…" : ""}) — reroute so the connector bends around the node instead of passing through it.`);
-
-  // 4) floating arrowheads: edges anchored to a transparent leaf (not a real container)
+  // Floating arrowheads: edges anchored to a transparent leaf (not a real container)
   // hasChildren guards out AWS Cloud/Region/AZ/VPC group frames — those use fillColor=none legitimately.
   const isEmptyLeaf = (x) => {
     if (x.edge === "1" || hasChildren.has(x.id)) return false;
@@ -853,6 +1012,7 @@ export function auditEdges(xml) {
     // anchors — the rules explicitly say to link the cluster, not each replica inside it.
     if (x.parent === "boundaries") return false;
     const style = x.style || "";
+    if (/(?:^|;)(?:branchPoint|mergePoint)=1(?:;|$)/.test(style)) return false;
     if (/(?:^|;)text;/.test(style) || x.id === "__title") return false;
     return /fillColor=none/.test(style) && !/grIcon=/.test(style);
   };
@@ -869,44 +1029,6 @@ export function auditEdges(xml) {
 
   return advice;
 }
-/** BPMN semantic checks (gated: only runs when mxgraph.bpmn shapes are present).
- *  - gateway must split (≥2 outgoing) or merge (≥2 incoming) sequence flow
- *  - start event has no incoming; end event has no outgoing
- *  - no orphan flow object (a node connected to no sequence flow)
- *  ponytail: shape-name whitelist dropped — bpmn.mjs creators throw at build time on unknown names
- *  (engine path can't emit an invalid stencil), and draw.io's BPMN stencil vastly exceeds our Tier-1
- *  set so strict whitelisting would false-flag legitimate shapes. Cross-pool sequence-flow check
- *  deferred (needs pool-membership resolution from coordinates; single-pool is the Tier-1 norm). */
-export function auditBpmn(xml) {
-  const cells = parseCells(xml);
-  const shape = (style) => (style.match(/shape=mxgraph\.bpmn\.([^;]+)/) || [])[1] || "";
-  const flow = cells.filter((c) => c.style && /shape=mxgraph\.bpmn\./.test(c.style));
-  if (flow.length === 0) return [];              // not a BPMN diagram
-  const outDeg = new Map(), inDeg = new Map();
-  for (const c of cells) {
-    if (c.edge !== "1" || !c.source || !c.target) continue;
-    outDeg.set(c.source, (outDeg.get(c.source) || 0) + 1);
-    inDeg.set(c.target, (inDeg.get(c.target) || 0) + 1);
-  }
-  const deg = (id, m) => m.get(id) || 0;
-  const advice = [];
-  for (const c of flow) {
-    const sh = shape(c.style), outl = (c.style.match(/outline=([^;]+)/) || [])[1] || "", out = deg(c.id, outDeg), ins = deg(c.id, inDeg);
-    const isGateway = /^gateway/.test(sh);
-    const isStart = /^event/.test(sh) && outl === "standard";   // parametric: outline=standard → start event
-    const isEnd = /^event/.test(sh) && outl === "end";           // parametric: outline=end → end event
-    if (isGateway && out < 2 && ins < 2)
-      advice.push(`BPMN gateway "${c.id}" neither splits (≥2 outgoing) nor merges (≥2 incoming) — a gateway should branch or join paths.`);
-    if (isStart && ins > 0)
-      advice.push(`BPMN start event "${c.id}" has an incoming sequence flow — a start event initiates the flow and should have no incoming edges.`);
-    if (isEnd && out > 0)
-      advice.push(`BPMN end event "${c.id}" has an outgoing sequence flow — an end event terminates the flow and should have no outgoing edges.`);
-    if (out === 0 && ins === 0)
-      advice.push(`BPMN flow object "${c.id}" (${sh}) is not connected to any sequence flow — orphan node.`);
-  }
-  return advice;
-}
-
 export function listCategories(catalog, { excludePacks } = {}) {
   const counts = new Map();
   for (const e of catalog.byName.values()) {

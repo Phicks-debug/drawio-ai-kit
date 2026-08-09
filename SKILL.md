@@ -1,113 +1,151 @@
 ---
-name: drawio-aws
-description: Use when the user asks for an AWS architecture diagram — VPC/networking, event-driven, landing zone, multi-AZ, serverless pipeline, or any diagram built with AWS service icons.
-license: MIT
+name: drawio-cloud
+description: Use when the user asks for a complete draw.io cloud architecture diagram using AWS, Azure, GCP, Databricks, or multiple clouds—including networking, event-driven systems, landing zones, multi-region or multi-AZ designs, and data platforms.
 ---
 
-# Draw.io AWS
+# Draw.io Cloud
 
-Produce correct AWS Cloud architecture diagrams in draw.io.
+Produce correct cloud architecture diagrams in draw.io.
 
 ## Skill structure
 
-- `src/`: Node ESM engine 
-  - `cli.mjs` (command runner)
-  - `core.mjs` (catalog load, `searchIcon`, `validateDiagram`, `auditAesthetics`)
-  - `builder.mjs` (`Diagram`, `link`)
-  - `layout-engine.mjs` (`group`/`frame`/`grid`/`icon`/`box`/`serviceFrame`/`renderTree`)
-  - `theme.mjs`
-  - `layout.mjs`
-  - `types.mjs`
-  - `bpmn.mjs`
-- `catalog/`: icon catalogs — `aws.json` (983 AWS stencils) plus one `<pack>.json` per icon pack; all merged at load.
-- `rules/`: domain rules — `aws-architecture.md`, `azure-architecture.md`, `gcp-architecture.md`, `databricks-architecture.md`, `bpmn.md`, plus shared `principles.md`, `diagram-types.md`, `style-guide.md`.
-- `packs/`: icon pack manifests (`manifest.json`) and vendored logo assets — the source for catalog regeneration.
-- `data/`: vendored ground truth — `shape-index.json.gz` (draw.io AWS palette), `lobe-icons.json` (AI brand list).
-- `scripts/`: catalog generation (`build_pack.py`, `ingest_index.py`, `crawl_icons.py`) — see `icon-catalog.md`.
-- `vendor/`: standalone Python helpers — `aiicons.py`, `autolayout.py`, `encode_drawio_url.py`, `repair_png.py`.
+- `diagram-types.md`: read first to select the layout and routing preset.
+- `domains/`: read each domain file represented in the diagram.
+- `index.mjs`: public entrypoint for commands and engine imports.
+- `src/`: private implementation for debugging, customization, and extension work.
+- `icons/`: runtime icon catalogs; pair them with `maintenance.md` when changing icons.
 
-Usually no need to read the sources and each folder, unless debugging, customizing or get errors. The scripts is tested and works out of the box.
+For normal diagram work, use `index.mjs` and the public creators. Inspect `src/` when debugging, customizing, or extending functionality. For icon additions, updates, removals, catalog refreshes, or source upgrades, read `maintenance.md` and follow it.
 
-## Setup
+## Entrypoint
 
-No installation: the engine runs directly from this skill with Node ≥ 18 (ESM) and Python 3.12.
+Use the bundled root entrypoint directly. Normal diagram work requires Node.js 20+. Icon maintenance also requires Python 3.12.
 
 ```bash
-SKILL="<absolute path of the folder containing this SKILL.md>"
-node "$SKILL/src/cli.mjs"          # the command runner — subcommands: search, style, validate, audit, render, categories, types, logo
+DRAWIO_CLOUD_SKILL="<absolute path of the folder containing this SKILL.md>"
+node "$DRAWIO_CLOUD_SKILL/index.mjs" # search, style, validate, audit, render, categories, types
 ```
 
-Write the diagram build script in a **scratchpad folder** — any working location you choose (a temp dir, the user's project, wherever fits), and run it from there so this skill folder stays read-only. Catalog generation scripts (`icon-catalog.md`) work the same way when you run them. Generated `.drawio`/`.png` output always goes into the user's cwd — never into the skill folder.
+Write and run the diagram build script from a scratchpad folder such as a temporary directory or the user's project. Keep the skill folder unchanged and place generated `.drawio`/`.png` output in the user's cwd.
 
 Before building, ask:
 - the source of truth for this diagram: the codebase, external research, or your description?
 - output format: a static PNG, an SVG, or an editable `.drawio` file (or a combination)?
 
-Do not infer it; skip the question only when the user has already stated it explicitly.
+Ask whenever either answer is missing. Proceed directly when the user has already supplied both answers.
 
 ## Workflow
 
 For a multi-diagram request, spawn one subagent per diagram in parallel with distinct filenames. Otherwise, work inline.
 
-The workflow below IS the source of truth. You may edit and run the build script directly to fine-tune the diagram.
+1. Read `diagram-types.md` first. Use it to identify and select the suitable dominant diagram type and every domain contained in the diagram, ask the user to confirm if necessary.
 
-Read the AWS rules directly from the rules folder:
+2. Apply the shared principles and style in this file together with the selected type and domain rules. Rebuild until every check passes.
 
-```bash
-cat "$SKILL/rules/principles.md" "$SKILL/rules/aws-architecture.md" "$SKILL/rules/diagram-types.md" "$SKILL/rules/style-guide.md"
-```
-
-Apply these rules together with the self-check below. Rebuild until every check passes.
-
-Import the engine by absolute path (set `$SKILL` first, see Setup):
+Import public engine functions from the root entrypoint during normal use. Reserve direct `src/` imports for source debugging or extension:
 
 ```js
-import { Diagram } from "<SKILL>/src/builder.mjs";
-import { group, frame, grid, icon, box, serviceFrame, renderTree } from "<SKILL>/src/layout-engine.mjs";
-import { loadCatalog, searchIcon } from "<SKILL>/src/core.mjs";   // optional: in-process icon lookup
+import {
+  Diagram, group, frame, grid, icon, box, branch, merge, serviceFrame,
+  stage, band, endpoint, ossBox, onpremFrame, renderTree,
+  loadCatalog, searchIcon,
+} from "<DRAWIO_CLOUD_SKILL>/index.mjs";
 ```
 
-Build with the declarative layout engine (NO hand-written coordinates), then validate and render:
+Build with the declarative layout engine and let it compute every coordinate, then validate and render:
 
 ```bash
-node "$SKILL/src/cli.mjs" validate <file>.drawio
-node "$SKILL/src/cli.mjs" render <file>.drawio -o <file>.png
+node "$DRAWIO_CLOUD_SKILL/index.mjs" validate <file>.drawio
+node "$DRAWIO_CLOUD_SKILL/index.mjs" render <file>.drawio -o <file>.png
 ```
 
-`Read` the PNG for the vision self-check. Render needs the draw.io desktop CLI (or `DRAWIO_CLI` env var); everything else is self-contained.
+`Read` the PNG for the vision self-check. Rendering requires the draw.io desktop executable (or its path in `DRAWIO_CLI`); everything else is self-contained.
 
-## Domain notes
+## Principles
 
-Every AWS service must be nested inside the black `AWS Cloud (group_aws_cloud_alt) → AWS Account → Region` hierarchy. Add `VPC → Availability Zone → Subnet → Security Group` only for infrastructure that exists; each deeper network group requires all of those parents in order. Services outside a VPC remain inside Region, Account, and Cloud. Do not write explanatory absence text such as “no VPC.” Category colors from the catalog are authoritative; never recolor AWS icons.
+### Icons and structure
 
-Single icon must not stand for several deployed functions.
+- Resolve every icon through the bundled entrypoint and treat catalog results as authoritative. Batch lookups: `node "$DRAWIO_CLOUD_SKILL/index.mjs" search "s3, lambda, nat gateway"`.
+- Use official domain containers and follow the nesting order in the selected domain file.
+- Choose `serviceFrame` when one service owns all children. Use visible icons in a normal group for independent services.
+- Give every separately deployed function its own icon so distinct deployed services remain visible.
+- Use short human-readable role labels; omit generated names, IDs, variables, and placeholders.
 
-Use `serviceFrame(id, icon, name, opts, children)` only for one parent service that owns internal stages, pods, workflow states, or controls. The generated frame has a flush top-left icon, normal-weight title, and a 2px theme-aware border based on the icon category. `opts.borderStyle` is optional and defaults to `solid`; choose `dashed`, `dotted`, or `dash-dot` only when the user requests it or the visual distinction is useful. The `name` is a short human-readable service name, never a generated deployment name, account ID, Region, variable, or placeholder, prefer named by their role, example: `Ingestion Pipeline` or `Query Pipeline` over `Pipeline`. Keep independent AWS services as default icons in a normal group, avoid deep service-frame nesting, and prefer a short edge label when it already explains the relationship.
+### Density and layout
 
-Use icons and containment to carry meaning. Keep labels short, avoid prose boxes, and connect every operational service icon to a producer, consumer, dependency, or data flow. Decorative corner badges and clearly cross-cutting IAM, CloudWatch, CloudTrail, Config, audit, and provisioning controls may remain unwired.
+- Pack related services into one labelled `grid`; 3–8 icons per functional area is normal.
+- Keep frames snug around their content with gaps around 12–16px, especially when a frame contains one icon.
+- Prefer a few dense boxes over many sparse boxes. Use one consistent icon size per diagram.
+- Default to left-to-right data/request flow and top-to-bottom hierarchy. Keep one dominant direction.
+- Place sources/clients on the left, cloud or platform content in the center, consumers on the right, and cross-cutting controls in a band or column.
 
-Do not route opposite directions through the same corridor. Use one double-headed edge when it represents the relationship, or route each direction on a different side. Keep a dead-letter queue outside the message-and-retry lane.
+### House style
 
-Give separate queue producers different entry faces when their arrowheads would crowd one side.
+Use the theme tokens and themed creators exported by `index.mjs`, letting the closest creator establish the color and structure:
+
+- `stage`: pipeline layer with a pale stage tint.
+- `band`: cross-cutting governance, security, or operations.
+- `endpoint`: source or consumer card.
+- `ossBox`: third-party or self-managed component.
+- `onpremFrame`: on-premises or external site.
+- `serviceFrame`: one service that owns internal children.
+- `branch` / `merge`: shared-trunk split or join point.
+- `frame` / `group`: domain containers.
+
+- Keep frames pale and theme-aware while official icons retain their category colors.
+- Use a small cohesive palette with at most about eight fill colors. Pale per-stage progression works well; reserve strong colors for meaningful accents.
+- Use square frames, clean 2px orthogonal edges, 3–4 font sizes, and labels up to 14px.
+- Reserve `{ flow: true }` animation for the main-flow spine. Use `{ dash: true }` for sync, dependency, policy, replication, or lineage.
+- Prefer icons, containment, and short edge labels over explanatory prose. Add a note for essential meaning that remains after the structure and edges are clear.
+
+### Edges
+
+- Use solid edges for primary data/control flow and dashed edges for sync, dependency, policy, replication, peering, or lineage.
+- Represent a bidirectional relationship with one double-headed edge in one corridor.
+- Choose `branch("id")` for at least three same-type or same-function targets on one side: `source → branch → equivalent targets`. Individual links keep different target types easy to distinguish.
+- Choose `merge("id")` for at least three same-type or same-function sources on one side: `equivalent sources → merge → target`. Individual links keep different source types easy to distinguish.
+- Use one line type across every edge in a branch or merge: the same stroke, width, dash pattern, corner style, animation, and arrow selection. The builder throws immediately for mixed options; validation returns a hard error for edited XML.
+- Junctions are useful, but overusing them makes paths harder to trace. Use judgment based on readability; keep up to four total incoming/outgoing connections on one side, consolidate equivalent groups, or distribute individual links across suitable sides.
+- The validator identifies equivalent catalog icons automatically. For visually different components with the same function, assign the same `{ functionGroup: "workers" }` to their `icon` or `box` creators.
+- Point to the icon when a frame contains different components. Point to the frame only when it represents replicas of one component.
+- Move nodes to obtain straight, short connectors. Use another entry face or deliberate waypoints when dense routing still collides.
+- Declare links before export and let the engine tidy them globally. It uses constrained orthogonal A*, negotiated congestion, bounded rip-up/reroute, and segment nudging with deterministic tie-breaking.
+- Steer important paths with `{ exitSide: "R", entrySide: "L", via: [[x, y]], monotonic: "horizontal", priority: "primary" }`. Treat `via` as ordered hard checkpoints and use only the few needed to preserve an intentional corridor.
+- Keep semantic grouping explicit with `branch` and `merge`. The router preserves their transparent junction topology and routes independent links around it.
+- Route every link around unrelated icons, text boxes, shapes, and container interiors. A container that owns either endpoint remains a valid crossing boundary.
+- Maintain at least 10px clearance between parallel independent links. Shared branch/merge trunks and the short convergence at a common endpoint remain valid.
+- Perpendicular link crossings are acceptable when avoiding them would create large detours or congestion. Prefer compact, traceable crossings in dense service diagrams.
+- Treat primitive crossings, parallel overlap, and insufficient parallel clearance as hard errors. `save()` throws before writing, and the validator reports the affected edge and primitive IDs.
+- Flow is great for visualizing animation route in drawio app but show static dash line in picture rendered output. Should only consider flow when user explicitly request it or output only for drawio.
+
+Examples:
+
+```js
+// API Gateway → 3 Lambdas share a branch; EC2 remains individually traceable.
+d.link("api", "lambda_split");
+for (const id of ["lambda_1", "lambda_2", "lambda_3"]) d.link("lambda_split", id);
+d.link("api", "ec2");
+
+// 5 equivalent Lambdas → S3 share a merge.
+for (const id of ["lambda_1", "lambda_2", "lambda_3", "lambda_4", "lambda_5"]) d.link(id, "lambda_join");
+d.link("lambda_join", "s3");
+```
+
+Include `branch("lambda_split")` or `merge("lambda_join")` in the layout tree before linking.
+
+Choose the arrow per relationship with `d.link(source, target, label, { arrow: "block" })`. Use filled `block` arrows for primary directional flow, `open` for references or dependencies, and `none` for undirected relationships. `classic`, `classicThin`, `blockThin`, `openThin`, `oval`, `diamond`, and `diamondThin` are also supported. Use `startArrow: "block"` for a bidirectional edge and adjust `arrowSize` only when necessary.
+
+### Managed and self-managed components
+
+- Use the official icon for managed cloud services.
+- Draw third-party or OSS software with `ossBox` and state where it runs, such as “on EKS” or “on EC2,” beside the corresponding compute icon.
 
 ## Self-check
 
-- Run `validate_diagram`; clear ALL `errors`, `warnings`, and `audit.advice` before delivering. Treat a missing Cloud, Account, Region, VPC, AZ, Subnet, or Security Group parent as a structural defect.
-- Render and inspect the PNG every round. Check every deployed service, ownership frame, label, arrowhead, queue path, and high-degree hub. After `render`, run `python3.12 "$SKILL/vendor/repair_png.py" <file>.png` if the export came from the draw.io CLI (`-e` PNGs are truncated).
+- Run `node "$DRAWIO_CLOUD_SKILL/index.mjs" validate <file>.drawio`; clear ALL `errors`, `warnings`, and `audit.advice` before delivering. In AWS diagrams, treat a missing required Cloud, Account, Region, VPC, AZ, Subnet, or Security Group parent as a structural defect.
+- Render and inspect the PNG every round. Check every deployed service, ownership frame, label, arrowhead, queue path.
 - Zoom to 200–400% around hubs, queues, buses, and edge labels. A clean full-page preview can hide a few-pixel collision.
-- Treat a clean validator result as necessary, not sufficient. Fix every visible defect or crooked, jagged line before delivery
-- Build with `contract: "bake"` and compare each edge length with its Manhattan minimum (`|dx| + |dy|`). Measure from `exitX`/`exitY` and `entryX`/`entryY`, not from node centers.
-- Read the numbers as a hint about layout: small total excess over Manhattan but large individual minimums means the router is fine and the nodes are in the wrong place, the same message as `Long connector(s)` / `edge crossings`.
-
-## Adding or updating icons
-
-If the user needs an icon not in the catalog, follow `icon-catalog.md`.
-
-## Helper scripts
-
-Standalone utilities in `vendor/` — read the source only if one misbehaves:
-
-- **`aiicons.py`** — find an AI/LLM brand logo (OpenAI, Claude, Gemini, …) as a draw.io `shape=image` style. `python3.12 "$SKILL/vendor/aiicons.py" "<brand>" [--embed] [--variant color|mono|text] [--json] [--list]`. `--embed` inlines the SVG as a data URI (portable, no network at render time); without it the icon is a CDN URL.
-- **`autolayout.py`** — auto-layout a graph with Graphviz `dot`. `python3.12 "$SKILL/vendor/autolayout.py" graph.json [-o diagram.drawio] [--tune]` — input is `{direction, nodes:[{id,label,style,width,height}], edges:[{source,target,label}]}`; requires `dot` on PATH. Use when the declarative engine's coordinates need a full pass or when asked for a non-hierarchical free layout.
-- **`encode_drawio_url.py`** — share a diagram as a link with no upload. `python3.12 "$SKILL/vendor/encode_drawio_url.py" [--edit] <file>.drawio` → viewer (`#R`) or editable (`#create=`) diagrams.net URL.
-- **`repair_png.py`** — fix draw.io CLI `-e` PNG exports (truncated IEND chunk makes vision APIs reject them). `python3.12 "$SKILL/vendor/repair_png.py" <file>.png` — idempotent, safe to run unconditionally after every PNG render.
+- After the validator is clean, complete the visual review and fix every visible defect or crooked, jagged line before delivery.
+- Build with `contract: "bake"` and compare each edge length with its Manhattan minimum (`|dx| + |dy|`). Use `exitX`/`exitY` and `entryX`/`entryY` as the measurement anchors.
+- Read the numbers as a hint about layout: small total excess over Manhattan but large individual minimums means the router is fine and the nodes are in the wrong place, the same message as `Long connector(s)`.
+- Prefer the visually clearer result when a deliberate detour adds a bend but avoids collisions.
