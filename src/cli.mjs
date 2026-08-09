@@ -1,13 +1,5 @@
 #!/usr/bin/env node
-// drawio-ai-kit CLI — runs immediately, no MCP SDK required.
-//   drawio-ai search <query> [--category C] [--limit N] [--kind icon|group] [--full]
-//   drawio-ai style <name>
-//   drawio-ai validate <file.drawio|file.xml> [--strict]
-//   drawio-ai render <file> [-o out.png] [--scale N] [--page N] [--bake]
-//   drawio-ai root
-//   drawio-ai workflow
-//   drawio-ai categories
-//   drawio-ai principles [--mode aws|azure|gcp|databricks|bpmn]
+// Private command dispatcher for ../index.mjs.
 
 import { readFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -55,7 +47,7 @@ const catalog = loadCatalog(flags.catalog);
 switch (cmd) {
   case "search": {
     const q = positional.join(" ");
-    if (!q) { console.error('A query is required. Example: drawio-ai search s3  (batch: drawio-ai search "s3, lambda, nat gateway")'); process.exit(1); }
+    if (!q) { console.error('A query is required. Example: node <skill>/index.mjs search "s3, lambda, nat gateway"'); process.exit(1); }
     const opts = {
       category: flags.category,
       limit: flags.limit ? Number(flags.limit) : 8,
@@ -79,7 +71,7 @@ switch (cmd) {
   }
   case "validate": {
     const f = positional[0];
-    if (!f) { console.error("A file is required. Example: drawio-ai validate diagram.drawio"); process.exit(1); }
+    if (!f) { console.error("A file is required. Example: node <skill>/index.mjs validate diagram.drawio"); process.exit(1); }
     const xml = readFileSync(f, "utf8");
     // Multi-tab deck: each <diagram> tab legitimately has its own root cells ("0"/"1") — validating
     // the whole file at once false-positives on duplicate ids. Validate per tab and aggregate.
@@ -106,28 +98,17 @@ switch (cmd) {
   }
   case "audit": {
     const f = positional[0];
-    if (!f) { console.error("A file is required. Example: drawio-ai audit diagram.drawio"); process.exit(1); }
+    if (!f) { console.error("A file is required. Example: node <skill>/index.mjs audit diagram.drawio"); process.exit(1); }
     out(auditAesthetics(readFileSync(f, "utf8")));
-    break;
-  }
-  case "logo": {
-    const q = positional.join(" ");
-    if (!q) { console.error("A brand is required. Example: drawio-ai logo openai"); process.exit(1); }
-    const script = join(__dirname, "..", "vendor", "aiicons.py");
-    const argv = [script, q, "--json"];
-    if (flags.embed) argv.push("--embed");
-    if (flags.variant) argv.push("--variant", String(flags.variant));
-    try { process.stdout.write(execFileSync("python3", argv, { encoding: "utf8" })); }
-    catch (e) { console.error("python3 is required to run aiicons.py:", e.message); process.exit(1); }
     break;
   }
   case "categories":
     out(listCategories(catalog));
     break;
   case "principles": {
-    const base = join(__dirname, "..", "rules");
-    const read = (f) => readFileSync(join(base, f), "utf8");
-    const MODES = ["aws", "azure", "gcp", "databricks", "bpmn"];
+    const root = join(__dirname, "..");
+    const read = (f) => readFileSync(join(root, f), "utf8");
+    const MODES = ["aws", "azure", "gcp", "databricks"];
     // ponytail: one "Category: count" line beats 2.4KB of pretty JSON — agents search, they don't browse.
     // Vendor packs of OTHER domains are filtered out (AWS mode has no use for Intune/GCP categories);
     // neutral packs (cicd, database, network, …) stay in every mode.
@@ -141,20 +122,20 @@ switch (cmd) {
       console.error(`Unknown --mode "${mode}". Valid modes: ${MODES.join(", ")}.`);
       process.exit(1);
     }
-    if (mode === "bpmn") {
-      process.stdout.write(read("bpmn.md") + "\n\n---\n\n## Shared layout principles (apply to BPMN too)\n" + read("principles.md") + cats("bpmn"));
-    } else {
-      const cloudMap = { azure: "azure-architecture.md", gcp: "gcp-architecture.md", databricks: "databricks-architecture.md" };
-      const cloudRule = cloudMap[mode];
-      const sections = cloudRule
-        ? [read(cloudRule), read("principles.md"), read("diagram-types.md"), read("style-guide.md")]
-        : [read("principles.md"), read("aws-architecture.md"), read("diagram-types.md"), read("style-guide.md")];
-      process.stdout.write(sections.join("\n\n---\n\n") + cats(mode));
-    }
+    const domainMap = {
+      aws: "domains/aws.md",
+      azure: "domains/azure.md",
+      gcp: "domains/gcp.md",
+      databricks: "domains/databricks.md",
+    };
+    const sections = [read("diagram-types.md")];
+    if (domainMap[mode]) sections.push(read(domainMap[mode]));
+    sections.push(read("SKILL.md"));
+    process.stdout.write(sections.join("\n\n---\n\n") + cats(mode));
     break;
   }
   case "scaffold": {
-    // drawio-ai scaffold <domain/build_x.mjs | build_x.mjs> [-o out.mjs] | --list
+    // index.mjs scaffold <domain/build_x.mjs | build_x.mjs> [-o out.mjs] | --list
     const { readdirSync: rd } = await import("node:fs");
     const exDir = join(__dirname, "..", "examples");
     const domains = rd(exDir).filter((d) => !d.includes("."));
@@ -169,11 +150,11 @@ switch (cmd) {
     let rel = positional[0];
     if (!rel.includes("/")) {
       const dom = domains.find((d) => existsSync(join(exDir, d, rel)));
-      if (!dom) { console.error(`Template "${rel}" not found. Run: drawio-ai scaffold --list`); process.exit(1); }
+      if (!dom) { console.error(`Template "${rel}" not found. Run: node <skill>/index.mjs scaffold --list`); process.exit(1); }
       rel = `${dom}/${rel}`;
     }
     const srcPath = join(exDir, rel);
-    if (!existsSync(srcPath)) { console.error(`Template "${rel}" not found. Run: drawio-ai scaffold --list`); process.exit(1); }
+    if (!existsSync(srcPath)) { console.error(`Template "${rel}" not found. Run: node <skill>/index.mjs scaffold --list`); process.exit(1); }
     let outFlag2 = flags.o ?? flags.out;
     const pos2 = [...positional];
     for (let i = 0; i < pos2.length - 1; i++) if (pos2[i] === "-o") { outFlag2 = pos2[i + 1]; break; }
@@ -197,7 +178,7 @@ switch (cmd) {
       if (pos[i] === "-o") { outFlag = pos[i + 1]; pos.splice(i, 2); break; }
     }
     const file = pos[0];
-    if (!file) { console.error("A file is required. Example: drawio-ai render diagram.drawio"); process.exit(1); }
+    if (!file) { console.error("A file is required. Example: node <skill>/index.mjs render diagram.drawio"); process.exit(1); }
     const outPath = outFlag ?? file.replace(/\.(drawio|xml)$/, ".png");
     let scale = Number(flags.scale) || 1;
     // --check: self-check render — clamp the long edge to ~1100px. Layout inspection (overlaps,
@@ -209,7 +190,7 @@ switch (cmd) {
     const page = Number(flags.page) || 0;
     const cli = findDrawioCli(process.env);
     if (!cli) {
-      console.error("draw.io CLI not found. Set DRAWIO_CLI env var, install the draw.io desktop app, or use xvfb-run on headless Linux.");
+      console.error("draw.io desktop executable not found. Set DRAWIO_CLI, install the draw.io desktop app, or use xvfb-run on headless Linux.");
       process.exit(1);
     }
     let version = null;
@@ -249,20 +230,19 @@ switch (cmd) {
   }
   default:
     console.error(
-`drawio-ai-kit CLI
+`Draw.io Cloud skill commands (run with node <skill>/index.mjs)
   search <query>[, <query>…] [--category C] [--limit N] [--kind icon|group] [--full]
   style <name>
   validate <file> [--strict]
   audit <file>
-  logo <brand> [--embed] [--variant color|mono|text]
   categories
   types
-  principles [--mode aws|azure|gcp|databricks|bpmn]
+  principles [--mode aws|azure|gcp|databricks]
   scaffold <template.mjs> [-o out.mjs] | --list   copy a template as a standalone build script
   root
   render <file> [-o out.png] [--scale N] [--page N] [--check]
   workflow
-  [--catalog <path>]  override the default catalog (catalog/aws.json)`
+  [--catalog <path>]  override the default catalog (icons/aws.json)`
     );
     process.exit(cmd ? 1 : 0);
 }

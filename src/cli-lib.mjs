@@ -35,7 +35,7 @@ const locateBin = (bin) => () => {
 const defaultLocateOnPathDot = locateBin("dot");
 
 /**
- * Returns the absolute directory containing package.json and src/.
+ * Returns the absolute skill directory containing SKILL.md, index.mjs, and src/.
  */
 export function packageRoot() {
   return dirname(dirname(fileURLToPath(import.meta.url)));
@@ -141,11 +141,11 @@ export function scaffoldSource(src, root) {
   const m = s.match(/new URL\("\.\/([^"]+\.drawio)"/);
   if (m) {
     s += `
-// Self-check tail (added by \`drawio-ai scaffold\`): one run = build + validate + render + issues.
+// Self-check tail: one run = build + validate + render + issues.
 import { execFileSync as __exec } from "node:child_process";
 try {
   const __f = new URL("./${m[1]}", import.meta.url).pathname;
-  console.log(__exec("drawio-ai", ["render", __f, "--check", "-o", __f + ".png"], { encoding: "utf8" }).trim());
+  console.log(__exec("node", ["${root}/index.mjs", "render", __f, "--check", "-o", __f + ".png"], { encoding: "utf8" }).trim());
 } catch (e) { console.error("RENDER-SKIPPED:", String(e.message).split("\\n")[0]); }
 `;
   }
@@ -156,19 +156,17 @@ try {
  * Returns the Shared Workflow text — agent instructions for build→validate→render→write.
  */
 export function workflowText() {
-  return `# Shared Workflow: drawio-ai diagram generation
+  return `# Shared Workflow: Draw.io Cloud skill
 
 ## 1. Import the engine
-Resolve the Kit's install dir once (shell), then import by that absolute path:
+Set the skill directory once, then import from its public entrypoint:
 \`\`\`bash
-ROOT="$(drawio-ai root)"   # absolute path to the installed Kit
+DRAWIO_CLOUD_SKILL="<absolute path of the folder containing SKILL.md>"
 \`\`\`
 \`\`\`js
-import { Diagram } from "<ROOT>/src/builder.mjs";
-import { group, frame, grid, icon, box, serviceFrame, renderTree } from "<ROOT>/src/layout-engine.mjs";
-import { loadCatalog, searchIcon } from "<ROOT>/src/core.mjs";   // optional: in-process icon lookup
+import { Diagram, group, frame, grid, icon, box, branch, merge, serviceFrame, renderTree, loadCatalog, searchIcon } from "<DRAWIO_CLOUD_SKILL>/index.mjs";
 \`\`\`
-(Replace \`<ROOT>\` with the path \`drawio-ai root\` printed — shell substitution does not run inside JS strings.)
+(Replace \`<DRAWIO_CLOUD_SKILL>\` with the absolute skill path; shell substitution does not run inside JS strings.)
 
 ## 1b. Source is an IaC repo (terraform/terramate)? Inventory first, never read .tf raw
 Raw HCL floods context with boilerplate and the model starts guessing resources that don't exist.
@@ -183,6 +181,9 @@ Anything not in the inventory does not go in the diagram.
 ## 2. Build the diagram
 Declare the nested structure with \`group\`/\`frame\`/\`grid\` + \`icon\`/\`box\`. Use \`serviceFrame(id, icon, name, opts, children)\` only when one AWS service owns every child; \`opts.borderStyle\` is optional and defaults to \`solid\`. Then \`renderTree(d, tree)\` computes every x/y/w/h — never hand-write coordinates. Add edges with \`d.link(source, target, label)\`.
 
+Use \`branch("split")\` or \`merge("join")\` only for at least three same-type/same-function peers on one icon side. Keep different service types on individual links and no more than four total connections per side. Use the same \`{ functionGroup: "workers" }\` on different icons/boxes only when they perform the same function.
+Junctions are transparent. Use the same stroke, width, dash, corner, animation, and arrow options on every incident junction edge; validation rejects mixed line types.
+
 Edge API cheat-sheet (so you never have to read builder.mjs):
 \`\`\`js
 d.link(srcId, tgtId, label = "", opts = {})
@@ -191,19 +192,31 @@ d.link(srcId, tgtId, label = "", opts = {})
 //         dash: true,             // dashed (governance/replication semantics)
 //         flow: true,             // animated flow (draw.io/SVG only)
 //         rounded: true,          // rounded corners (flow edges)
+//         arrow: "block",         // end arrow; also classic/open/thin/oval/diamond/none
+//         startArrow: "none",     // set to block for bidirectional flow
+//         arrowSize: 8,            // 4–24
+//         exitSide: "R",           // hard source side: L/R/T/B
+//         entrySide: "L",          // hard target side: L/R/T/B
+//         via: [[x,y], {x,y}],      // ordered hard checkpoints for traceable corridors
+//         monotonic: "horizontal", // prefer forward horizontal/vertical/both movement
+//         priority: "primary",     // primary, normal, secondary, or a number
 //         stroke: "#hex" }        // override color
-// Router handles obstacle avoidance, port de-collision, waypoints — do not add coordinates.
+// Let the router choose geometry by default. Add the fewest via checkpoints needed to preserve
+// an intentional corridor; it globally reroutes congested links while keeping those checkpoints.
 // Containers (frames/groups) are valid link targets — prefer linking a cluster frame over
 // each replica inside it.
+// Hard gate: links route around unrelated primitives; parallel independent links keep 10px.
+// Perpendicular link crossings are valid when they preserve compact, traceable routing.
+// Shared junction trunks and terminal convergence at a common endpoint are intentional exemptions.
 \`\`\`
 
 ## 3. Validate
 If your build script already prints its \`d.validate()\` result (the examples all do), read that during
-iteration — do NOT also run \`drawio-ai validate\` on every loop; it re-prints the same report.
-Run \`drawio-ai validate <file>\` ONCE as the final gate before delivering.
+iteration — do NOT also run the entrypoint validator on every loop; it re-prints the same report.
+Run \`node "$DRAWIO_CLOUD_SKILL/index.mjs" validate <file>\` ONCE as the final gate before delivering.
 
 ## 4. Render
-Run \`drawio-ai render <file> --check -o <output.png>\` for the vision self-check — \`--check\` clamps
+Run \`node "$DRAWIO_CLOUD_SKILL/index.mjs" render <file> --check -o <output.png>\` for the vision self-check — \`--check\` clamps
 the long edge to ~1100px (layout inspection needs geometry, not full resolution; image tokens scale
 with pixels). After the layout looks right, render ONCE more without \`--check\` for the final PNG.
 Only pass \`--scale 2\` when the user asked for a high-res PNG deliverable.

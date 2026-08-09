@@ -60,14 +60,6 @@ export const DIAGRAM_TYPES = {
     grouping: "components",
     notes: "Number the steps along the request flow (1→N) on the architecture diagram; each arrow carries a sequence number; read by number, edges need not all point the same way.",
   },
-  bpmn: {
-    label: "BPMN swimlane process (roles × phases)",
-    orientation: "LR",            // flow left → right across horizontal lanes
-    edgeCorner: "rounded",        // sequence flow uses rounded corners
-    laneStrategy: "swimlane",     // edges route across lane bands; handoffs cross lane boundaries
-    grouping: "pool-lane-phase",  // Pool → Lane (role row) × Phase (milestone column)
-    notes: "Horizontal swimlanes: lanes = roles stacked vertically, phases = vertical milestone bands with a header row. Sequence flow stays within a pool (solid); message flow connects pools (dashed). One start event top-left, end events on the right; gateways where paths split/merge.",
-  },
 };
 
 export function typePreset(name) {

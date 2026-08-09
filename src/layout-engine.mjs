@@ -29,6 +29,17 @@ export const box = (id, label = "", opts = {}) => {
   const a = autoBox(label);
   return { kind: "box", id, label, ...opts, w: opts.w ?? a.w, h: opts.h ?? a.h };
 };
+/** Small junction used to split one shared trunk into three or more equivalent branches. Place it on the
+ * main flow between the source and primary target, then link source → branch → targets. */
+export const branch = (id, opts = {}) => ({
+  kind: "branch", id,
+  size: opts.size ?? 1,
+});
+/** Small junction used to combine three or more equivalent inputs into one shared trunk. */
+export const merge = (id, opts = {}) => ({
+  kind: "merge", id,
+  size: opts.size ?? 1,
+});
 export const group = (id, gname, label = "", opts = {}, children = []) => ({
   kind: "group", id, gname: gname || null, label, children,
   dir: opts.dir ?? "row", gap: opts.gap ?? 30, pad: opts.pad ?? 24,
@@ -76,22 +87,6 @@ export const grid = (id, gname, label = "", opts = {}, children = []) => ({
   header: label ? (opts.header ?? 36) : (opts.header ?? 0),   // no label → no dead title strip (issue #58)
   fill: opts.fill, stroke: opts.stroke,
 });
-/** BPMN swimlane POOL: a sparse (lane, phase) grid. `lanes` = role labels (rows), `phases` = optional
- *  milestone labels (columns). Each child carries { lane, phase } indices; the pool places it in that
- *  cell and leaves empty cells blank. orientation "horizontal" (default: lanes stacked, flow L→R) |
- *  "vertical" (lanes as columns, flow T→B). Lane/phase bands are emitted as container frames so the
- *  edge router and validator let sequence flow cross them freely. */
-export const pool = (id, label, opts = {}, children = []) => ({
-  kind: "pool", id, gname: null, label, children,
-  lanes: opts.lanes ?? [],
-  phases: opts.phases ?? [],
-  orientation: opts.orientation ?? "horizontal",
-  gap: opts.gap ?? 40, pad: opts.pad ?? 16,
-  laneLabel: opts.laneLabel ?? 110,    // width of the role-name column (h) / height (v)
-  phaseLabel: opts.phaseLabel ?? 26,   // height of the milestone band (h) / width (v)
-  fill: opts.fill ?? null, stroke: opts.stroke ?? null,
-});
-
 // ---- themed creators (apply the THEME so diagrams inherit the house style by default) ----
 // Big frames use a WHITE (theme-aware) background; the AWS icons carry the color. A per-stage
 // border colour keeps layers distinguishable without tinting the fill.
@@ -127,23 +122,8 @@ function mIcon(n) {
   n.h = s + 34; // icon + label below
 }
 function mBox(n) { /* w,h provided */ }
-function mPool(n) {
-  n.children.forEach(measure);
-  const horiz = n.orientation !== "vertical";
-  const laneN = Math.max(1, n.lanes.length || 1);
-  n.cols = Math.max(1, ...n.children.map((c) => (c.col ?? 0) + 1));   // col = horizontal slot, one node per cell
-  const phaseN = n.phases.length;
-  n.phaseLabel = phaseN ? n.phaseLabel : 0;                            // no milestone band unless labels given
-  n.cellW = n.children.reduce((m, c) => Math.max(m, c.w || 0), 80);
-  n.cellH = n.children.reduce((m, c) => Math.max(m, c.h || 0), 40) + 14;   // lane band = tallest node + vertical pad; bands stack flush (grid)
-  // lane axis is contiguous (grid rows); the flow axis keeps `gap` for node spacing
-  const contentW = horiz ? n.cols * n.cellW + n.gap * (n.cols - 1) : laneN * n.cellW;
-  const contentH = horiz ? laneN * n.cellH : n.cols * n.cellH + n.gap * (n.cols - 1);
-  n.header = n.label ? 34 : 0;
-  if (horiz) { n.w = n.pad * 2 + n.laneLabel + contentW; n.h = n.header + n.phaseLabel + n.pad * 2 + contentH; }
-  else { n.w = n.pad * 2 + contentW + n.phaseLabel; n.h = n.header + n.pad * 2 + n.laneLabel + contentH; }
-  if (n.label) n.w = Math.max(n.w, Math.ceil(n.label.length * 6.6) + n.pad * 2);
-}
+function mBranch(n) { n.w = n.size; n.h = n.size; }
+const mMerge = mBranch;
 /** Shared container measure: recurse into children, then grid/row/col sizing + floor by title width.
  *  Runs for both `group` and `grid` (the grid cell math lives inside the dir switch on n.kind). */
 function measureContainer(n) {
@@ -161,13 +141,13 @@ function measureContainer(n) {
     // Equal-height siblings: stretch each container block in a row up to the tallest sibling, so
     // side-by-side frames share a bottom edge (leaf icons/boxes keep their natural size, top-aligned).
     const maxH = max((c) => c.h);
-    for (const c of ch) if (c.kind === "group" || c.kind === "grid" || c.kind === "pool") c.h = Math.max(c.h, maxH);
+    for (const c of ch) if (c.kind === "group" || c.kind === "grid") c.h = Math.max(c.h, maxH);
     n.w = p * 2 + sum((c) => c.w) + eg * Math.max(0, ch.length - 1);
     n.h = head + p * 2 + max((c) => c.h);
   } else { // col
     // Equal-width siblings: stretch each group frame in a column up to the widest sibling, so
     // stacked frames (e.g. subnet tiers) share left/right edges. Only `group` — it re-places its
-    // children to fill the new width; grid/pool have self-computed internal geometry that a forced
+    // children to fill the new width; grid has self-computed internal geometry that a forced
     // outer width would leave a gap inside, and leaf icons/boxes keep their natural size.
     const maxW = max((c) => c.w);
     for (const c of ch) if (c.kind === "group") c.w = Math.max(c.w, maxW);
@@ -187,17 +167,6 @@ function pGrid(n) {
     const cellX = innerX + col * (n.cellW + n.gap), cellY = innerTop + r * (n.cellH + n.gap);
     place(c, cellX + (n.cellW - c.w) / 2, cellY + (n.cellH - c.h) / 2); // center in cell
   });
-}
-function pPool(n) {
-  const horiz = n.orientation !== "vertical";
-  const contentX = horiz ? n.x + n.pad + n.laneLabel : n.x + n.pad;
-  const contentY = horiz ? n.y + n.header + n.phaseLabel + n.pad : n.y + n.header + n.pad + n.laneLabel;
-  for (const c of n.children) {
-    const lane = c.lane ?? 0, col = c.col ?? 0;
-    const cellX = horiz ? contentX + col * (n.cellW + n.gap) : contentX + lane * n.cellW;
-    const cellY = horiz ? contentY + lane * n.cellH : contentY + col * (n.cellH + n.gap);
-    place(c, Math.round(cellX + (n.cellW - c.w) / 2), Math.round(cellY + (n.cellH - c.h) / 2));
-  }
 }
 function pGroup(n) {
   const innerX = n.x + n.pad, innerTop = n.y + n.header + n.pad;
@@ -221,53 +190,20 @@ function pGroup(n) {
     else { place(c, n.align === "left" ? innerX : innerX + (innerW - c.w) / 2, cur); cur += c.h + gap; }
   }
 }
-/** Emit a pool: container frame + faint lane bands + lane/phase labels + flow-object children on top.
- *  Bands/labels carry container=1 (validator treats as non-obstacle) and no .ob flag (router ignores). */
-function emitPool(d, n, parent) {
-  const horiz = n.orientation !== "vertical";
-  const laneN = Math.max(1, n.lanes.length || 1);
-  const cols = n.cols;
-  const phaseN = n.phases.length;
-  const contentW = horiz ? cols * n.cellW + n.gap * (cols - 1) : laneN * n.cellW;
-  const contentH = horiz ? laneN * n.cellH : cols * n.cellH + n.gap * (cols - 1);
-  const contentX = horiz ? n.x + n.pad + n.laneLabel : n.x + n.pad;
-  const contentY = horiz ? n.y + n.header + n.phaseLabel + n.pad : n.y + n.header + n.pad + n.laneLabel;
-  const POOL_FILL = n.fill ?? "#FFFFFF", POOL_STROKE = n.stroke ?? "#5A6B7B";
-  const HAIR = "#D8E0E8", BAND_ALT = "#F5F8FB", LABEL_FILL = "#EEF2F7";
-  const frame = (id, x, y, w, h, style, label) => d._put(id, n.id, Math.round(x), Math.round(y), Math.round(w), Math.round(h), style, label);
-  // pool container frame (ob:false → edges cross it freely)
-  d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: POOL_FILL, stroke: POOL_STROKE, round: false, ob: false, va: "top", bold: true, fs: 13 });
-  // lane bands (faint background) + role labels
-  for (let i = 0; i < laneN; i++) {
-    if (horiz) frame(`${n.id}__band${i}`, contentX, contentY + i * n.cellH, contentW, n.cellH, `rounded=0;whiteSpace=wrap;html=1;fillColor=${i % 2 ? BAND_ALT : "#FFFFFF"};strokeColor=${HAIR};container=1;`, "");
-    else frame(`${n.id}__band${i}`, n.x + n.pad + i * n.cellW, contentY, n.cellW, contentH, `rounded=0;whiteSpace=wrap;html=1;fillColor=${i % 2 ? BAND_ALT : "#FFFFFF"};strokeColor=${HAIR};container=1;`, "");
-    let lx, ly, lw, lh;
-    if (horiz) { lx = n.x + n.pad; ly = contentY + i * n.cellH; lw = n.laneLabel; lh = n.cellH; }
-    else { lx = n.x + n.pad + i * n.cellW; ly = n.y + n.header + n.pad; lw = n.cellW; lh = n.laneLabel; }
-    frame(`${n.id}__lane${i}`, lx, ly, lw, lh, `rounded=0;whiteSpace=wrap;html=1;fillColor=${LABEL_FILL};strokeColor=${HAIR};verticalAlign=middle;align=center;fontStyle=1;fontSize=11;container=1;`, n.lanes[i] ?? "");
-  }
-  // phase (milestone) header bands — each label spans its even share of the columns
-  if (phaseN) {
-    for (let j = 0; j < phaseN; j++) {
-      const from = Math.floor((j * cols) / phaseN), to = Math.floor(((j + 1) * cols) / phaseN), last = j === phaseN - 1;
-      let px, py, pw, ph;
-      if (horiz) { px = contentX + from * (n.cellW + n.gap); pw = (to - from) * (n.cellW + n.gap) - (last ? n.gap : 0); py = n.y + n.header; ph = n.phaseLabel; }
-      else { py = contentY + from * (n.cellH + n.gap); ph = (to - from) * (n.cellH + n.gap) - (last ? n.gap : 0); px = n.x + n.pad + contentW + n.gap; pw = n.phaseLabel; }
-      frame(`${n.id}__phase${j}`, px, py, pw, ph, `rounded=0;whiteSpace=wrap;html=1;fillColor=${POOL_FILL};strokeColor=${HAIR};verticalAlign=middle;align=center;fontStyle=1;fontSize=11;container=1;`, n.phases[j] ?? "");
-    }
-  }
-  // flow-object nodes last → render on top of the bands
-  for (const c of n.children) emit(d, c, n.id);
-}
-
 // ---- emit: output to the Diagram builder ----
 function eIcon(d, n, parent) {
   const s = n.size ?? ICON;
-  d.icon(n.id, n.name, [Math.round(n.x + (n.w - s) / 2), n.y], { parent, label: n.label, size: s });
+  d.icon(n.id, n.name, [Math.round(n.x + (n.w - s) / 2), n.y], { parent, label: n.label, size: s, functionGroup: n.functionGroup });
 }
 function eBox(d, n, parent) {
-  if (n.style) { const r = d._put(n.id, parent, n.x, n.y, n.w, n.h, n.style, n.label); r.ob = true; return; }   // BPMN/curated shape: raw style, leaf obstacle
-  d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke, round: n.round, va: n.va, bold: n.bold });
+  if (n.style) { const marker = n.functionGroup ? `functionGroup=${n.functionGroup};` : ""; const r = d._put(n.id, parent, n.x, n.y, n.w, n.h, `${n.style}${n.style.endsWith(";") ? "" : ";"}${marker}`, n.label); r.ob = true; return; }   // curated shape: raw style, leaf obstacle
+  d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke, round: n.round, va: n.va, bold: n.bold, functionGroup: n.functionGroup });
+}
+function eBranch(d, n, parent) {
+  d.junction(n.id, [n.x, n.y], { parent, size: n.size });
+}
+function eMerge(d, n, parent) {
+  d.mergeJunction(n.id, [n.x, n.y], { parent, size: n.size });
 }
 function eGroup(d, n, parent) {
   if (n.gname) d.group(n.id, n.gname, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke });
@@ -314,7 +250,6 @@ function serviceBorderStyle(style) {
   if (style === "dash-dot") return "dashed=1;dashPattern=8 4 1 4;lineCap=round;";
   return "dashed=0;";
 }
-function ePool(d, n, parent) { emitPool(d, n, parent); }
 /** Phantom emit: emits NO cell and does NOT touch this.R. It records its id in d.phantoms (so link()
  *  can teach the distinction between a phantom and a typo) then recurses children with the SAME
  *  parent it received — that passes children straight through the phantom layer to the nearest
@@ -327,9 +262,10 @@ function ePhantom(d, n, parent) {
 const LAYOUT = {
   icon:    { measure: mIcon,   place: null,   emit: eIcon },
   box:     { measure: mBox,    place: null,   emit: eBox },
+  branch:  { measure: mBranch, place: null,   emit: eBranch },
+  merge:   { measure: mMerge,  place: null,   emit: eMerge },
   group:   { measure: mGroup,  place: pGroup, emit: eGroup },
   grid:    { measure: mGrid,   place: pGrid,  emit: eGroup },
-  pool:    { measure: mPool,   place: pPool,  emit: ePool },
   phantom: { measure: mGroup,  place: pGroup, emit: ePhantom },   // group geometry, NO cell emit
 };
 
