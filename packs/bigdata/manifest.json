@@ -1,0 +1,433 @@
+{
+ "pack": "bigdata",
+ "category": "Big Data",
+ "note": "OSS data/big-data tools as square AWS-style tiles (brand colour + white glyph). Glyphs from simple-icons (MIT); tools without a simple-icons glyph fall back to a coloured text tile. Rebuild: python3 scripts/build_pack.py bigdata",
+ "icons": [
+  {
+   "name": "spark",
+   "label": "Apache Spark",
+   "devicon": "apachespark",
+   "slug": "apachespark",
+   "color": "#E25A1C",
+   "tags": "spark apache big data processing"
+  },
+  {
+   "name": "airflow",
+   "label": "Apache Airflow",
+   "devicon": "apacheairflow",
+   "slug": "apacheairflow",
+   "color": "#017CEE",
+   "tags": "airflow apache orchestration scheduler dag"
+  },
+  {
+   "name": "flink",
+   "label": "Apache Flink",
+   "slug": "apacheflink",
+   "color": "#E6526F",
+   "tags": "flink apache streaming"
+  },
+  {
+   "name": "kafka",
+   "label": "Apache Kafka",
+   "devicon": "apachekafka",
+   "slug": "apachekafka",
+   "color": "#231F20",
+   "tags": "kafka apache streaming event bus"
+  },
+  {
+   "name": "trino",
+   "label": "Trino",
+   "slug": "trino",
+   "color": "#DD00A1",
+   "tags": "trino presto federated query sql"
+  },
+  {
+   "name": "temporal",
+   "label": "Temporal",
+   "slug": "temporal",
+   "color": "#127DEC",
+   "tags": "temporal workflow orchestration durable"
+  },
+  {
+   "name": "hive",
+   "label": "Apache Hive",
+   "slug": "apachehive",
+   "color": "#E8A317",
+   "tags": "hive apache warehouse sql"
+  },
+  {
+   "name": "iceberg",
+   "label": "Apache Iceberg",
+   "color": "#2596D1",
+   "abbr": "Iceberg",
+   "tags": "iceberg apache table format lakehouse",
+   "file": "assets/iceberg.png"
+  },
+  {
+   "name": "delta",
+   "label": "Delta Lake",
+   "color": "#00ADD4",
+   "abbr": "Delta",
+   "tags": "delta lake table format lakehouse databricks",
+   "file": "assets/delta.png"
+  },
+  {
+   "name": "hudi",
+   "label": "Apache Hudi",
+   "color": "#4E7FD6",
+   "abbr": "Hudi",
+   "tags": "hudi apache table format lakehouse",
+   "file": "assets/hudi.png"
+  },
+  {
+   "name": "dagster",
+   "label": "Dagster",
+   "color": "#654FF0",
+   "abbr": "Dagster",
+   "tags": "dagster orchestration pipelines assets",
+   "file": "assets/dagster.png"
+  },
+  {
+   "name": "dbt",
+   "label": "dbt",
+   "color": "#FF694B",
+   "abbr": "dbt",
+   "tags": "dbt transformation sql analytics engineering",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/dbt.svg"
+  },
+  {
+   "name": "hadoop",
+   "label": "Apache Hadoop",
+   "devicon": "hadoop",
+   "slug": "apachehadoop",
+   "color": "#66CCFF",
+   "abbr": "Hadoop",
+   "tags": "hadoop hdfs mapreduce yarn batch"
+  },
+  {
+   "name": "pulsar",
+   "label": "Apache Pulsar",
+   "devicon": "pulsar",
+   "slug": "apachepulsar",
+   "color": "#188FFF",
+   "abbr": "Pulsar",
+   "tags": "pulsar streaming messaging pub-sub"
+  },
+  {
+   "name": "rabbitmq",
+   "label": "RabbitMQ",
+   "devicon": "rabbitmq",
+   "slug": "rabbitmq",
+   "color": "#FF6600",
+   "abbr": "RabbitMQ",
+   "tags": "rabbitmq messaging queue amqp broker"
+  },
+  {
+   "name": "nats",
+   "label": "NATS",
+   "devicon": "nats",
+   "slug": "natsdotio",
+   "color": "#27AAE1",
+   "abbr": "NATS",
+   "tags": "nats messaging streaming pub-sub"
+  },
+  {
+   "name": "jupyter",
+   "label": "Jupyter",
+   "devicon": "jupyter",
+   "slug": "jupyter",
+   "color": "#F37626",
+   "abbr": "Jupyter",
+   "tags": "jupyter notebook interactive python"
+  },
+  {
+   "name": "kubeflow",
+   "label": "Kubeflow",
+   "devicon": "kubeflow",
+   "slug": "kubeflow",
+   "color": "#345FB4",
+   "abbr": "Kubeflow",
+   "tags": "kubeflow ml kubernetes pipelines"
+  },
+  {
+   "name": "grafana",
+   "label": "Grafana",
+   "devicon": "grafana",
+   "slug": "grafana",
+   "color": "#F46800",
+   "abbr": "Grafana",
+   "tags": "grafana dashboard observability metrics"
+  },
+  {
+   "name": "storm",
+   "label": "Apache Storm",
+   "slug": "apachestorm",
+   "color": "#225588",
+   "abbr": "Storm",
+   "tags": "storm apache streaming realtime"
+  },
+  {
+   "name": "nifi",
+   "label": "Apache NiFi",
+   "slug": "apachenifi",
+   "color": "#728E9B",
+   "abbr": "NiFi",
+   "tags": "nifi apache dataflow ingestion etl"
+  },
+  {
+   "name": "superset",
+   "label": "Apache Superset",
+   "slug": "apachesuperset",
+   "color": "#20A6C9",
+   "abbr": "Superset",
+   "tags": "superset apache bi dashboard visualization"
+  },
+  {
+   "name": "ray",
+   "label": "Ray",
+   "slug": "ray",
+   "color": "#028CF0",
+   "abbr": "Ray",
+   "tags": "ray distributed compute ml python anyscale"
+  },
+  {
+   "name": "dask",
+   "label": "Dask",
+   "slug": "dask",
+   "color": "#FDA061",
+   "abbr": "Dask",
+   "tags": "dask parallel python dataframe"
+  },
+  {
+   "name": "prefect",
+   "label": "Prefect",
+   "slug": "prefect",
+   "color": "#024DFD",
+   "abbr": "Prefect",
+   "tags": "prefect orchestration workflow pipeline"
+  },
+  {
+   "name": "argo",
+   "label": "Argo Workflows",
+   "slug": "argo",
+   "color": "#EF7B4D",
+   "abbr": "Argo",
+   "tags": "argo workflows kubernetes orchestration"
+  },
+  {
+   "name": "dvc",
+   "label": "DVC",
+   "slug": "dvc",
+   "color": "#13ADC7",
+   "abbr": "DVC",
+   "tags": "dvc data version control ml git"
+  },
+  {
+   "name": "airbyte",
+   "label": "Airbyte",
+   "slug": "airbyte",
+   "color": "#615EFF",
+   "abbr": "Airbyte",
+   "tags": "airbyte ingestion elt connectors"
+  },
+  {
+   "name": "mlflow",
+   "label": "MLflow",
+   "slug": "mlflow",
+   "color": "#0194E2",
+   "abbr": "MLflow",
+   "tags": "mlflow ml experiment tracking registry"
+  },
+  {
+   "name": "metabase",
+   "label": "Metabase",
+   "slug": "metabase",
+   "color": "#509EE3",
+   "abbr": "Metabase",
+   "tags": "metabase bi dashboard visualization"
+  },
+  {
+   "name": "beam",
+   "label": "Apache Beam",
+   "color": "#FF6D00",
+   "abbr": "Beam",
+   "tags": "beam apache batch stream unified pipeline",
+   "url": "https://www.vectorlogo.zone/logos/apache_beam/apache_beam-icon.svg"
+  },
+  {
+   "name": "debezium",
+   "label": "Debezium",
+   "color": "#C0392B",
+   "abbr": "Debezium",
+   "tags": "debezium cdc change-data-capture streaming kafka",
+   "file": "assets/debezium.png"
+  },
+  {
+   "name": "redpanda",
+   "label": "Redpanda",
+   "color": "#E14228",
+   "abbr": "Redpanda",
+   "tags": "redpanda kafka-compatible streaming"
+  },
+  {
+   "name": "paimon",
+   "label": "Apache Paimon",
+   "color": "#FF6A00",
+   "abbr": "Paimon",
+   "tags": "paimon apache lakehouse table-format streaming"
+  },
+  {
+   "name": "datahub",
+   "label": "DataHub",
+   "color": "#1890FF",
+   "abbr": "DataHub",
+   "tags": "datahub metadata catalog governance lineage",
+   "url": "https://www.vectorlogo.zone/logos/datahub/datahub-icon.svg"
+  },
+  {
+   "name": "openmetadata",
+   "label": "OpenMetadata",
+   "color": "#7147E8",
+   "abbr": "OpenMeta",
+   "tags": "openmetadata metadata catalog governance lineage"
+  },
+  {
+   "name": "fivetran",
+   "label": "Fivetran",
+   "color": "#2563EB",
+   "abbr": "Fivetran",
+   "tags": "fivetran ingestion elt connectors managed",
+   "url": "https://www.vectorlogo.zone/logos/fivetran/fivetran-icon.svg"
+  },
+  {
+   "name": "parquet",
+   "label": "Apache Parquet",
+   "color": "#50ABF1",
+   "abbr": "Parquet",
+   "tags": "parquet apache columnar file-format storage",
+   "slug": "apacheparquet"
+  },
+  {
+   "name": "avro",
+   "label": "Apache Avro",
+   "color": "#1A1A1A",
+   "abbr": "Avro",
+   "tags": "avro apache serialization file-format schema",
+   "url": "https://www.vectorlogo.zone/logos/apache_avro/apache_avro-icon.svg"
+  },
+  {
+   "name": "feast",
+   "label": "Feast",
+   "color": "#4F9BFF",
+   "abbr": "Feast",
+   "tags": "feast feature-store ml"
+  },
+  {
+   "name": "greatexpectations",
+   "label": "Great Expectations",
+   "color": "#FF6310",
+   "abbr": "GX",
+   "tags": "great expectations data-quality validation testing"
+  },
+  {
+   "name": "meltano",
+   "label": "Meltano",
+   "color": "#311772",
+   "abbr": "Meltano",
+   "tags": "meltano elt singer ingestion"
+  },
+  {
+   "name": "singer",
+   "label": "Singer",
+   "color": "#C0FF00",
+   "abbr": "Singer",
+   "tags": "singer taps targets ingestion etl"
+  },
+  {
+   "name": "zeppelin",
+   "label": "Apache Zeppelin",
+   "color": "#1B7CB3",
+   "abbr": "Zeppelin",
+   "tags": "zeppelin apache notebook interactive",
+   "file": "assets/zeppelin.png"
+  },
+  {
+   "name": "minio",
+   "label": "MinIO",
+   "devicon": "minio",
+   "slug": "minio",
+   "color": "#C72E49",
+   "abbr": "MinIO",
+   "tags": "minio object storage s3-compatible data-lake"
+  },
+  {
+   "name": "ceph",
+   "label": "Ceph",
+   "slug": "ceph",
+   "color": "#EF5C55",
+   "abbr": "Ceph",
+   "tags": "ceph object block file storage distributed"
+  },
+  {
+   "name": "lakefs",
+   "label": "lakeFS",
+   "color": "#15A2DE",
+   "abbr": "lakeFS",
+   "tags": "lakefs data version control object-store git-for-data",
+   "url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/lakefs.svg"
+  },
+  {
+   "name": "alluxio",
+   "label": "Alluxio",
+   "color": "#13B5EA",
+   "abbr": "Alluxio",
+   "tags": "alluxio data orchestration cache virtual-filesystem"
+  },
+  {
+   "name": "tableau",
+   "label": "Tableau",
+   "color": "#E97627",
+   "tags": "tableau bi analytics dashboard",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/tableau-icon.svg"
+  },
+  {
+   "name": "power_bi",
+   "label": "Power BI",
+   "color": "#F2C811",
+   "tags": "power bi bi analytics dashboard",
+   "url": "https://www.vectorlogo.zone/logos/microsoft_powerbi/microsoft_powerbi-icon.svg"
+  },
+  {
+   "name": "medallion_landing",
+   "label": "Landing",
+   "color": "#3CA64C",
+   "file": "assets/medallion_landing.svg",
+   "frame": false,
+   "tags": "landing medallion delta layer database lakehouse"
+  },
+  {
+   "name": "medallion_bronze",
+   "label": "Bronze",
+   "color": "#C77D3E",
+   "file": "assets/medallion_bronze.svg",
+   "frame": false,
+   "tags": "bronze medallion delta layer database lakehouse"
+  },
+  {
+   "name": "medallion_silver",
+   "label": "Silver",
+   "color": "#9AA0A6",
+   "file": "assets/medallion_silver.svg",
+   "frame": false,
+   "tags": "silver medallion delta layer database lakehouse"
+  },
+  {
+   "name": "medallion_gold",
+   "label": "Gold",
+   "color": "#D4A017",
+   "file": "assets/medallion_gold.svg",
+   "frame": false,
+   "tags": "gold medallion delta layer database lakehouse"
+  }
+ ]
+}

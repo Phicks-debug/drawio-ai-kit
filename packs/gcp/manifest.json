@@ -1,0 +1,1519 @@
+{
+ "pack": "gcp",
+ "category": "Google Cloud",
+ "note": "Official Google Cloud product icons (cloud.google.com/icons, per-product set). Rebuild: python3 scripts/build_pack.py gcp",
+ "icons": [
+  {
+   "name": "gcp_access_context_manager",
+   "label": "Access Context Manager",
+   "category": "Google Cloud",
+   "file": "assets/gcp_access_context_manager.svg",
+   "tags": "access context manager google cloud gcp access context manager"
+  },
+  {
+   "name": "gcp_administration",
+   "label": "Administration",
+   "category": "Google Cloud",
+   "file": "assets/gcp_administration.svg",
+   "tags": "administration google cloud gcp administration"
+  },
+  {
+   "name": "gcp_advanced_agent_modeling",
+   "label": "Advanced Agent Modeling",
+   "category": "Google Cloud",
+   "file": "assets/gcp_advanced_agent_modeling.svg",
+   "tags": "advanced agent modeling google cloud gcp advanced agent modeling"
+  },
+  {
+   "name": "gcp_advanced_solutions_lab",
+   "label": "Advanced Solutions Lab",
+   "category": "Google Cloud",
+   "file": "assets/gcp_advanced_solutions_lab.svg",
+   "tags": "advanced solutions lab google cloud gcp advanced solutions lab"
+  },
+  {
+   "name": "gcp_agent_assist",
+   "label": "Agent Assist",
+   "category": "Google Cloud",
+   "file": "assets/gcp_agent_assist.svg",
+   "tags": "agent assist google cloud gcp agent assist"
+  },
+  {
+   "name": "gcp_ai_hub",
+   "label": "Ai Hub",
+   "category": "Google Cloud",
+   "file": "assets/gcp_ai_hub.svg",
+   "tags": "ai hub google cloud gcp ai hub"
+  },
+  {
+   "name": "gcp_ai_platform",
+   "label": "Ai Platform",
+   "category": "Google Cloud",
+   "file": "assets/gcp_ai_platform.svg",
+   "tags": "ai platform google cloud gcp ai platform"
+  },
+  {
+   "name": "gcp_ai_platform_unified",
+   "label": "Ai Platform Unified",
+   "category": "Google Cloud",
+   "file": "assets/gcp_ai_platform_unified.svg",
+   "tags": "ai platform unified google cloud gcp ai platform unified"
+  },
+  {
+   "name": "gcp_analytics_hub",
+   "label": "Analytics Hub",
+   "category": "Google Cloud",
+   "file": "assets/gcp_analytics_hub.svg",
+   "tags": "analytics hub google cloud gcp analytics hub"
+  },
+  {
+   "name": "gcp_anthos",
+   "label": "Anthos",
+   "category": "Google Cloud",
+   "file": "assets/gcp_anthos.svg",
+   "tags": "anthos google cloud gcp anthos"
+  },
+  {
+   "name": "gcp_anthos_config_management",
+   "label": "Anthos Config Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_anthos_config_management.svg",
+   "tags": "anthos config management google cloud gcp anthos config management"
+  },
+  {
+   "name": "gcp_anthos_service_mesh",
+   "label": "Anthos Service Mesh",
+   "category": "Google Cloud",
+   "file": "assets/gcp_anthos_service_mesh.svg",
+   "tags": "anthos service mesh google cloud gcp anthos service mesh"
+  },
+  {
+   "name": "gcp_api",
+   "label": "Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_api.svg",
+   "tags": "api google cloud gcp api"
+  },
+  {
+   "name": "gcp_api_analytics",
+   "label": "Api Analytics",
+   "category": "Google Cloud",
+   "file": "assets/gcp_api_analytics.svg",
+   "tags": "api analytics google cloud gcp api analytics"
+  },
+  {
+   "name": "gcp_api_monetization",
+   "label": "Api Monetization",
+   "category": "Google Cloud",
+   "file": "assets/gcp_api_monetization.svg",
+   "tags": "api monetization google cloud gcp api monetization"
+  },
+  {
+   "name": "gcp_apigee_api_platform",
+   "label": "Apigee Api Platform",
+   "category": "Google Cloud",
+   "file": "assets/gcp_apigee_api_platform.svg",
+   "tags": "apigee api platform google cloud gcp apigee api platform"
+  },
+  {
+   "name": "gcp_apigee_sense",
+   "label": "Apigee Sense",
+   "category": "Google Cloud",
+   "file": "assets/gcp_apigee_sense.svg",
+   "tags": "apigee sense google cloud gcp apigee sense"
+  },
+  {
+   "name": "gcp_app_engine",
+   "label": "App Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_app_engine.svg",
+   "tags": "app engine google cloud gcp app engine"
+  },
+  {
+   "name": "gcp_artifact_registry",
+   "label": "Artifact Registry",
+   "category": "Google Cloud",
+   "file": "assets/gcp_artifact_registry.svg",
+   "tags": "artifact registry google cloud gcp artifact registry"
+  },
+  {
+   "name": "gcp_asset_inventory",
+   "label": "Asset Inventory",
+   "category": "Google Cloud",
+   "file": "assets/gcp_asset_inventory.svg",
+   "tags": "asset inventory google cloud gcp asset inventory"
+  },
+  {
+   "name": "gcp_assured_workloads",
+   "label": "Assured Workloads",
+   "category": "Google Cloud",
+   "file": "assets/gcp_assured_workloads.svg",
+   "tags": "assured workloads google cloud gcp assured workloads"
+  },
+  {
+   "name": "gcp_automl",
+   "label": "Automl",
+   "category": "Google Cloud",
+   "file": "assets/gcp_automl.svg",
+   "tags": "automl google cloud gcp automl"
+  },
+  {
+   "name": "gcp_automl_natural_language",
+   "label": "Automl Natural Language",
+   "category": "Google Cloud",
+   "file": "assets/gcp_automl_natural_language.svg",
+   "tags": "automl natural language google cloud gcp automl natural language"
+  },
+  {
+   "name": "gcp_automl_tables",
+   "label": "Automl Tables",
+   "category": "Google Cloud",
+   "file": "assets/gcp_automl_tables.svg",
+   "tags": "automl tables google cloud gcp automl tables"
+  },
+  {
+   "name": "gcp_automl_translation",
+   "label": "Automl Translation",
+   "category": "Google Cloud",
+   "file": "assets/gcp_automl_translation.svg",
+   "tags": "automl translation google cloud gcp automl translation"
+  },
+  {
+   "name": "gcp_automl_video_intelligence",
+   "label": "Automl Video Intelligence",
+   "category": "Google Cloud",
+   "file": "assets/gcp_automl_video_intelligence.svg",
+   "tags": "automl video intelligence google cloud gcp automl video intelligence"
+  },
+  {
+   "name": "gcp_automl_vision",
+   "label": "Automl Vision",
+   "category": "Google Cloud",
+   "file": "assets/gcp_automl_vision.svg",
+   "tags": "automl vision google cloud gcp automl vision"
+  },
+  {
+   "name": "gcp_bare_metal_solutions",
+   "label": "Bare Metal Solutions",
+   "category": "Google Cloud",
+   "file": "assets/gcp_bare_metal_solutions.svg",
+   "tags": "bare metal solutions google cloud gcp bare metal solutions"
+  },
+  {
+   "name": "gcp_batch",
+   "label": "Batch",
+   "category": "Google Cloud",
+   "file": "assets/gcp_batch.svg",
+   "tags": "batch google cloud gcp batch"
+  },
+  {
+   "name": "gcp_beyondcorp",
+   "label": "Beyondcorp",
+   "category": "Google Cloud",
+   "file": "assets/gcp_beyondcorp.svg",
+   "tags": "beyondcorp google cloud gcp beyondcorp"
+  },
+  {
+   "name": "gcp_bigquery",
+   "label": "Bigquery",
+   "category": "Google Cloud",
+   "file": "assets/gcp_bigquery.svg",
+   "tags": "bigquery google cloud gcp bigquery"
+  },
+  {
+   "name": "gcp_bigtable",
+   "label": "Bigtable",
+   "category": "Google Cloud",
+   "file": "assets/gcp_bigtable.svg",
+   "tags": "bigtable google cloud gcp bigtable"
+  },
+  {
+   "name": "gcp_billing",
+   "label": "Billing",
+   "category": "Google Cloud",
+   "file": "assets/gcp_billing.svg",
+   "tags": "billing google cloud gcp billing"
+  },
+  {
+   "name": "gcp_binary_authorization",
+   "label": "Binary Authorization",
+   "category": "Google Cloud",
+   "file": "assets/gcp_binary_authorization.svg",
+   "tags": "binary authorization google cloud gcp binary authorization"
+  },
+  {
+   "name": "gcp_catalog",
+   "label": "Catalog",
+   "category": "Google Cloud",
+   "file": "assets/gcp_catalog.svg",
+   "tags": "catalog google cloud gcp catalog"
+  },
+  {
+   "name": "gcp_certificate_authority_service",
+   "label": "Certificate Authority Service",
+   "category": "Google Cloud",
+   "file": "assets/gcp_certificate_authority_service.svg",
+   "tags": "certificate authority service google cloud gcp certificate authority service"
+  },
+  {
+   "name": "gcp_certificate_manager",
+   "label": "Certificate Manager",
+   "category": "Google Cloud",
+   "file": "assets/gcp_certificate_manager.svg",
+   "tags": "certificate manager google cloud gcp certificate manager"
+  },
+  {
+   "name": "gcp_cloud_api_gateway",
+   "label": "Cloud Api Gateway",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_api_gateway.svg",
+   "tags": "cloud api gateway google cloud gcp cloud api gateway"
+  },
+  {
+   "name": "gcp_cloud_apis",
+   "label": "Cloud Apis",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_apis.svg",
+   "tags": "cloud apis google cloud gcp cloud apis"
+  },
+  {
+   "name": "gcp_cloud_armor",
+   "label": "Cloud Armor",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_armor.svg",
+   "tags": "cloud armor google cloud gcp cloud armor"
+  },
+  {
+   "name": "gcp_cloud_asset_inventory",
+   "label": "Cloud Asset Inventory",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_asset_inventory.svg",
+   "tags": "cloud asset inventory google cloud gcp cloud asset inventory"
+  },
+  {
+   "name": "gcp_cloud_audit_logs",
+   "label": "Cloud Audit Logs",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_audit_logs.svg",
+   "tags": "cloud audit logs google cloud gcp cloud audit logs"
+  },
+  {
+   "name": "gcp_cloud_build",
+   "label": "Cloud Build",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_build.svg",
+   "tags": "cloud build google cloud gcp cloud build"
+  },
+  {
+   "name": "gcp_cloud_cdn",
+   "label": "Cloud Cdn",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_cdn.svg",
+   "tags": "cloud cdn google cloud gcp cloud cdn"
+  },
+  {
+   "name": "gcp_cloud_code",
+   "label": "Cloud Code",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_code.svg",
+   "tags": "cloud code google cloud gcp cloud code"
+  },
+  {
+   "name": "gcp_cloud_composer",
+   "label": "Cloud Composer",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_composer.svg",
+   "tags": "cloud composer google cloud gcp cloud composer"
+  },
+  {
+   "name": "gcp_cloud_data_fusion",
+   "label": "Cloud Data Fusion",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_data_fusion.svg",
+   "tags": "cloud data fusion google cloud gcp cloud data fusion"
+  },
+  {
+   "name": "gcp_cloud_deploy",
+   "label": "Cloud Deploy",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_deploy.svg",
+   "tags": "cloud deploy google cloud gcp cloud deploy"
+  },
+  {
+   "name": "gcp_cloud_deployment_manager",
+   "label": "Cloud Deployment Manager",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_deployment_manager.svg",
+   "tags": "cloud deployment manager google cloud gcp cloud deployment manager"
+  },
+  {
+   "name": "gcp_cloud_dns",
+   "label": "Cloud Dns",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_dns.svg",
+   "tags": "cloud dns google cloud gcp cloud dns"
+  },
+  {
+   "name": "gcp_cloud_domains",
+   "label": "Cloud Domains",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_domains.svg",
+   "tags": "cloud domains google cloud gcp cloud domains"
+  },
+  {
+   "name": "gcp_cloud_ekm",
+   "label": "Cloud Ekm",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_ekm.svg",
+   "tags": "cloud ekm google cloud gcp cloud ekm"
+  },
+  {
+   "name": "gcp_cloud_endpoints",
+   "label": "Cloud Endpoints",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_endpoints.svg",
+   "tags": "cloud endpoints google cloud gcp cloud endpoints"
+  },
+  {
+   "name": "gcp_cloud_external_ip_addresses",
+   "label": "Cloud External Ip Addresses",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_external_ip_addresses.svg",
+   "tags": "cloud external ip addresses google cloud gcp cloud external ip addresses"
+  },
+  {
+   "name": "gcp_cloud_firewall_rules",
+   "label": "Cloud Firewall Rules",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_firewall_rules.svg",
+   "tags": "cloud firewall rules google cloud gcp cloud firewall rules"
+  },
+  {
+   "name": "gcp_cloud_for_marketing",
+   "label": "Cloud For Marketing",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_for_marketing.svg",
+   "tags": "cloud for marketing google cloud gcp cloud for marketing"
+  },
+  {
+   "name": "gcp_cloud_functions",
+   "label": "Cloud Functions",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_functions.svg",
+   "tags": "cloud functions google cloud gcp cloud functions"
+  },
+  {
+   "name": "gcp_cloud_generic",
+   "label": "Cloud Generic",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_generic.svg",
+   "tags": "cloud generic google cloud gcp cloud generic"
+  },
+  {
+   "name": "gcp_cloud_gpu",
+   "label": "Cloud Gpu",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_gpu.svg",
+   "tags": "cloud gpu google cloud gcp cloud gpu"
+  },
+  {
+   "name": "gcp_cloud_healthcare_api",
+   "label": "Cloud Healthcare Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_healthcare_api.svg",
+   "tags": "cloud healthcare api google cloud gcp cloud healthcare api"
+  },
+  {
+   "name": "gcp_cloud_healthcare_marketplace",
+   "label": "Cloud Healthcare Marketplace",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_healthcare_marketplace.svg",
+   "tags": "cloud healthcare marketplace google cloud gcp cloud healthcare marketplace"
+  },
+  {
+   "name": "gcp_cloud_hsm",
+   "label": "Cloud Hsm",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_hsm.svg",
+   "tags": "cloud hsm google cloud gcp cloud hsm"
+  },
+  {
+   "name": "gcp_cloud_ids",
+   "label": "Cloud Ids",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_ids.svg",
+   "tags": "cloud ids google cloud gcp cloud ids"
+  },
+  {
+   "name": "gcp_cloud_inference_api",
+   "label": "Cloud Inference Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_inference_api.svg",
+   "tags": "cloud inference api google cloud gcp cloud inference api"
+  },
+  {
+   "name": "gcp_cloud_interconnect",
+   "label": "Cloud Interconnect",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_interconnect.svg",
+   "tags": "cloud interconnect google cloud gcp cloud interconnect"
+  },
+  {
+   "name": "gcp_cloud_jobs_api",
+   "label": "Cloud Jobs Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_jobs_api.svg",
+   "tags": "cloud jobs api google cloud gcp cloud jobs api"
+  },
+  {
+   "name": "gcp_cloud_load_balancing",
+   "label": "Cloud Load Balancing",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_load_balancing.svg",
+   "tags": "cloud load balancing google cloud gcp cloud load balancing"
+  },
+  {
+   "name": "gcp_cloud_logging",
+   "label": "Cloud Logging",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_logging.svg",
+   "tags": "cloud logging google cloud gcp cloud logging"
+  },
+  {
+   "name": "gcp_cloud_media_edge",
+   "label": "Cloud Media Edge",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_media_edge.svg",
+   "tags": "cloud media edge google cloud gcp cloud media edge"
+  },
+  {
+   "name": "gcp_cloud_monitoring",
+   "label": "Cloud Monitoring",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_monitoring.svg",
+   "tags": "cloud monitoring google cloud gcp cloud monitoring"
+  },
+  {
+   "name": "gcp_cloud_nat",
+   "label": "Cloud Nat",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_nat.svg",
+   "tags": "cloud nat google cloud gcp cloud nat"
+  },
+  {
+   "name": "gcp_cloud_natural_language_api",
+   "label": "Cloud Natural Language Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_natural_language_api.svg",
+   "tags": "cloud natural language api google cloud gcp cloud natural language api"
+  },
+  {
+   "name": "gcp_cloud_network",
+   "label": "Cloud Network",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_network.svg",
+   "tags": "cloud network google cloud gcp cloud network"
+  },
+  {
+   "name": "gcp_cloud_ops",
+   "label": "Cloud Ops",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_ops.svg",
+   "tags": "cloud ops google cloud gcp cloud ops"
+  },
+  {
+   "name": "gcp_cloud_optimization_ai",
+   "label": "Cloud Optimization Ai",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_optimization_ai.svg",
+   "tags": "cloud optimization ai google cloud gcp cloud optimization ai"
+  },
+  {
+   "name": "gcp_cloud_optimization_ai_fleet_routing_api",
+   "label": "Cloud Optimization Ai Fleet Routing Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_optimization_ai_fleet_routing_api.svg",
+   "tags": "cloud optimization ai fleet routing api google cloud gcp cloud optimization ai fleet routing api"
+  },
+  {
+   "name": "gcp_cloud_router",
+   "label": "Cloud Router",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_router.svg",
+   "tags": "cloud router google cloud gcp cloud router"
+  },
+  {
+   "name": "gcp_cloud_routes",
+   "label": "Cloud Routes",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_routes.svg",
+   "tags": "cloud routes google cloud gcp cloud routes"
+  },
+  {
+   "name": "gcp_cloud_run",
+   "label": "Cloud Run",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_run.svg",
+   "tags": "cloud run google cloud gcp cloud run"
+  },
+  {
+   "name": "gcp_cloud_run_for_anthos",
+   "label": "Cloud Run For Anthos",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_run_for_anthos.svg",
+   "tags": "cloud run for anthos google cloud gcp cloud run for anthos"
+  },
+  {
+   "name": "gcp_cloud_scheduler",
+   "label": "Cloud Scheduler",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_scheduler.svg",
+   "tags": "cloud scheduler google cloud gcp cloud scheduler"
+  },
+  {
+   "name": "gcp_cloud_security_scanner",
+   "label": "Cloud Security Scanner",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_security_scanner.svg",
+   "tags": "cloud security scanner google cloud gcp cloud security scanner"
+  },
+  {
+   "name": "gcp_cloud_shell",
+   "label": "Cloud Shell",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_shell.svg",
+   "tags": "cloud shell google cloud gcp cloud shell"
+  },
+  {
+   "name": "gcp_cloud_spanner",
+   "label": "Cloud Spanner",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_spanner.svg",
+   "tags": "cloud spanner google cloud gcp cloud spanner"
+  },
+  {
+   "name": "gcp_cloud_sql",
+   "label": "Cloud Sql",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_sql.svg",
+   "tags": "cloud sql google cloud gcp cloud sql"
+  },
+  {
+   "name": "gcp_cloud_storage",
+   "label": "Cloud Storage",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_storage.svg",
+   "tags": "cloud storage google cloud gcp cloud storage"
+  },
+  {
+   "name": "gcp_cloud_tasks",
+   "label": "Cloud Tasks",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_tasks.svg",
+   "tags": "cloud tasks google cloud gcp cloud tasks"
+  },
+  {
+   "name": "gcp_cloud_test_lab",
+   "label": "Cloud Test Lab",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_test_lab.svg",
+   "tags": "cloud test lab google cloud gcp cloud test lab"
+  },
+  {
+   "name": "gcp_cloud_tpu",
+   "label": "Cloud Tpu",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_tpu.svg",
+   "tags": "cloud tpu google cloud gcp cloud tpu"
+  },
+  {
+   "name": "gcp_cloud_translation_api",
+   "label": "Cloud Translation Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_translation_api.svg",
+   "tags": "cloud translation api google cloud gcp cloud translation api"
+  },
+  {
+   "name": "gcp_cloud_vision_api",
+   "label": "Cloud Vision Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_vision_api.svg",
+   "tags": "cloud vision api google cloud gcp cloud vision api"
+  },
+  {
+   "name": "gcp_cloud_vpn",
+   "label": "Cloud Vpn",
+   "category": "Google Cloud",
+   "file": "assets/gcp_cloud_vpn.svg",
+   "tags": "cloud vpn google cloud gcp cloud vpn"
+  },
+  {
+   "name": "gcp_compute_engine",
+   "label": "Compute Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_compute_engine.svg",
+   "tags": "compute engine google cloud gcp compute engine"
+  },
+  {
+   "name": "gcp_configuration_management",
+   "label": "Configuration Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_configuration_management.svg",
+   "tags": "configuration management google cloud gcp configuration management"
+  },
+  {
+   "name": "gcp_connectivity_test",
+   "label": "Connectivity Test",
+   "category": "Google Cloud",
+   "file": "assets/gcp_connectivity_test.svg",
+   "tags": "connectivity test google cloud gcp connectivity test"
+  },
+  {
+   "name": "gcp_connectors",
+   "label": "Connectors",
+   "category": "Google Cloud",
+   "file": "assets/gcp_connectors.svg",
+   "tags": "connectors google cloud gcp connectors"
+  },
+  {
+   "name": "gcp_contact_center_ai",
+   "label": "Contact Center Ai",
+   "category": "Google Cloud",
+   "file": "assets/gcp_contact_center_ai.svg",
+   "tags": "contact center ai google cloud gcp contact center ai"
+  },
+  {
+   "name": "gcp_container_optimized_os",
+   "label": "Container Optimized Os",
+   "category": "Google Cloud",
+   "file": "assets/gcp_container_optimized_os.svg",
+   "tags": "container optimized os google cloud gcp container optimized os"
+  },
+  {
+   "name": "gcp_container_registry",
+   "label": "Container Registry",
+   "category": "Google Cloud",
+   "file": "assets/gcp_container_registry.svg",
+   "tags": "container registry google cloud gcp container registry"
+  },
+  {
+   "name": "gcp_data_catalog",
+   "label": "Data Catalog",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_catalog.svg",
+   "tags": "data catalog google cloud gcp data catalog"
+  },
+  {
+   "name": "gcp_data_labeling",
+   "label": "Data Labeling",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_labeling.svg",
+   "tags": "data labeling google cloud gcp data labeling"
+  },
+  {
+   "name": "gcp_data_layers",
+   "label": "Data Layers",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_layers.svg",
+   "tags": "data layers google cloud gcp data layers"
+  },
+  {
+   "name": "gcp_data_loss_prevention_api",
+   "label": "Data Loss Prevention Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_loss_prevention_api.svg",
+   "tags": "data loss prevention api google cloud gcp data loss prevention api"
+  },
+  {
+   "name": "gcp_data_qna",
+   "label": "Data Qna",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_qna.svg",
+   "tags": "data qna google cloud gcp data qna"
+  },
+  {
+   "name": "gcp_data_studio",
+   "label": "Data Studio",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_studio.svg",
+   "tags": "data studio google cloud gcp data studio"
+  },
+  {
+   "name": "gcp_data_transfer",
+   "label": "Data Transfer",
+   "category": "Google Cloud",
+   "file": "assets/gcp_data_transfer.svg",
+   "tags": "data transfer google cloud gcp data transfer"
+  },
+  {
+   "name": "gcp_database_migration_service",
+   "label": "Database Migration Service",
+   "category": "Google Cloud",
+   "file": "assets/gcp_database_migration_service.svg",
+   "tags": "database migration service google cloud gcp database migration service"
+  },
+  {
+   "name": "gcp_dataflow",
+   "label": "Dataflow",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dataflow.svg",
+   "tags": "dataflow google cloud gcp dataflow"
+  },
+  {
+   "name": "gcp_datalab",
+   "label": "Datalab",
+   "category": "Google Cloud",
+   "file": "assets/gcp_datalab.svg",
+   "tags": "datalab google cloud gcp datalab"
+  },
+  {
+   "name": "gcp_dataplex",
+   "label": "Dataplex",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dataplex.svg",
+   "tags": "dataplex google cloud gcp dataplex"
+  },
+  {
+   "name": "gcp_datapol",
+   "label": "Datapol",
+   "category": "Google Cloud",
+   "file": "assets/gcp_datapol.svg",
+   "tags": "datapol google cloud gcp datapol"
+  },
+  {
+   "name": "gcp_dataprep",
+   "label": "Dataprep",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dataprep.svg",
+   "tags": "dataprep google cloud gcp dataprep"
+  },
+  {
+   "name": "gcp_dataproc",
+   "label": "Dataproc",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dataproc.svg",
+   "tags": "dataproc google cloud gcp dataproc"
+  },
+  {
+   "name": "gcp_dataproc_metastore",
+   "label": "Dataproc Metastore",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dataproc_metastore.svg",
+   "tags": "dataproc metastore google cloud gcp dataproc metastore"
+  },
+  {
+   "name": "gcp_datashare",
+   "label": "Datashare",
+   "category": "Google Cloud",
+   "file": "assets/gcp_datashare.svg",
+   "tags": "datashare google cloud gcp datashare"
+  },
+  {
+   "name": "gcp_datastore",
+   "label": "Datastore",
+   "category": "Google Cloud",
+   "file": "assets/gcp_datastore.svg",
+   "tags": "datastore google cloud gcp datastore"
+  },
+  {
+   "name": "gcp_datastream",
+   "label": "Datastream",
+   "category": "Google Cloud",
+   "file": "assets/gcp_datastream.svg",
+   "tags": "datastream google cloud gcp datastream"
+  },
+  {
+   "name": "gcp_debugger",
+   "label": "Debugger",
+   "category": "Google Cloud",
+   "file": "assets/gcp_debugger.svg",
+   "tags": "debugger google cloud gcp debugger"
+  },
+  {
+   "name": "gcp_developer_portal",
+   "label": "Developer Portal",
+   "category": "Google Cloud",
+   "file": "assets/gcp_developer_portal.svg",
+   "tags": "developer portal google cloud gcp developer portal"
+  },
+  {
+   "name": "gcp_dialogflow",
+   "label": "Dialogflow",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dialogflow.svg",
+   "tags": "dialogflow google cloud gcp dialogflow"
+  },
+  {
+   "name": "gcp_dialogflow_cx",
+   "label": "Dialogflow Cx",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dialogflow_cx.svg",
+   "tags": "dialogflow cx google cloud gcp dialogflow cx"
+  },
+  {
+   "name": "gcp_dialogflow_insights",
+   "label": "Dialogflow Insights",
+   "category": "Google Cloud",
+   "file": "assets/gcp_dialogflow_insights.svg",
+   "tags": "dialogflow insights google cloud gcp dialogflow insights"
+  },
+  {
+   "name": "gcp_document_ai",
+   "label": "Document Ai",
+   "category": "Google Cloud",
+   "file": "assets/gcp_document_ai.svg",
+   "tags": "document ai google cloud gcp document ai"
+  },
+  {
+   "name": "gcp_early_access_center",
+   "label": "Early Access Center",
+   "category": "Google Cloud",
+   "file": "assets/gcp_early_access_center.svg",
+   "tags": "early access center google cloud gcp early access center"
+  },
+  {
+   "name": "gcp_error_reporting",
+   "label": "Error Reporting",
+   "category": "Google Cloud",
+   "file": "assets/gcp_error_reporting.svg",
+   "tags": "error reporting google cloud gcp error reporting"
+  },
+  {
+   "name": "gcp_eventarc",
+   "label": "Eventarc",
+   "category": "Google Cloud",
+   "file": "assets/gcp_eventarc.svg",
+   "tags": "eventarc google cloud gcp eventarc"
+  },
+  {
+   "name": "gcp_filestore",
+   "label": "Filestore",
+   "category": "Google Cloud",
+   "file": "assets/gcp_filestore.svg",
+   "tags": "filestore google cloud gcp filestore"
+  },
+  {
+   "name": "gcp_financial_services_marketplace",
+   "label": "Financial Services Marketplace",
+   "category": "Google Cloud",
+   "file": "assets/gcp_financial_services_marketplace.svg",
+   "tags": "financial services marketplace google cloud gcp financial services marketplace"
+  },
+  {
+   "name": "gcp_firestore",
+   "label": "Firestore",
+   "category": "Google Cloud",
+   "file": "assets/gcp_firestore.svg",
+   "tags": "firestore google cloud gcp firestore"
+  },
+  {
+   "name": "gcp_fleet_engine",
+   "label": "Fleet Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_fleet_engine.svg",
+   "tags": "fleet engine google cloud gcp fleet engine"
+  },
+  {
+   "name": "gcp_free_trial",
+   "label": "Free Trial",
+   "category": "Google Cloud",
+   "file": "assets/gcp_free_trial.svg",
+   "tags": "free trial google cloud gcp free trial"
+  },
+  {
+   "name": "gcp_game_servers",
+   "label": "Game Servers",
+   "category": "Google Cloud",
+   "file": "assets/gcp_game_servers.svg",
+   "tags": "game servers google cloud gcp game servers"
+  },
+  {
+   "name": "gcp_gce_systems_management",
+   "label": "Gce Systems Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_gce_systems_management.svg",
+   "tags": "gce systems management google cloud gcp gce systems management"
+  },
+  {
+   "name": "gcp_genomics",
+   "label": "Genomics",
+   "category": "Google Cloud",
+   "file": "assets/gcp_genomics.svg",
+   "tags": "genomics google cloud gcp genomics"
+  },
+  {
+   "name": "gcp_gke_on_prem",
+   "label": "Gke On Prem",
+   "category": "Google Cloud",
+   "file": "assets/gcp_gke_on_prem.svg",
+   "tags": "gke on prem google cloud gcp gke on prem"
+  },
+  {
+   "name": "gcp_google_cloud_marketplace",
+   "label": "Google Cloud Marketplace",
+   "category": "Google Cloud",
+   "file": "assets/gcp_google_cloud_marketplace.svg",
+   "tags": "google cloud marketplace google cloud gcp google cloud marketplace"
+  },
+  {
+   "name": "gcp_google_kubernetes_engine",
+   "label": "Google Kubernetes Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_google_kubernetes_engine.svg",
+   "tags": "google kubernetes engine google cloud gcp google kubernetes engine"
+  },
+  {
+   "name": "gcp_google_maps_platform",
+   "label": "Google Maps Platform",
+   "category": "Google Cloud",
+   "file": "assets/gcp_google_maps_platform.svg",
+   "tags": "google maps platform google cloud gcp google maps platform"
+  },
+  {
+   "name": "gcp_healthcare_nlp_api",
+   "label": "Healthcare Nlp Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_healthcare_nlp_api.svg",
+   "tags": "healthcare nlp api google cloud gcp healthcare nlp api"
+  },
+  {
+   "name": "gcp_home",
+   "label": "Home",
+   "category": "Google Cloud",
+   "file": "assets/gcp_home.svg",
+   "tags": "home google cloud gcp home"
+  },
+  {
+   "name": "gcp_identity_aware_proxy",
+   "label": "Identity Aware Proxy",
+   "category": "Google Cloud",
+   "file": "assets/gcp_identity_aware_proxy.svg",
+   "tags": "identity aware proxy google cloud gcp identity aware proxy"
+  },
+  {
+   "name": "gcp_identity_and_access_management",
+   "label": "Identity And Access Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_identity_and_access_management.svg",
+   "tags": "identity and access management google cloud gcp identity and access management"
+  },
+  {
+   "name": "gcp_identity_platform",
+   "label": "Identity Platform",
+   "category": "Google Cloud",
+   "file": "assets/gcp_identity_platform.svg",
+   "tags": "identity platform google cloud gcp identity platform"
+  },
+  {
+   "name": "gcp_iot_core",
+   "label": "Iot Core",
+   "category": "Google Cloud",
+   "file": "assets/gcp_iot_core.svg",
+   "tags": "iot core google cloud gcp iot core"
+  },
+  {
+   "name": "gcp_iot_edge",
+   "label": "Iot Edge",
+   "category": "Google Cloud",
+   "file": "assets/gcp_iot_edge.svg",
+   "tags": "iot edge google cloud gcp iot edge"
+  },
+  {
+   "name": "gcp_key_access_justifications",
+   "label": "Key Access Justifications",
+   "category": "Google Cloud",
+   "file": "assets/gcp_key_access_justifications.svg",
+   "tags": "key access justifications google cloud gcp key access justifications"
+  },
+  {
+   "name": "gcp_key_management_service",
+   "label": "Key Management Service",
+   "category": "Google Cloud",
+   "file": "assets/gcp_key_management_service.svg",
+   "tags": "key management service google cloud gcp key management service"
+  },
+  {
+   "name": "gcp_kuberun",
+   "label": "Kuberun",
+   "category": "Google Cloud",
+   "file": "assets/gcp_kuberun.svg",
+   "tags": "kuberun google cloud gcp kuberun"
+  },
+  {
+   "name": "gcp_launcher",
+   "label": "Launcher",
+   "category": "Google Cloud",
+   "file": "assets/gcp_launcher.svg",
+   "tags": "launcher google cloud gcp launcher"
+  },
+  {
+   "name": "gcp_local_ssd",
+   "label": "Local Ssd",
+   "category": "Google Cloud",
+   "file": "assets/gcp_local_ssd.svg",
+   "tags": "local ssd google cloud gcp local ssd"
+  },
+  {
+   "name": "gcp_looker",
+   "label": "Looker",
+   "category": "Google Cloud",
+   "file": "assets/gcp_looker.svg",
+   "tags": "looker google cloud gcp looker"
+  },
+  {
+   "name": "gcp_managed_service_for_microsoft_active_directory",
+   "label": "Managed Service For Microsoft Active Directory",
+   "category": "Google Cloud",
+   "file": "assets/gcp_managed_service_for_microsoft_active_directory.svg",
+   "tags": "managed service for microsoft active directory google cloud gcp managed service for microsoft active directory"
+  },
+  {
+   "name": "gcp_media_translation_api",
+   "label": "Media Translation Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_media_translation_api.svg",
+   "tags": "media translation api google cloud gcp media translation api"
+  },
+  {
+   "name": "gcp_memorystore",
+   "label": "Memorystore",
+   "category": "Google Cloud",
+   "file": "assets/gcp_memorystore.svg",
+   "tags": "memorystore google cloud gcp memorystore"
+  },
+  {
+   "name": "gcp_migrate_for_anthos",
+   "label": "Migrate For Anthos",
+   "category": "Google Cloud",
+   "file": "assets/gcp_migrate_for_anthos.svg",
+   "tags": "migrate for anthos google cloud gcp migrate for anthos"
+  },
+  {
+   "name": "gcp_migrate_for_compute_engine",
+   "label": "Migrate For Compute Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_migrate_for_compute_engine.svg",
+   "tags": "migrate for compute engine google cloud gcp migrate for compute engine"
+  },
+  {
+   "name": "gcp_my_cloud",
+   "label": "My Cloud",
+   "category": "Google Cloud",
+   "file": "assets/gcp_my_cloud.svg",
+   "tags": "my cloud google cloud gcp my cloud"
+  },
+  {
+   "name": "gcp_network_connectivity_center",
+   "label": "Network Connectivity Center",
+   "category": "Google Cloud",
+   "file": "assets/gcp_network_connectivity_center.svg",
+   "tags": "network connectivity center google cloud gcp network connectivity center"
+  },
+  {
+   "name": "gcp_network_intelligence_center",
+   "label": "Network Intelligence Center",
+   "category": "Google Cloud",
+   "file": "assets/gcp_network_intelligence_center.svg",
+   "tags": "network intelligence center google cloud gcp network intelligence center"
+  },
+  {
+   "name": "gcp_network_security",
+   "label": "Network Security",
+   "category": "Google Cloud",
+   "file": "assets/gcp_network_security.svg",
+   "tags": "network security google cloud gcp network security"
+  },
+  {
+   "name": "gcp_network_tiers",
+   "label": "Network Tiers",
+   "category": "Google Cloud",
+   "file": "assets/gcp_network_tiers.svg",
+   "tags": "network tiers google cloud gcp network tiers"
+  },
+  {
+   "name": "gcp_network_topology",
+   "label": "Network Topology",
+   "category": "Google Cloud",
+   "file": "assets/gcp_network_topology.svg",
+   "tags": "network topology google cloud gcp network topology"
+  },
+  {
+   "name": "gcp_onboarding",
+   "label": "Onboarding",
+   "category": "Google Cloud",
+   "file": "assets/gcp_onboarding.svg",
+   "tags": "onboarding google cloud gcp onboarding"
+  },
+  {
+   "name": "gcp_os_configuration_management",
+   "label": "Os Configuration Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_os_configuration_management.svg",
+   "tags": "os configuration management google cloud gcp os configuration management"
+  },
+  {
+   "name": "gcp_os_inventory_management",
+   "label": "Os Inventory Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_os_inventory_management.svg",
+   "tags": "os inventory management google cloud gcp os inventory management"
+  },
+  {
+   "name": "gcp_os_patch_management",
+   "label": "Os Patch Management",
+   "category": "Google Cloud",
+   "file": "assets/gcp_os_patch_management.svg",
+   "tags": "os patch management google cloud gcp os patch management"
+  },
+  {
+   "name": "gcp_partner_interconnect",
+   "label": "Partner Interconnect",
+   "category": "Google Cloud",
+   "file": "assets/gcp_partner_interconnect.svg",
+   "tags": "partner interconnect google cloud gcp partner interconnect"
+  },
+  {
+   "name": "gcp_partner_portal",
+   "label": "Partner Portal",
+   "category": "Google Cloud",
+   "file": "assets/gcp_partner_portal.svg",
+   "tags": "partner portal google cloud gcp partner portal"
+  },
+  {
+   "name": "gcp_performance_dashboard",
+   "label": "Performance Dashboard",
+   "category": "Google Cloud",
+   "file": "assets/gcp_performance_dashboard.svg",
+   "tags": "performance dashboard google cloud gcp performance dashboard"
+  },
+  {
+   "name": "gcp_permissions",
+   "label": "Permissions",
+   "category": "Google Cloud",
+   "file": "assets/gcp_permissions.svg",
+   "tags": "permissions google cloud gcp permissions"
+  },
+  {
+   "name": "gcp_persistent_disk",
+   "label": "Persistent Disk",
+   "category": "Google Cloud",
+   "file": "assets/gcp_persistent_disk.svg",
+   "tags": "persistent disk google cloud gcp persistent disk"
+  },
+  {
+   "name": "gcp_phishing_protection",
+   "label": "Phishing Protection",
+   "category": "Google Cloud",
+   "file": "assets/gcp_phishing_protection.svg",
+   "tags": "phishing protection google cloud gcp phishing protection"
+  },
+  {
+   "name": "gcp_policy_analyzer",
+   "label": "Policy Analyzer",
+   "category": "Google Cloud",
+   "file": "assets/gcp_policy_analyzer.svg",
+   "tags": "policy analyzer google cloud gcp policy analyzer"
+  },
+  {
+   "name": "gcp_premium_network_tier",
+   "label": "Premium Network Tier",
+   "category": "Google Cloud",
+   "file": "assets/gcp_premium_network_tier.svg",
+   "tags": "premium network tier google cloud gcp premium network tier"
+  },
+  {
+   "name": "gcp_private_connectivity",
+   "label": "Private Connectivity",
+   "category": "Google Cloud",
+   "file": "assets/gcp_private_connectivity.svg",
+   "tags": "private connectivity google cloud gcp private connectivity"
+  },
+  {
+   "name": "gcp_private_service_connect",
+   "label": "Private Service Connect",
+   "category": "Google Cloud",
+   "file": "assets/gcp_private_service_connect.svg",
+   "tags": "private service connect google cloud gcp private service connect"
+  },
+  {
+   "name": "gcp_producer_portal",
+   "label": "Producer Portal",
+   "category": "Google Cloud",
+   "file": "assets/gcp_producer_portal.svg",
+   "tags": "producer portal google cloud gcp producer portal"
+  },
+  {
+   "name": "gcp_profiler",
+   "label": "Profiler",
+   "category": "Google Cloud",
+   "file": "assets/gcp_profiler.svg",
+   "tags": "profiler google cloud gcp profiler"
+  },
+  {
+   "name": "gcp_project",
+   "label": "Project",
+   "category": "Google Cloud",
+   "file": "assets/gcp_project.svg",
+   "tags": "project google cloud gcp project"
+  },
+  {
+   "name": "gcp_pubsub",
+   "label": "Pubsub",
+   "category": "Google Cloud",
+   "file": "assets/gcp_pubsub.svg",
+   "tags": "pubsub google cloud gcp pubsub"
+  },
+  {
+   "name": "gcp_quantum_engine",
+   "label": "Quantum Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_quantum_engine.svg",
+   "tags": "quantum engine google cloud gcp quantum engine"
+  },
+  {
+   "name": "gcp_quotas",
+   "label": "Quotas",
+   "category": "Google Cloud",
+   "file": "assets/gcp_quotas.svg",
+   "tags": "quotas google cloud gcp quotas"
+  },
+  {
+   "name": "gcp_real_world_insights",
+   "label": "Real World Insights",
+   "category": "Google Cloud",
+   "file": "assets/gcp_real_world_insights.svg",
+   "tags": "real world insights google cloud gcp real world insights"
+  },
+  {
+   "name": "gcp_recommendations_ai",
+   "label": "Recommendations Ai",
+   "category": "Google Cloud",
+   "file": "assets/gcp_recommendations_ai.svg",
+   "tags": "recommendations ai google cloud gcp recommendations ai"
+  },
+  {
+   "name": "gcp_release_notes",
+   "label": "Release Notes",
+   "category": "Google Cloud",
+   "file": "assets/gcp_release_notes.svg",
+   "tags": "release notes google cloud gcp release notes"
+  },
+  {
+   "name": "gcp_retail_api",
+   "label": "Retail Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_retail_api.svg",
+   "tags": "retail api google cloud gcp retail api"
+  },
+  {
+   "name": "gcp_risk_manager",
+   "label": "Risk Manager",
+   "category": "Google Cloud",
+   "file": "assets/gcp_risk_manager.svg",
+   "tags": "risk manager google cloud gcp risk manager"
+  },
+  {
+   "name": "gcp_runtime_config",
+   "label": "Runtime Config",
+   "category": "Google Cloud",
+   "file": "assets/gcp_runtime_config.svg",
+   "tags": "runtime config google cloud gcp runtime config"
+  },
+  {
+   "name": "gcp_secret_manager",
+   "label": "Secret Manager",
+   "category": "Google Cloud",
+   "file": "assets/gcp_secret_manager.svg",
+   "tags": "secret manager google cloud gcp secret manager"
+  },
+  {
+   "name": "gcp_security",
+   "label": "Security",
+   "category": "Google Cloud",
+   "file": "assets/gcp_security.svg",
+   "tags": "security google cloud gcp security"
+  },
+  {
+   "name": "gcp_security_command_center",
+   "label": "Security Command Center",
+   "category": "Google Cloud",
+   "file": "assets/gcp_security_command_center.svg",
+   "tags": "security command center google cloud gcp security command center"
+  },
+  {
+   "name": "gcp_security_health_advisor",
+   "label": "Security Health Advisor",
+   "category": "Google Cloud",
+   "file": "assets/gcp_security_health_advisor.svg",
+   "tags": "security health advisor google cloud gcp security health advisor"
+  },
+  {
+   "name": "gcp_security_key_enforcement",
+   "label": "Security Key Enforcement",
+   "category": "Google Cloud",
+   "file": "assets/gcp_security_key_enforcement.svg",
+   "tags": "security key enforcement google cloud gcp security key enforcement"
+  },
+  {
+   "name": "gcp_service_discovery",
+   "label": "Service Discovery",
+   "category": "Google Cloud",
+   "file": "assets/gcp_service_discovery.svg",
+   "tags": "service discovery google cloud gcp service discovery"
+  },
+  {
+   "name": "gcp_speech_to_text",
+   "label": "Speech To Text",
+   "category": "Google Cloud",
+   "file": "assets/gcp_speech_to_text.svg",
+   "tags": "speech to text google cloud gcp speech to text"
+  },
+  {
+   "name": "gcp_stackdriver",
+   "label": "Stackdriver",
+   "category": "Google Cloud",
+   "file": "assets/gcp_stackdriver.svg",
+   "tags": "stackdriver google cloud gcp stackdriver"
+  },
+  {
+   "name": "gcp_standard_network_tier",
+   "label": "Standard Network Tier",
+   "category": "Google Cloud",
+   "file": "assets/gcp_standard_network_tier.svg",
+   "tags": "standard network tier google cloud gcp standard network tier"
+  },
+  {
+   "name": "gcp_stream_suite",
+   "label": "Stream Suite",
+   "category": "Google Cloud",
+   "file": "assets/gcp_stream_suite.svg",
+   "tags": "stream suite google cloud gcp stream suite"
+  },
+  {
+   "name": "gcp_support",
+   "label": "Support",
+   "category": "Google Cloud",
+   "file": "assets/gcp_support.svg",
+   "tags": "support google cloud gcp support"
+  },
+  {
+   "name": "gcp_tensorflow_enterprise",
+   "label": "Tensorflow Enterprise",
+   "category": "Google Cloud",
+   "file": "assets/gcp_tensorflow_enterprise.svg",
+   "tags": "tensorflow enterprise google cloud gcp tensorflow enterprise"
+  },
+  {
+   "name": "gcp_text_to_speech",
+   "label": "Text To Speech",
+   "category": "Google Cloud",
+   "file": "assets/gcp_text_to_speech.svg",
+   "tags": "text to speech google cloud gcp text to speech"
+  },
+  {
+   "name": "gcp_tools_for_powershell",
+   "label": "Tools For Powershell",
+   "category": "Google Cloud",
+   "file": "assets/gcp_tools_for_powershell.svg",
+   "tags": "tools for powershell google cloud gcp tools for powershell"
+  },
+  {
+   "name": "gcp_trace",
+   "label": "Trace",
+   "category": "Google Cloud",
+   "file": "assets/gcp_trace.svg",
+   "tags": "trace google cloud gcp trace"
+  },
+  {
+   "name": "gcp_traffic_director",
+   "label": "Traffic Director",
+   "category": "Google Cloud",
+   "file": "assets/gcp_traffic_director.svg",
+   "tags": "traffic director google cloud gcp traffic director"
+  },
+  {
+   "name": "gcp_transfer",
+   "label": "Transfer",
+   "category": "Google Cloud",
+   "file": "assets/gcp_transfer.svg",
+   "tags": "transfer google cloud gcp transfer"
+  },
+  {
+   "name": "gcp_transfer_appliance",
+   "label": "Transfer Appliance",
+   "category": "Google Cloud",
+   "file": "assets/gcp_transfer_appliance.svg",
+   "tags": "transfer appliance google cloud gcp transfer appliance"
+  },
+  {
+   "name": "gcp_user_preferences",
+   "label": "User Preferences",
+   "category": "Google Cloud",
+   "file": "assets/gcp_user_preferences.svg",
+   "tags": "user preferences google cloud gcp user preferences"
+  },
+  {
+   "name": "gcp_vertexai",
+   "label": "Vertexai",
+   "category": "Google Cloud",
+   "file": "assets/gcp_vertexai.svg",
+   "tags": "vertexai google cloud gcp vertexai"
+  },
+  {
+   "name": "gcp_video_intelligence_api",
+   "label": "Video Intelligence Api",
+   "category": "Google Cloud",
+   "file": "assets/gcp_video_intelligence_api.svg",
+   "tags": "video intelligence api google cloud gcp video intelligence api"
+  },
+  {
+   "name": "gcp_virtual_private_cloud",
+   "label": "Virtual Private Cloud",
+   "category": "Google Cloud",
+   "file": "assets/gcp_virtual_private_cloud.svg",
+   "tags": "virtual private cloud google cloud gcp virtual private cloud"
+  },
+  {
+   "name": "gcp_visual_inspection",
+   "label": "Visual Inspection",
+   "category": "Google Cloud",
+   "file": "assets/gcp_visual_inspection.svg",
+   "tags": "visual inspection google cloud gcp visual inspection"
+  },
+  {
+   "name": "gcp_vmware_engine",
+   "label": "Vmware Engine",
+   "category": "Google Cloud",
+   "file": "assets/gcp_vmware_engine.svg",
+   "tags": "vmware engine google cloud gcp vmware engine"
+  },
+  {
+   "name": "gcp_web_risk",
+   "label": "Web Risk",
+   "category": "Google Cloud",
+   "file": "assets/gcp_web_risk.svg",
+   "tags": "web risk google cloud gcp web risk"
+  },
+  {
+   "name": "gcp_web_security_scanner",
+   "label": "Web Security Scanner",
+   "category": "Google Cloud",
+   "file": "assets/gcp_web_security_scanner.svg",
+   "tags": "web security scanner google cloud gcp web security scanner"
+  },
+  {
+   "name": "gcp_workflows",
+   "label": "Workflows",
+   "category": "Google Cloud",
+   "file": "assets/gcp_workflows.svg",
+   "tags": "workflows google cloud gcp workflows"
+  },
+  {
+   "name": "gcp_workload_identity_pool",
+   "label": "Workload Identity Pool",
+   "category": "Google Cloud",
+   "file": "assets/gcp_workload_identity_pool.svg",
+   "tags": "workload identity pool google cloud gcp workload identity pool"
+  }
+ ]
+}

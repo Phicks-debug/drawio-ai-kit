@@ -1,0 +1,4389 @@
+{
+ "pack": "azure",
+ "category": "Azure",
+ "note": "Official Azure architecture icons V23 (learn.microsoft.com/azure/architecture/icons). Rebuild: python3 scripts/build_pack.py azure",
+ "icons": [
+  {
+   "name": "azure_batch_ai",
+   "label": "Batch AI",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_batch_ai.svg",
+   "tags": "batch ai ai + machine learning azure batch ai"
+  },
+  {
+   "name": "azure_machine_learning_studio_classic_web_services",
+   "label": "Machine Learning Studio (Classic) Web Services",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_machine_learning_studio_classic_web_services.svg",
+   "tags": "machine learning studio (classic) web services ai + machine learning azure machine learning studio classic web services"
+  },
+  {
+   "name": "azure_genomics",
+   "label": "Genomics",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_genomics.svg",
+   "tags": "genomics ai + machine learning azure genomics"
+  },
+  {
+   "name": "azure_computer_vision",
+   "label": "Computer Vision",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_computer_vision.svg",
+   "tags": "computer vision ai + machine learning azure computer vision"
+  },
+  {
+   "name": "azure_custom_vision",
+   "label": "Custom Vision",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_custom_vision.svg",
+   "tags": "custom vision ai + machine learning azure custom vision"
+  },
+  {
+   "name": "azure_face_apis",
+   "label": "Face APIs",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_face_apis.svg",
+   "tags": "face apis ai + machine learning azure face apis"
+  },
+  {
+   "name": "azure_content_moderators",
+   "label": "Content Moderators",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_content_moderators.svg",
+   "tags": "content moderators ai + machine learning azure content moderators"
+  },
+  {
+   "name": "azure_personalizers",
+   "label": "Personalizers",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_personalizers.svg",
+   "tags": "personalizers ai + machine learning azure personalizers"
+  },
+  {
+   "name": "azure_speech_services",
+   "label": "Speech Services",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_speech_services.svg",
+   "tags": "speech services ai + machine learning azure speech services"
+  },
+  {
+   "name": "azure_qna_makers",
+   "label": "QnA Makers",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_qna_makers.svg",
+   "tags": "qna makers ai + machine learning azure qna makers"
+  },
+  {
+   "name": "azure_translator_text",
+   "label": "Translator Text",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_translator_text.svg",
+   "tags": "translator text ai + machine learning azure translator text"
+  },
+  {
+   "name": "azure_language_understanding",
+   "label": "Language Understanding",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_language_understanding.svg",
+   "tags": "language understanding ai + machine learning azure language understanding"
+  },
+  {
+   "name": "azure_immersive_readers",
+   "label": "Immersive Readers",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_immersive_readers.svg",
+   "tags": "immersive readers ai + machine learning azure immersive readers"
+  },
+  {
+   "name": "azure_anomaly_detector",
+   "label": "Anomaly Detector",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_anomaly_detector.svg",
+   "tags": "anomaly detector ai + machine learning azure anomaly detector"
+  },
+  {
+   "name": "azure_form_recognizers",
+   "label": "Form Recognizers",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_form_recognizers.svg",
+   "tags": "form recognizers ai + machine learning azure form recognizers"
+  },
+  {
+   "name": "azure_azure_experimentation_studio",
+   "label": "Azure Experimentation Studio",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_azure_experimentation_studio.svg",
+   "tags": "azure experimentation studio ai + machine learning azure azure experimentation studio"
+  },
+  {
+   "name": "azure_azure_object_understanding",
+   "label": "Azure Object Understanding",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_azure_object_understanding.svg",
+   "tags": "azure object understanding ai + machine learning azure azure object understanding"
+  },
+  {
+   "name": "azure_metrics_advisor",
+   "label": "Metrics Advisor",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_metrics_advisor.svg",
+   "tags": "metrics advisor ai + machine learning azure metrics advisor"
+  },
+  {
+   "name": "azure_azure_applied_ai_services",
+   "label": "Azure Applied AI Services",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_azure_applied_ai_services.svg",
+   "tags": "azure applied ai services ai + machine learning azure azure applied ai services"
+  },
+  {
+   "name": "azure_language",
+   "label": "Language",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_language.svg",
+   "tags": "language ai + machine learning azure language"
+  },
+  {
+   "name": "azure_cognitive_services_decisions",
+   "label": "Cognitive Services Decisions",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_cognitive_services_decisions.svg",
+   "tags": "cognitive services decisions ai + machine learning azure cognitive services decisions"
+  },
+  {
+   "name": "azure_serverless_search",
+   "label": "Serverless Search",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_serverless_search.svg",
+   "tags": "serverless search ai + machine learning azure serverless search"
+  },
+  {
+   "name": "azure_bonsai",
+   "label": "Bonsai",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_bonsai.svg",
+   "tags": "bonsai ai + machine learning azure bonsai"
+  },
+  {
+   "name": "azure_content_safety",
+   "label": "Content Safety",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_content_safety.svg",
+   "tags": "content safety ai + machine learning azure content safety"
+  },
+  {
+   "name": "azure_azure_openai",
+   "label": "Azure OpenAI",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_azure_openai.svg",
+   "tags": "azure openai ai + machine learning azure azure openai"
+  },
+  {
+   "name": "azure_ai_studio",
+   "label": "AI Studio",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_ai_studio.svg",
+   "tags": "ai studio ai + machine learning azure ai studio"
+  },
+  {
+   "name": "azure_cognitive_search",
+   "label": "Cognitive Search",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_cognitive_search.svg",
+   "tags": "cognitive search ai + machine learning azure cognitive search"
+  },
+  {
+   "name": "azure_cognitive_services",
+   "label": "Cognitive Services",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_cognitive_services.svg",
+   "tags": "cognitive services ai + machine learning azure cognitive services"
+  },
+  {
+   "name": "azure_genomics_accounts",
+   "label": "Genomics Accounts",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_genomics_accounts.svg",
+   "tags": "genomics accounts ai + machine learning azure genomics accounts"
+  },
+  {
+   "name": "azure_bot_services",
+   "label": "Bot Services",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_bot_services.svg",
+   "tags": "bot services ai + machine learning azure bot services"
+  },
+  {
+   "name": "azure_machine_learning",
+   "label": "Machine Learning",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_machine_learning.svg",
+   "tags": "machine learning ai + machine learning azure machine learning"
+  },
+  {
+   "name": "azure_machine_learning_studio_workspaces",
+   "label": "Machine Learning Studio Workspaces",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_machine_learning_studio_workspaces.svg",
+   "tags": "machine learning studio workspaces ai + machine learning azure machine learning studio workspaces"
+  },
+  {
+   "name": "azure_machine_learning_studio_web_service_plans",
+   "label": "Machine Learning Studio Web Service Plans",
+   "category": "AI + Machine Learning",
+   "file": "assets/azure_machine_learning_studio_web_service_plans.svg",
+   "tags": "machine learning studio web service plans ai + machine learning azure machine learning studio web service plans"
+  },
+  {
+   "name": "azure_log_analytics_workspaces",
+   "label": "Log Analytics Workspaces",
+   "category": "Analytics",
+   "file": "assets/azure_log_analytics_workspaces.svg",
+   "tags": "log analytics workspaces analytics azure log analytics workspaces"
+  },
+  {
+   "name": "azure_event_hubs",
+   "label": "Event Hubs",
+   "category": "Analytics",
+   "file": "assets/azure_event_hubs.svg",
+   "tags": "event hubs analytics azure event hubs"
+  },
+  {
+   "name": "azure_stream_analytics_jobs",
+   "label": "Stream Analytics Jobs",
+   "category": "Analytics",
+   "file": "assets/azure_stream_analytics_jobs.svg",
+   "tags": "stream analytics jobs analytics azure stream analytics jobs"
+  },
+  {
+   "name": "azure_endpoint_analytics",
+   "label": "Endpoint Analytics",
+   "category": "Analytics",
+   "file": "assets/azure_endpoint_analytics.svg",
+   "tags": "endpoint analytics analytics azure endpoint analytics"
+  },
+  {
+   "name": "azure_azure_synapse_analytics",
+   "label": "Azure Synapse Analytics",
+   "category": "Analytics",
+   "file": "assets/azure_azure_synapse_analytics.svg",
+   "tags": "azure synapse analytics analytics azure azure synapse analytics"
+  },
+  {
+   "name": "azure_azure_workbooks",
+   "label": "Azure Workbooks",
+   "category": "Analytics",
+   "file": "assets/azure_azure_workbooks.svg",
+   "tags": "azure workbooks analytics azure azure workbooks"
+  },
+  {
+   "name": "azure_private_link_services",
+   "label": "Private Link Services",
+   "category": "Analytics",
+   "file": "assets/azure_private_link_services.svg",
+   "tags": "private link services analytics azure private link services"
+  },
+  {
+   "name": "azure_power_bi_embedded",
+   "label": "Power BI Embedded",
+   "category": "Analytics",
+   "file": "assets/azure_power_bi_embedded.svg",
+   "tags": "power bi embedded analytics azure power bi embedded"
+  },
+  {
+   "name": "azure_power_platform",
+   "label": "Power Platform",
+   "category": "Analytics",
+   "file": "assets/azure_power_platform.svg",
+   "tags": "power platform analytics azure power platform"
+  },
+  {
+   "name": "azure_data_factories",
+   "label": "Data Factories",
+   "category": "Analytics",
+   "file": "assets/azure_data_factories.svg",
+   "tags": "data factories analytics azure data factories"
+  },
+  {
+   "name": "azure_hd_insight_clusters",
+   "label": "HD Insight Clusters",
+   "category": "Analytics",
+   "file": "assets/azure_hd_insight_clusters.svg",
+   "tags": "hd insight clusters analytics azure hd insight clusters"
+  },
+  {
+   "name": "azure_data_lake_analytics",
+   "label": "Data Lake Analytics",
+   "category": "Analytics",
+   "file": "assets/azure_data_lake_analytics.svg",
+   "tags": "data lake analytics analytics azure data lake analytics"
+  },
+  {
+   "name": "azure_azure_data_explorer_clusters",
+   "label": "Azure Data Explorer Clusters",
+   "category": "Analytics",
+   "file": "assets/azure_azure_data_explorer_clusters.svg",
+   "tags": "azure data explorer clusters analytics azure azure data explorer clusters"
+  },
+  {
+   "name": "azure_analysis_services",
+   "label": "Analysis Services",
+   "category": "Analytics",
+   "file": "assets/azure_analysis_services.svg",
+   "tags": "analysis services analytics azure analysis services"
+  },
+  {
+   "name": "azure_event_hub_clusters",
+   "label": "Event Hub Clusters",
+   "category": "Analytics",
+   "file": "assets/azure_event_hub_clusters.svg",
+   "tags": "event hub clusters analytics azure event hub clusters"
+  },
+  {
+   "name": "azure_data_lake_store_gen1",
+   "label": "Data Lake Store Gen1",
+   "category": "Analytics",
+   "file": "assets/azure_data_lake_store_gen1.svg",
+   "tags": "data lake store gen1 analytics azure data lake store gen1"
+  },
+  {
+   "name": "azure_azure_databricks",
+   "label": "Azure Databricks",
+   "category": "Analytics",
+   "file": "assets/azure_azure_databricks.svg",
+   "tags": "azure databricks analytics azure azure databricks"
+  },
+  {
+   "name": "azure_app_service_plans",
+   "label": "App Service Plans",
+   "category": "App Services",
+   "file": "assets/azure_app_service_plans.svg",
+   "tags": "app service plans app services azure app service plans"
+  },
+  {
+   "name": "azure_app_service_certificates",
+   "label": "App Service Certificates",
+   "category": "App Services",
+   "file": "assets/azure_app_service_certificates.svg",
+   "tags": "app service certificates app services azure app service certificates"
+  },
+  {
+   "name": "azure_app_service_domains",
+   "label": "App Service Domains",
+   "category": "App Services",
+   "file": "assets/azure_app_service_domains.svg",
+   "tags": "app service domains app services azure app service domains"
+  },
+  {
+   "name": "azure_cdn_profiles",
+   "label": "CDN Profiles",
+   "category": "App Services",
+   "file": "assets/azure_cdn_profiles.svg",
+   "tags": "cdn profiles app services azure cdn profiles"
+  },
+  {
+   "name": "azure_app_services",
+   "label": "App Services",
+   "category": "App Services",
+   "file": "assets/azure_app_services.svg",
+   "tags": "app services app services azure app services"
+  },
+  {
+   "name": "azure_notification_hubs",
+   "label": "Notification Hubs",
+   "category": "App Services",
+   "file": "assets/azure_notification_hubs.svg",
+   "tags": "notification hubs app services azure notification hubs"
+  },
+  {
+   "name": "azure_app_service_environments",
+   "label": "App Service Environments",
+   "category": "App Services",
+   "file": "assets/azure_app_service_environments.svg",
+   "tags": "app service environments app services azure app service environments"
+  },
+  {
+   "name": "azure_collaborative_service",
+   "label": "Collaborative Service",
+   "category": "Azure Ecosystem",
+   "file": "assets/azure_collaborative_service.svg",
+   "tags": "collaborative service azure ecosystem azure collaborative service"
+  },
+  {
+   "name": "azure_applens",
+   "label": "Applens",
+   "category": "Azure Ecosystem",
+   "file": "assets/azure_applens.svg",
+   "tags": "applens azure ecosystem azure applens"
+  },
+  {
+   "name": "azure_azure_hybrid_center",
+   "label": "Azure Hybrid Center",
+   "category": "Azure Ecosystem",
+   "file": "assets/azure_azure_hybrid_center.svg",
+   "tags": "azure hybrid center azure ecosystem azure azure hybrid center"
+  },
+  {
+   "name": "azure_multi_tenancy",
+   "label": "Multi Tenancy",
+   "category": "Azure Stack",
+   "file": "assets/azure_multi_tenancy.svg",
+   "tags": "multi tenancy azure stack azure multi tenancy"
+  },
+  {
+   "name": "azure_infrastructure_backup",
+   "label": "Infrastructure Backup",
+   "category": "Azure Stack",
+   "file": "assets/azure_infrastructure_backup.svg",
+   "tags": "infrastructure backup azure stack azure infrastructure backup"
+  },
+  {
+   "name": "azure_capacity",
+   "label": "Capacity",
+   "category": "Azure Stack",
+   "file": "assets/azure_capacity.svg",
+   "tags": "capacity azure stack azure capacity"
+  },
+  {
+   "name": "azure_offers",
+   "label": "Offers",
+   "category": "Azure Stack",
+   "file": "assets/azure_offers.svg",
+   "tags": "offers azure stack azure offers"
+  },
+  {
+   "name": "azure_user_subscriptions",
+   "label": "User Subscriptions",
+   "category": "Azure Stack",
+   "file": "assets/azure_user_subscriptions.svg",
+   "tags": "user subscriptions azure stack azure user subscriptions"
+  },
+  {
+   "name": "azure_plans",
+   "label": "Plans",
+   "category": "Azure Stack",
+   "file": "assets/azure_plans.svg",
+   "tags": "plans azure stack azure plans"
+  },
+  {
+   "name": "azure_updates",
+   "label": "Updates",
+   "category": "Azure Stack",
+   "file": "assets/azure_updates.svg",
+   "tags": "updates azure stack azure updates"
+  },
+  {
+   "name": "azure_blockchain_applications",
+   "label": "Blockchain Applications",
+   "category": "Blockchain",
+   "file": "assets/azure_blockchain_applications.svg",
+   "tags": "blockchain applications blockchain azure blockchain applications"
+  },
+  {
+   "name": "azure_outbound_connection",
+   "label": "Outbound Connection",
+   "category": "Blockchain",
+   "file": "assets/azure_outbound_connection.svg",
+   "tags": "outbound connection blockchain azure outbound connection"
+  },
+  {
+   "name": "azure_azure_blockchain_service",
+   "label": "Azure Blockchain Service",
+   "category": "Blockchain",
+   "file": "assets/azure_azure_blockchain_service.svg",
+   "tags": "azure blockchain service blockchain azure azure blockchain service"
+  },
+  {
+   "name": "azure_azure_token_service",
+   "label": "Azure Token Service",
+   "category": "Blockchain",
+   "file": "assets/azure_azure_token_service.svg",
+   "tags": "azure token service blockchain azure azure token service"
+  },
+  {
+   "name": "azure_abs_member",
+   "label": "ABS Member",
+   "category": "Blockchain",
+   "file": "assets/azure_abs_member.svg",
+   "tags": "abs member blockchain azure abs member"
+  },
+  {
+   "name": "azure_consortium",
+   "label": "Consortium",
+   "category": "Blockchain",
+   "file": "assets/azure_consortium.svg",
+   "tags": "consortium blockchain azure consortium"
+  },
+  {
+   "name": "azure_maintenance_configuration",
+   "label": "Maintenance Configuration",
+   "category": "Compute",
+   "file": "assets/azure_maintenance_configuration.svg",
+   "tags": "maintenance configuration compute azure maintenance configuration"
+  },
+  {
+   "name": "azure_host_pools",
+   "label": "Host Pools",
+   "category": "Compute",
+   "file": "assets/azure_host_pools.svg",
+   "tags": "host pools compute azure host pools"
+  },
+  {
+   "name": "azure_application_group",
+   "label": "Application Group",
+   "category": "Compute",
+   "file": "assets/azure_application_group.svg",
+   "tags": "application group compute azure application group"
+  },
+  {
+   "name": "azure_workspaces",
+   "label": "Workspaces",
+   "category": "Compute",
+   "file": "assets/azure_workspaces.svg",
+   "tags": "workspaces compute azure workspaces"
+  },
+  {
+   "name": "azure_disk_encryption_sets",
+   "label": "Disk Encryption Sets",
+   "category": "Compute",
+   "file": "assets/azure_disk_encryption_sets.svg",
+   "tags": "disk encryption sets compute azure disk encryption sets"
+  },
+  {
+   "name": "azure_automanaged_vm",
+   "label": "Automanaged VM",
+   "category": "Compute",
+   "file": "assets/azure_automanaged_vm.svg",
+   "tags": "automanaged vm compute azure automanaged vm"
+  },
+  {
+   "name": "azure_managed_service_fabric",
+   "label": "Managed Service Fabric",
+   "category": "Compute",
+   "file": "assets/azure_managed_service_fabric.svg",
+   "tags": "managed service fabric compute azure managed service fabric"
+  },
+  {
+   "name": "azure_image_templates",
+   "label": "Image Templates",
+   "category": "Compute",
+   "file": "assets/azure_image_templates.svg",
+   "tags": "image templates compute azure image templates"
+  },
+  {
+   "name": "azure_restore_points",
+   "label": "Restore Points",
+   "category": "Compute",
+   "file": "assets/azure_restore_points.svg",
+   "tags": "restore points compute azure restore points"
+  },
+  {
+   "name": "azure_restore_points_collections",
+   "label": "Restore Points Collections",
+   "category": "Compute",
+   "file": "assets/azure_restore_points_collections.svg",
+   "tags": "restore points collections compute azure restore points collections"
+  },
+  {
+   "name": "azure_azure_compute_galleries",
+   "label": "Azure Compute Galleries",
+   "category": "Compute",
+   "file": "assets/azure_azure_compute_galleries.svg",
+   "tags": "azure compute galleries compute azure azure compute galleries"
+  },
+  {
+   "name": "azure_compute_fleet",
+   "label": "Compute Fleet",
+   "category": "Compute",
+   "file": "assets/azure_compute_fleet.svg",
+   "tags": "compute fleet compute azure compute fleet"
+  },
+  {
+   "name": "azure_aks_automatic",
+   "label": "AKS Automatic",
+   "category": "Compute",
+   "file": "assets/azure_aks_automatic.svg",
+   "tags": "aks automatic compute azure aks automatic"
+  },
+  {
+   "name": "azure_virtual_machine",
+   "label": "Virtual Machine",
+   "category": "Compute",
+   "file": "assets/azure_virtual_machine.svg",
+   "tags": "virtual machine compute azure virtual machine"
+  },
+  {
+   "name": "azure_kubernetes_services",
+   "label": "Kubernetes Services",
+   "category": "Compute",
+   "file": "assets/azure_kubernetes_services.svg",
+   "tags": "kubernetes services compute azure kubernetes services"
+  },
+  {
+   "name": "azure_mesh_applications",
+   "label": "Mesh Applications",
+   "category": "Compute",
+   "file": "assets/azure_mesh_applications.svg",
+   "tags": "mesh applications compute azure mesh applications"
+  },
+  {
+   "name": "azure_availability_sets",
+   "label": "Availability Sets",
+   "category": "Compute",
+   "file": "assets/azure_availability_sets.svg",
+   "tags": "availability sets compute azure availability sets"
+  },
+  {
+   "name": "azure_disks_snapshots",
+   "label": "Disks Snapshots",
+   "category": "Compute",
+   "file": "assets/azure_disks_snapshots.svg",
+   "tags": "disks snapshots compute azure disks snapshots"
+  },
+  {
+   "name": "azure_os_images_classic",
+   "label": "OS Images (Classic)",
+   "category": "Compute",
+   "file": "assets/azure_os_images_classic.svg",
+   "tags": "os images (classic) compute azure os images classic"
+  },
+  {
+   "name": "azure_virtual_machines_classic",
+   "label": "Virtual Machines (Classic)",
+   "category": "Compute",
+   "file": "assets/azure_virtual_machines_classic.svg",
+   "tags": "virtual machines (classic) compute azure virtual machines classic"
+  },
+  {
+   "name": "azure_function_apps",
+   "label": "Function Apps",
+   "category": "Compute",
+   "file": "assets/azure_function_apps.svg",
+   "tags": "function apps compute azure function apps"
+  },
+  {
+   "name": "azure_cloud_services_classic",
+   "label": "Cloud Services (Classic)",
+   "category": "Compute",
+   "file": "assets/azure_cloud_services_classic.svg",
+   "tags": "cloud services (classic) compute azure cloud services classic"
+  },
+  {
+   "name": "azure_batch_accounts",
+   "label": "Batch Accounts",
+   "category": "Compute",
+   "file": "assets/azure_batch_accounts.svg",
+   "tags": "batch accounts compute azure batch accounts"
+  },
+  {
+   "name": "azure_disks",
+   "label": "Disks",
+   "category": "Compute",
+   "file": "assets/azure_disks.svg",
+   "tags": "disks compute azure disks"
+  },
+  {
+   "name": "azure_images",
+   "label": "Images",
+   "category": "Compute",
+   "file": "assets/azure_images.svg",
+   "tags": "images compute azure images"
+  },
+  {
+   "name": "azure_vm_scale_sets",
+   "label": "VM Scale Sets",
+   "category": "Compute",
+   "file": "assets/azure_vm_scale_sets.svg",
+   "tags": "vm scale sets compute azure vm scale sets"
+  },
+  {
+   "name": "azure_service_fabric_clusters",
+   "label": "Service Fabric Clusters",
+   "category": "Compute",
+   "file": "assets/azure_service_fabric_clusters.svg",
+   "tags": "service fabric clusters compute azure service fabric clusters"
+  },
+  {
+   "name": "azure_image_definitions",
+   "label": "Image Definitions",
+   "category": "Compute",
+   "file": "assets/azure_image_definitions.svg",
+   "tags": "image definitions compute azure image definitions"
+  },
+  {
+   "name": "azure_image_versions",
+   "label": "Image Versions",
+   "category": "Compute",
+   "file": "assets/azure_image_versions.svg",
+   "tags": "image versions compute azure image versions"
+  },
+  {
+   "name": "azure_shared_image_galleries",
+   "label": "Shared Image Galleries",
+   "category": "Compute",
+   "file": "assets/azure_shared_image_galleries.svg",
+   "tags": "shared image galleries compute azure shared image galleries"
+  },
+  {
+   "name": "azure_vm_images_classic",
+   "label": "VM Images (Classic)",
+   "category": "Compute",
+   "file": "assets/azure_vm_images_classic.svg",
+   "tags": "vm images (classic) compute azure vm images classic"
+  },
+  {
+   "name": "azure_disks_classic",
+   "label": "Disks (Classic)",
+   "category": "Compute",
+   "file": "assets/azure_disks_classic.svg",
+   "tags": "disks (classic) compute azure disks classic"
+  },
+  {
+   "name": "azure_container_services_deprecated",
+   "label": "Container Services (Deprecated)",
+   "category": "Compute",
+   "file": "assets/azure_container_services_deprecated.svg",
+   "tags": "container services (deprecated) compute azure container services deprecated"
+  },
+  {
+   "name": "azure_container_instances",
+   "label": "Container Instances",
+   "category": "Compute",
+   "file": "assets/azure_container_instances.svg",
+   "tags": "container instances compute azure container instances"
+  },
+  {
+   "name": "azure_host_groups",
+   "label": "Host Groups",
+   "category": "Compute",
+   "file": "assets/azure_host_groups.svg",
+   "tags": "host groups compute azure host groups"
+  },
+  {
+   "name": "azure_hosts",
+   "label": "Hosts",
+   "category": "Compute",
+   "file": "assets/azure_hosts.svg",
+   "tags": "hosts compute azure hosts"
+  },
+  {
+   "name": "azure_azure_spring_apps",
+   "label": "Azure Spring Apps",
+   "category": "Compute",
+   "file": "assets/azure_azure_spring_apps.svg",
+   "tags": "azure spring apps compute azure azure spring apps"
+  },
+  {
+   "name": "azure_azure_red_hat_openshift",
+   "label": "Azure Red Hat OpenShift",
+   "category": "Containers",
+   "file": "assets/azure_azure_red_hat_openshift.svg",
+   "tags": "azure red hat openshift containers azure azure red hat openshift"
+  },
+  {
+   "name": "azure_container_registries",
+   "label": "Container Registries",
+   "category": "Containers",
+   "file": "assets/azure_container_registries.svg",
+   "tags": "container registries containers azure container registries"
+  },
+  {
+   "name": "azure_sql_data_warehouses",
+   "label": "SQL Data Warehouses",
+   "category": "Databases",
+   "file": "assets/azure_sql_data_warehouses.svg",
+   "tags": "sql data warehouses databases azure sql data warehouses"
+  },
+  {
+   "name": "azure_azure_sql",
+   "label": "Azure SQL",
+   "category": "Databases",
+   "file": "assets/azure_azure_sql.svg",
+   "tags": "azure sql databases azure azure sql"
+  },
+  {
+   "name": "azure_ssis_lift_and_shift_ir",
+   "label": "SSIS Lift And Shift IR",
+   "category": "Databases",
+   "file": "assets/azure_ssis_lift_and_shift_ir.svg",
+   "tags": "ssis lift and shift ir databases azure ssis lift and shift ir"
+  },
+  {
+   "name": "azure_azure_sql_edge",
+   "label": "Azure SQL Edge",
+   "category": "Databases",
+   "file": "assets/azure_azure_sql_edge.svg",
+   "tags": "azure sql edge databases azure azure sql edge"
+  },
+  {
+   "name": "azure_azure_database_postgresql_server_group",
+   "label": "Azure Database PostgreSQL Server Group",
+   "category": "Databases",
+   "file": "assets/azure_azure_database_postgresql_server_group.svg",
+   "tags": "azure database postgresql server group databases azure azure database postgresql server group"
+  },
+  {
+   "name": "azure_oracle_database",
+   "label": "Oracle Database",
+   "category": "Databases",
+   "file": "assets/azure_oracle_database.svg",
+   "tags": "oracle database databases azure oracle database"
+  },
+  {
+   "name": "azure_azure_cosmos_db",
+   "label": "Azure Cosmos DB",
+   "category": "Databases",
+   "file": "assets/azure_azure_cosmos_db.svg",
+   "tags": "azure cosmos db databases azure azure cosmos db"
+  },
+  {
+   "name": "azure_azure_database_mysql_server",
+   "label": "Azure Database MySQL Server",
+   "category": "Databases",
+   "file": "assets/azure_azure_database_mysql_server.svg",
+   "tags": "azure database mysql server databases azure azure database mysql server"
+  },
+  {
+   "name": "azure_azure_database_mariadb_server",
+   "label": "Azure Database MariaDB Server",
+   "category": "Databases",
+   "file": "assets/azure_azure_database_mariadb_server.svg",
+   "tags": "azure database mariadb server databases azure azure database mariadb server"
+  },
+  {
+   "name": "azure_azure_sql_vm",
+   "label": "Azure SQL VM",
+   "category": "Databases",
+   "file": "assets/azure_azure_sql_vm.svg",
+   "tags": "azure sql vm databases azure azure sql vm"
+  },
+  {
+   "name": "azure_virtual_clusters",
+   "label": "Virtual Clusters",
+   "category": "Databases",
+   "file": "assets/azure_virtual_clusters.svg",
+   "tags": "virtual clusters databases azure virtual clusters"
+  },
+  {
+   "name": "azure_elastic_job_agents",
+   "label": "Elastic Job Agents",
+   "category": "Databases",
+   "file": "assets/azure_elastic_job_agents.svg",
+   "tags": "elastic job agents databases azure elastic job agents"
+  },
+  {
+   "name": "azure_sql_database",
+   "label": "SQL Database",
+   "category": "Databases",
+   "file": "assets/azure_sql_database.svg",
+   "tags": "sql database databases azure sql database"
+  },
+  {
+   "name": "azure_azure_database_postgresql_server",
+   "label": "Azure Database PostgreSQL Server",
+   "category": "Databases",
+   "file": "assets/azure_azure_database_postgresql_server.svg",
+   "tags": "azure database postgresql server databases azure azure database postgresql server"
+  },
+  {
+   "name": "azure_sql_server",
+   "label": "SQL Server",
+   "category": "Databases",
+   "file": "assets/azure_sql_server.svg",
+   "tags": "sql server databases azure sql server"
+  },
+  {
+   "name": "azure_azure_database_migration_services",
+   "label": "Azure Database Migration Services",
+   "category": "Databases",
+   "file": "assets/azure_azure_database_migration_services.svg",
+   "tags": "azure database migration services databases azure azure database migration services"
+  },
+  {
+   "name": "azure_sql_elastic_pools",
+   "label": "SQL Elastic Pools",
+   "category": "Databases",
+   "file": "assets/azure_sql_elastic_pools.svg",
+   "tags": "sql elastic pools databases azure sql elastic pools"
+  },
+  {
+   "name": "azure_managed_database",
+   "label": "Managed Database",
+   "category": "Databases",
+   "file": "assets/azure_managed_database.svg",
+   "tags": "managed database databases azure managed database"
+  },
+  {
+   "name": "azure_sql_managed_instance",
+   "label": "SQL Managed Instance",
+   "category": "Databases",
+   "file": "assets/azure_sql_managed_instance.svg",
+   "tags": "sql managed instance databases azure sql managed instance"
+  },
+  {
+   "name": "azure_azure_sql_server_stretch_databases",
+   "label": "Azure SQL Server Stretch Databases",
+   "category": "Databases",
+   "file": "assets/azure_azure_sql_server_stretch_databases.svg",
+   "tags": "azure sql server stretch databases databases azure azure sql server stretch databases"
+  },
+  {
+   "name": "azure_cache_redis",
+   "label": "Cache Redis",
+   "category": "Databases",
+   "file": "assets/azure_cache_redis.svg",
+   "tags": "cache redis databases azure cache redis"
+  },
+  {
+   "name": "azure_instance_pools",
+   "label": "Instance Pools",
+   "category": "Databases",
+   "file": "assets/azure_instance_pools.svg",
+   "tags": "instance pools databases azure instance pools"
+  },
+  {
+   "name": "azure_sql_server_registries",
+   "label": "SQL Server Registries",
+   "category": "Databases",
+   "file": "assets/azure_sql_server_registries.svg",
+   "tags": "sql server registries databases azure sql server registries"
+  },
+  {
+   "name": "azure_application_insights",
+   "label": "Application Insights",
+   "category": "DevOps",
+   "file": "assets/azure_application_insights.svg",
+   "tags": "application insights devops azure application insights"
+  },
+  {
+   "name": "azure_change_analysis",
+   "label": "Change Analysis",
+   "category": "DevOps",
+   "file": "assets/azure_change_analysis.svg",
+   "tags": "change analysis devops azure change analysis"
+  },
+  {
+   "name": "azure_cloudtest",
+   "label": "CloudTest",
+   "category": "DevOps",
+   "file": "assets/azure_cloudtest.svg",
+   "tags": "cloudtest devops azure cloudtest"
+  },
+  {
+   "name": "azure_load_testing",
+   "label": "Load Testing",
+   "category": "DevOps",
+   "file": "assets/azure_load_testing.svg",
+   "tags": "load testing devops azure load testing"
+  },
+  {
+   "name": "azure_lab_accounts",
+   "label": "Lab Accounts",
+   "category": "DevOps",
+   "file": "assets/azure_lab_accounts.svg",
+   "tags": "lab accounts devops azure lab accounts"
+  },
+  {
+   "name": "azure_devops_starter",
+   "label": "DevOps Starter",
+   "category": "DevOps",
+   "file": "assets/azure_devops_starter.svg",
+   "tags": "devops starter devops azure devops starter"
+  },
+  {
+   "name": "azure_managed_devops_pools",
+   "label": "Managed DevOps Pools",
+   "category": "DevOps",
+   "file": "assets/azure_managed_devops_pools.svg",
+   "tags": "managed devops pools devops azure managed devops pools"
+  },
+  {
+   "name": "azure_code_optimization",
+   "label": "Code Optimization",
+   "category": "DevOps",
+   "file": "assets/azure_code_optimization.svg",
+   "tags": "code optimization devops azure code optimization"
+  },
+  {
+   "name": "azure_workspace_gateway",
+   "label": "Workspace Gateway",
+   "category": "DevOps",
+   "file": "assets/azure_workspace_gateway.svg",
+   "tags": "workspace gateway devops azure workspace gateway"
+  },
+  {
+   "name": "azure_api_management_services",
+   "label": "API Management Services",
+   "category": "DevOps",
+   "file": "assets/azure_api_management_services.svg",
+   "tags": "api management services devops azure api management services"
+  },
+  {
+   "name": "azure_api_connections",
+   "label": "API Connections",
+   "category": "DevOps",
+   "file": "assets/azure_api_connections.svg",
+   "tags": "api connections devops azure api connections"
+  },
+  {
+   "name": "azure_azure_devops",
+   "label": "Azure DevOps",
+   "category": "DevOps",
+   "file": "assets/azure_azure_devops.svg",
+   "tags": "azure devops devops azure azure devops"
+  },
+  {
+   "name": "azure_devtest_labs",
+   "label": "DevTest Labs",
+   "category": "DevOps",
+   "file": "assets/azure_devtest_labs.svg",
+   "tags": "devtest labs devops azure devtest labs"
+  },
+  {
+   "name": "azure_lab_services",
+   "label": "Lab Services",
+   "category": "DevOps",
+   "file": "assets/azure_lab_services.svg",
+   "tags": "lab services devops azure lab services"
+  },
+  {
+   "name": "azure_azure_operator_5g_core",
+   "label": "Azure Operator 5G Core",
+   "category": "Hybrid + Multicloud",
+   "file": "assets/azure_azure_operator_5g_core.svg",
+   "tags": "azure operator 5g core hybrid + multicloud azure azure operator 5g core"
+  },
+  {
+   "name": "azure_azure_operator_nexus",
+   "label": "Azure Operator Nexus",
+   "category": "Hybrid + Multicloud",
+   "file": "assets/azure_azure_operator_nexus.svg",
+   "tags": "azure operator nexus hybrid + multicloud azure azure operator nexus"
+  },
+  {
+   "name": "azure_azure_operator_insights",
+   "label": "Azure Operator Insights",
+   "category": "Hybrid + Multicloud",
+   "file": "assets/azure_azure_operator_insights.svg",
+   "tags": "azure operator insights hybrid + multicloud azure azure operator insights"
+  },
+  {
+   "name": "azure_azure_operator_service_manager",
+   "label": "Azure Operator Service Manager",
+   "category": "Hybrid + Multicloud",
+   "file": "assets/azure_azure_operator_service_manager.svg",
+   "tags": "azure operator service manager hybrid + multicloud azure azure operator service manager"
+  },
+  {
+   "name": "azure_azure_programmable_connectivity",
+   "label": "Azure Programmable Connectivity",
+   "category": "Hybrid + Multicloud",
+   "file": "assets/azure_azure_programmable_connectivity.svg",
+   "tags": "azure programmable connectivity hybrid + multicloud azure azure programmable connectivity"
+  },
+  {
+   "name": "azure_azure_monitor_pipeline",
+   "label": "Azure Monitor Pipeline",
+   "category": "Hybrid + Multicloud",
+   "file": "assets/azure_azure_monitor_pipeline.svg",
+   "tags": "azure monitor pipeline hybrid + multicloud azure azure monitor pipeline"
+  },
+  {
+   "name": "azure_security",
+   "label": "Security",
+   "category": "Identity",
+   "file": "assets/azure_security.svg",
+   "tags": "security identity azure security"
+  },
+  {
+   "name": "azure_administrative_units",
+   "label": "Administrative Units",
+   "category": "Identity",
+   "file": "assets/azure_administrative_units.svg",
+   "tags": "administrative units identity azure administrative units"
+  },
+  {
+   "name": "azure_verifiable_credentials",
+   "label": "Verifiable Credentials",
+   "category": "Identity",
+   "file": "assets/azure_verifiable_credentials.svg",
+   "tags": "verifiable credentials identity azure verifiable credentials"
+  },
+  {
+   "name": "azure_entra_privleged_identity_management",
+   "label": "Entra Privleged Identity Management",
+   "category": "Identity",
+   "file": "assets/azure_entra_privleged_identity_management.svg",
+   "tags": "entra privleged identity management identity azure entra privleged identity management"
+  },
+  {
+   "name": "azure_api_proxy",
+   "label": "API Proxy",
+   "category": "Identity",
+   "file": "assets/azure_api_proxy.svg",
+   "tags": "api proxy identity azure api proxy"
+  },
+  {
+   "name": "azure_tenant_properties",
+   "label": "Tenant Properties",
+   "category": "Identity",
+   "file": "assets/azure_tenant_properties.svg",
+   "tags": "tenant properties identity azure tenant properties"
+  },
+  {
+   "name": "azure_entra_identity_custom_roles",
+   "label": "Entra Identity Custom Roles",
+   "category": "Identity",
+   "file": "assets/azure_entra_identity_custom_roles.svg",
+   "tags": "entra identity custom roles identity azure entra identity custom roles"
+  },
+  {
+   "name": "azure_entra_identity_licenses",
+   "label": "Entra Identity Licenses",
+   "category": "Identity",
+   "file": "assets/azure_entra_identity_licenses.svg",
+   "tags": "entra identity licenses identity azure entra identity licenses"
+  },
+  {
+   "name": "azure_entra_connect",
+   "label": "Entra Connect",
+   "category": "Identity",
+   "file": "assets/azure_entra_connect.svg",
+   "tags": "entra connect identity azure entra connect"
+  },
+  {
+   "name": "azure_entra_verified_id",
+   "label": "Entra Verified ID",
+   "category": "Identity",
+   "file": "assets/azure_entra_verified_id.svg",
+   "tags": "entra verified id identity azure entra verified id"
+  },
+  {
+   "name": "azure_verification_as_a_service",
+   "label": "Verification As A Service",
+   "category": "Identity",
+   "file": "assets/azure_verification_as_a_service.svg",
+   "tags": "verification as a service identity azure verification as a service"
+  },
+  {
+   "name": "azure_multi_factor_authentication",
+   "label": "Multi Factor Authentication",
+   "category": "Identity",
+   "file": "assets/azure_multi_factor_authentication.svg",
+   "tags": "multi factor authentication identity azure multi factor authentication"
+  },
+  {
+   "name": "azure_entra_global_secure_access",
+   "label": "Entra Global Secure Access",
+   "category": "Identity",
+   "file": "assets/azure_entra_global_secure_access.svg",
+   "tags": "entra global secure access identity azure entra global secure access"
+  },
+  {
+   "name": "azure_external_identities",
+   "label": "External Identities",
+   "category": "Identity",
+   "file": "assets/azure_external_identities.svg",
+   "tags": "external identities identity azure external identities"
+  },
+  {
+   "name": "azure_entra_private_access",
+   "label": "Entra Private Access",
+   "category": "Identity",
+   "file": "assets/azure_entra_private_access.svg",
+   "tags": "entra private access identity azure entra private access"
+  },
+  {
+   "name": "azure_entra_internet_access",
+   "label": "Entra Internet Access",
+   "category": "Identity",
+   "file": "assets/azure_entra_internet_access.svg",
+   "tags": "entra internet access identity azure entra internet access"
+  },
+  {
+   "name": "azure_entra_connect_sync",
+   "label": "Entra Connect Sync",
+   "category": "Identity",
+   "file": "assets/azure_entra_connect_sync.svg",
+   "tags": "entra connect sync identity azure entra connect sync"
+  },
+  {
+   "name": "azure_entra_domain_services",
+   "label": "Entra Domain Services",
+   "category": "Identity",
+   "file": "assets/azure_entra_domain_services.svg",
+   "tags": "entra domain services identity azure entra domain services"
+  },
+  {
+   "name": "azure_groups",
+   "label": "Groups",
+   "category": "Identity",
+   "file": "assets/azure_groups.svg",
+   "tags": "groups identity azure groups"
+  },
+  {
+   "name": "azure_active_directory_connect_health",
+   "label": "Active Directory Connect Health",
+   "category": "Identity",
+   "file": "assets/azure_active_directory_connect_health.svg",
+   "tags": "active directory connect health identity azure active directory connect health"
+  },
+  {
+   "name": "azure_entra_connect_health",
+   "label": "Entra Connect Health",
+   "category": "Identity",
+   "file": "assets/azure_entra_connect_health.svg",
+   "tags": "entra connect health identity azure entra connect health"
+  },
+  {
+   "name": "azure_enterprise_applications",
+   "label": "Enterprise Applications",
+   "category": "Identity",
+   "file": "assets/azure_enterprise_applications.svg",
+   "tags": "enterprise applications identity azure enterprise applications"
+  },
+  {
+   "name": "azure_entra_managed_identities",
+   "label": "Entra Managed Identities",
+   "category": "Identity",
+   "file": "assets/azure_entra_managed_identities.svg",
+   "tags": "entra managed identities identity azure entra managed identities"
+  },
+  {
+   "name": "azure_managed_identities",
+   "label": "Managed Identities",
+   "category": "Identity",
+   "file": "assets/azure_managed_identities.svg",
+   "tags": "managed identities identity azure managed identities"
+  },
+  {
+   "name": "azure_azure_ad_b2c",
+   "label": "Azure AD B2C",
+   "category": "Identity",
+   "file": "assets/azure_azure_ad_b2c.svg",
+   "tags": "azure ad b2c identity azure azure ad b2c"
+  },
+  {
+   "name": "azure_azure_information_protection",
+   "label": "Azure Information Protection",
+   "category": "Identity",
+   "file": "assets/azure_azure_information_protection.svg",
+   "tags": "azure information protection identity azure azure information protection"
+  },
+  {
+   "name": "azure_users",
+   "label": "Users",
+   "category": "Identity",
+   "file": "assets/azure_users.svg",
+   "tags": "users identity azure users"
+  },
+  {
+   "name": "azure_entra_id_protection",
+   "label": "Entra ID Protection",
+   "category": "Identity",
+   "file": "assets/azure_entra_id_protection.svg",
+   "tags": "entra id protection identity azure entra id protection"
+  },
+  {
+   "name": "azure_app_registrations",
+   "label": "App Registrations",
+   "category": "Identity",
+   "file": "assets/azure_app_registrations.svg",
+   "tags": "app registrations identity azure app registrations"
+  },
+  {
+   "name": "azure_identity_governance",
+   "label": "Identity Governance",
+   "category": "Identity",
+   "file": "assets/azure_identity_governance.svg",
+   "tags": "identity governance identity azure identity governance"
+  },
+  {
+   "name": "azure_entra_identity_roles_and_administrators",
+   "label": "Entra Identity Roles and Administrators",
+   "category": "Identity",
+   "file": "assets/azure_entra_identity_roles_and_administrators.svg",
+   "tags": "entra identity roles and administrators identity azure entra identity roles and administrators"
+  },
+  {
+   "name": "azure_user_settings",
+   "label": "User Settings",
+   "category": "Identity",
+   "file": "assets/azure_user_settings.svg",
+   "tags": "user settings identity azure user settings"
+  },
+  {
+   "name": "azure_integration_service_environments",
+   "label": "Integration Service Environments",
+   "category": "Integration",
+   "file": "assets/azure_integration_service_environments.svg",
+   "tags": "integration service environments integration azure integration service environments"
+  },
+  {
+   "name": "azure_azure_databox_gateway",
+   "label": "Azure Databox Gateway",
+   "category": "Integration",
+   "file": "assets/azure_azure_databox_gateway.svg",
+   "tags": "azure databox gateway integration azure azure databox gateway"
+  },
+  {
+   "name": "azure_partner_topic",
+   "label": "Partner Topic",
+   "category": "Integration",
+   "file": "assets/azure_partner_topic.svg",
+   "tags": "partner topic integration azure partner topic"
+  },
+  {
+   "name": "azure_system_topic",
+   "label": "System Topic",
+   "category": "Integration",
+   "file": "assets/azure_system_topic.svg",
+   "tags": "system topic integration azure system topic"
+  },
+  {
+   "name": "azure_partner_registration",
+   "label": "Partner Registration",
+   "category": "Integration",
+   "file": "assets/azure_partner_registration.svg",
+   "tags": "partner registration integration azure partner registration"
+  },
+  {
+   "name": "azure_partner_namespace",
+   "label": "Partner Namespace",
+   "category": "Integration",
+   "file": "assets/azure_partner_namespace.svg",
+   "tags": "partner namespace integration azure partner namespace"
+  },
+  {
+   "name": "azure_logic_apps",
+   "label": "Logic Apps",
+   "category": "Integration",
+   "file": "assets/azure_logic_apps.svg",
+   "tags": "logic apps integration azure logic apps"
+  },
+  {
+   "name": "azure_integration_environments",
+   "label": "Integration Environments",
+   "category": "Integration",
+   "file": "assets/azure_integration_environments.svg",
+   "tags": "integration environments integration azure integration environments"
+  },
+  {
+   "name": "azure_business_process_tracking",
+   "label": "Business Process Tracking",
+   "category": "Integration",
+   "file": "assets/azure_business_process_tracking.svg",
+   "tags": "business process tracking integration azure business process tracking"
+  },
+  {
+   "name": "azure_storsimple_device_managers",
+   "label": "StorSimple Device Managers",
+   "category": "Integration",
+   "file": "assets/azure_storsimple_device_managers.svg",
+   "tags": "storsimple device managers integration azure storsimple device managers"
+  },
+  {
+   "name": "azure_azure_stack_edge",
+   "label": "Azure Stack Edge",
+   "category": "Integration",
+   "file": "assets/azure_azure_stack_edge.svg",
+   "tags": "azure stack edge integration azure azure stack edge"
+  },
+  {
+   "name": "azure_event_grid_topics",
+   "label": "Event Grid Topics",
+   "category": "Integration",
+   "file": "assets/azure_event_grid_topics.svg",
+   "tags": "event grid topics integration azure event grid topics"
+  },
+  {
+   "name": "azure_relays",
+   "label": "Relays",
+   "category": "Integration",
+   "file": "assets/azure_relays.svg",
+   "tags": "relays integration azure relays"
+  },
+  {
+   "name": "azure_azure_api_for_fhir",
+   "label": "Azure API for FHIR",
+   "category": "Integration",
+   "file": "assets/azure_azure_api_for_fhir.svg",
+   "tags": "azure api for fhir integration azure azure api for fhir"
+  },
+  {
+   "name": "azure_software_as_a_service",
+   "label": "Software as a Service",
+   "category": "Integration",
+   "file": "assets/azure_software_as_a_service.svg",
+   "tags": "software as a service integration azure software as a service"
+  },
+  {
+   "name": "azure_event_grid_domains",
+   "label": "Event Grid Domains",
+   "category": "Integration",
+   "file": "assets/azure_event_grid_domains.svg",
+   "tags": "event grid domains integration azure event grid domains"
+  },
+  {
+   "name": "azure_azure_data_catalog",
+   "label": "Azure Data Catalog",
+   "category": "Integration",
+   "file": "assets/azure_azure_data_catalog.svg",
+   "tags": "azure data catalog integration azure azure data catalog"
+  },
+  {
+   "name": "azure_integration_accounts",
+   "label": "Integration Accounts",
+   "category": "Integration",
+   "file": "assets/azure_integration_accounts.svg",
+   "tags": "integration accounts integration azure integration accounts"
+  },
+  {
+   "name": "azure_app_configuration",
+   "label": "App Configuration",
+   "category": "Integration",
+   "file": "assets/azure_app_configuration.svg",
+   "tags": "app configuration integration azure app configuration"
+  },
+  {
+   "name": "azure_sendgrid_accounts",
+   "label": "SendGrid Accounts",
+   "category": "Integration",
+   "file": "assets/azure_sendgrid_accounts.svg",
+   "tags": "sendgrid accounts integration azure sendgrid accounts"
+  },
+  {
+   "name": "azure_event_grid_subscriptions",
+   "label": "Event Grid Subscriptions",
+   "category": "Integration",
+   "file": "assets/azure_event_grid_subscriptions.svg",
+   "tags": "event grid subscriptions integration azure event grid subscriptions"
+  },
+  {
+   "name": "azure_logic_apps_custom_connector",
+   "label": "Logic Apps Custom Connector",
+   "category": "Integration",
+   "file": "assets/azure_logic_apps_custom_connector.svg",
+   "tags": "logic apps custom connector integration azure logic apps custom connector"
+  },
+  {
+   "name": "azure_azure_service_bus",
+   "label": "Azure Service Bus",
+   "category": "Integration",
+   "file": "assets/azure_azure_service_bus.svg",
+   "tags": "azure service bus integration azure azure service bus"
+  },
+  {
+   "name": "azure_device_security_apple",
+   "label": "Device Security Apple",
+   "category": "Intune",
+   "file": "assets/azure_device_security_apple.svg",
+   "tags": "device security apple intune azure device security apple"
+  },
+  {
+   "name": "azure_device_security_google",
+   "label": "Device Security Google",
+   "category": "Intune",
+   "file": "assets/azure_device_security_google.svg",
+   "tags": "device security google intune azure device security google"
+  },
+  {
+   "name": "azure_device_security_windows",
+   "label": "Device Security Windows",
+   "category": "Intune",
+   "file": "assets/azure_device_security_windows.svg",
+   "tags": "device security windows intune azure device security windows"
+  },
+  {
+   "name": "azure_intune",
+   "label": "Intune",
+   "category": "Intune",
+   "file": "assets/azure_intune.svg",
+   "tags": "intune intune azure intune"
+  },
+  {
+   "name": "azure_ebooks",
+   "label": "eBooks",
+   "category": "Intune",
+   "file": "assets/azure_ebooks.svg",
+   "tags": "ebooks intune azure ebooks"
+  },
+  {
+   "name": "azure_client_apps",
+   "label": "Client Apps",
+   "category": "Intune",
+   "file": "assets/azure_client_apps.svg",
+   "tags": "client apps intune azure client apps"
+  },
+  {
+   "name": "azure_devices",
+   "label": "Devices",
+   "category": "Intune",
+   "file": "assets/azure_devices.svg",
+   "tags": "devices intune azure devices"
+  },
+  {
+   "name": "azure_device_compliance",
+   "label": "Device Compliance",
+   "category": "Intune",
+   "file": "assets/azure_device_compliance.svg",
+   "tags": "device compliance intune azure device compliance"
+  },
+  {
+   "name": "azure_software_updates",
+   "label": "Software Updates",
+   "category": "Intune",
+   "file": "assets/azure_software_updates.svg",
+   "tags": "software updates intune azure software updates"
+  },
+  {
+   "name": "azure_security_baselines",
+   "label": "Security Baselines",
+   "category": "Intune",
+   "file": "assets/azure_security_baselines.svg",
+   "tags": "security baselines intune azure security baselines"
+  },
+  {
+   "name": "azure_device_enrollment",
+   "label": "Device Enrollment",
+   "category": "Intune",
+   "file": "assets/azure_device_enrollment.svg",
+   "tags": "device enrollment intune azure device enrollment"
+  },
+  {
+   "name": "azure_device_configuration",
+   "label": "Device Configuration",
+   "category": "Intune",
+   "file": "assets/azure_device_configuration.svg",
+   "tags": "device configuration intune azure device configuration"
+  },
+  {
+   "name": "azure_exchange_access",
+   "label": "Exchange Access",
+   "category": "Intune",
+   "file": "assets/azure_exchange_access.svg",
+   "tags": "exchange access intune azure exchange access"
+  },
+  {
+   "name": "azure_tenant_status",
+   "label": "Tenant Status",
+   "category": "Intune",
+   "file": "assets/azure_tenant_status.svg",
+   "tags": "tenant status intune azure tenant status"
+  },
+  {
+   "name": "azure_intune_for_education",
+   "label": "Intune For Education",
+   "category": "Intune",
+   "file": "assets/azure_intune_for_education.svg",
+   "tags": "intune for education intune azure intune for education"
+  },
+  {
+   "name": "azure_intune_app_protection",
+   "label": "Intune App Protection",
+   "category": "Intune",
+   "file": "assets/azure_intune_app_protection.svg",
+   "tags": "intune app protection intune azure intune app protection"
+  },
+  {
+   "name": "azure_mindaro",
+   "label": "Mindaro",
+   "category": "Intune",
+   "file": "assets/azure_mindaro.svg",
+   "tags": "mindaro intune azure mindaro"
+  },
+  {
+   "name": "azure_digital_twins",
+   "label": "Digital Twins",
+   "category": "IoT",
+   "file": "assets/azure_digital_twins.svg",
+   "tags": "digital twins iot azure digital twins"
+  },
+  {
+   "name": "azure_industrial_iot",
+   "label": "Industrial IoT",
+   "category": "IoT",
+   "file": "assets/azure_industrial_iot.svg",
+   "tags": "industrial iot iot azure industrial iot"
+  },
+  {
+   "name": "azure_azure_stack_hci_sizer",
+   "label": "Azure Stack HCI Sizer",
+   "category": "IoT",
+   "file": "assets/azure_azure_stack_hci_sizer.svg",
+   "tags": "azure stack hci sizer iot azure azure stack hci sizer"
+  },
+  {
+   "name": "azure_stack_hci_premium",
+   "label": "Stack HCI Premium",
+   "category": "IoT",
+   "file": "assets/azure_stack_hci_premium.svg",
+   "tags": "stack hci premium iot azure stack hci premium"
+  },
+  {
+   "name": "azure_azure_iot_operations",
+   "label": "Azure IoT Operations",
+   "category": "IoT",
+   "file": "assets/azure_azure_iot_operations.svg",
+   "tags": "azure iot operations iot azure azure iot operations"
+  },
+  {
+   "name": "azure_notification_hub_namespaces",
+   "label": "Notification Hub Namespaces",
+   "category": "IoT",
+   "file": "assets/azure_notification_hub_namespaces.svg",
+   "tags": "notification hub namespaces iot azure notification hub namespaces"
+  },
+  {
+   "name": "azure_azure_stack",
+   "label": "Azure Stack",
+   "category": "IoT",
+   "file": "assets/azure_azure_stack.svg",
+   "tags": "azure stack iot azure azure stack"
+  },
+  {
+   "name": "azure_time_series_insights_environments",
+   "label": "Time Series Insights Environments",
+   "category": "IoT",
+   "file": "assets/azure_time_series_insights_environments.svg",
+   "tags": "time series insights environments iot azure time series insights environments"
+  },
+  {
+   "name": "azure_iot_hub",
+   "label": "IoT Hub",
+   "category": "IoT",
+   "file": "assets/azure_iot_hub.svg",
+   "tags": "iot hub iot azure iot hub"
+  },
+  {
+   "name": "azure_iot_central_applications",
+   "label": "IoT Central Applications",
+   "category": "IoT",
+   "file": "assets/azure_iot_central_applications.svg",
+   "tags": "iot central applications iot azure iot central applications"
+  },
+  {
+   "name": "azure_azure_maps_accounts",
+   "label": "Azure Maps Accounts",
+   "category": "IoT",
+   "file": "assets/azure_azure_maps_accounts.svg",
+   "tags": "azure maps accounts iot azure azure maps accounts"
+  },
+  {
+   "name": "azure_iot_edge",
+   "label": "IoT Edge",
+   "category": "IoT",
+   "file": "assets/azure_iot_edge.svg",
+   "tags": "iot edge iot azure iot edge"
+  },
+  {
+   "name": "azure_time_series_insights_event_sources",
+   "label": "Time Series Insights Event Sources",
+   "category": "IoT",
+   "file": "assets/azure_time_series_insights_event_sources.svg",
+   "tags": "time series insights event sources iot azure time series insights event sources"
+  },
+  {
+   "name": "azure_time_series_insights_access_policies",
+   "label": "Time Series Insights Access Policies",
+   "category": "IoT",
+   "file": "assets/azure_time_series_insights_access_policies.svg",
+   "tags": "time series insights access policies iot azure time series insights access policies"
+  },
+  {
+   "name": "azure_time_series_data_sets",
+   "label": "Time Series Data Sets",
+   "category": "IoT",
+   "file": "assets/azure_time_series_data_sets.svg",
+   "tags": "time series data sets iot azure time series data sets"
+  },
+  {
+   "name": "azure_windows10_core_services",
+   "label": "Windows10 Core Services",
+   "category": "IoT",
+   "file": "assets/azure_windows10_core_services.svg",
+   "tags": "windows10 core services iot azure windows10 core services"
+  },
+  {
+   "name": "azure_device_provisioning_services",
+   "label": "Device Provisioning Services",
+   "category": "IoT",
+   "file": "assets/azure_device_provisioning_services.svg",
+   "tags": "device provisioning services iot azure device provisioning services"
+  },
+  {
+   "name": "azure_monitor",
+   "label": "Monitor",
+   "category": "Management + Governance",
+   "file": "assets/azure_monitor.svg",
+   "tags": "monitor management + governance azure monitor"
+  },
+  {
+   "name": "azure_alerts",
+   "label": "Alerts",
+   "category": "Management + Governance",
+   "file": "assets/azure_alerts.svg",
+   "tags": "alerts management + governance azure alerts"
+  },
+  {
+   "name": "azure_advisor",
+   "label": "Advisor",
+   "category": "Management + Governance",
+   "file": "assets/azure_advisor.svg",
+   "tags": "advisor management + governance azure advisor"
+  },
+  {
+   "name": "azure_cost_management_and_billing",
+   "label": "Cost Management and Billing",
+   "category": "Management + Governance",
+   "file": "assets/azure_cost_management_and_billing.svg",
+   "tags": "cost management and billing management + governance azure cost management and billing"
+  },
+  {
+   "name": "azure_blueprints",
+   "label": "Blueprints",
+   "category": "Management + Governance",
+   "file": "assets/azure_blueprints.svg",
+   "tags": "blueprints management + governance azure blueprints"
+  },
+  {
+   "name": "azure_activity_log",
+   "label": "Activity Log",
+   "category": "Management + Governance",
+   "file": "assets/azure_activity_log.svg",
+   "tags": "activity log management + governance azure activity log"
+  },
+  {
+   "name": "azure_diagnostics_settings",
+   "label": "Diagnostics Settings",
+   "category": "Management + Governance",
+   "file": "assets/azure_diagnostics_settings.svg",
+   "tags": "diagnostics settings management + governance azure diagnostics settings"
+  },
+  {
+   "name": "azure_scheduler_job_collections",
+   "label": "Scheduler Job Collections",
+   "category": "Management + Governance",
+   "file": "assets/azure_scheduler_job_collections.svg",
+   "tags": "scheduler job collections management + governance azure scheduler job collections"
+  },
+  {
+   "name": "azure_compliance",
+   "label": "Compliance",
+   "category": "Management + Governance",
+   "file": "assets/azure_compliance.svg",
+   "tags": "compliance management + governance azure compliance"
+  },
+  {
+   "name": "azure_my_customers",
+   "label": "My Customers",
+   "category": "Management + Governance",
+   "file": "assets/azure_my_customers.svg",
+   "tags": "my customers management + governance azure my customers"
+  },
+  {
+   "name": "azure_recovery_services_vaults",
+   "label": "Recovery Services Vaults",
+   "category": "Management + Governance",
+   "file": "assets/azure_recovery_services_vaults.svg",
+   "tags": "recovery services vaults management + governance azure recovery services vaults"
+  },
+  {
+   "name": "azure_metrics",
+   "label": "Metrics",
+   "category": "Management + Governance",
+   "file": "assets/azure_metrics.svg",
+   "tags": "metrics management + governance azure metrics"
+  },
+  {
+   "name": "azure_solutions",
+   "label": "Solutions",
+   "category": "Management + Governance",
+   "file": "assets/azure_solutions.svg",
+   "tags": "solutions management + governance azure solutions"
+  },
+  {
+   "name": "azure_automation_accounts",
+   "label": "Automation Accounts",
+   "category": "Management + Governance",
+   "file": "assets/azure_automation_accounts.svg",
+   "tags": "automation accounts management + governance azure automation accounts"
+  },
+  {
+   "name": "azure_operation_log_classic",
+   "label": "Operation Log (Classic)",
+   "category": "Management + Governance",
+   "file": "assets/azure_operation_log_classic.svg",
+   "tags": "operation log (classic) management + governance azure operation log classic"
+  },
+  {
+   "name": "azure_service_providers",
+   "label": "Service Providers",
+   "category": "Management + Governance",
+   "file": "assets/azure_service_providers.svg",
+   "tags": "service providers management + governance azure service providers"
+  },
+  {
+   "name": "azure_education",
+   "label": "Education",
+   "category": "Management + Governance",
+   "file": "assets/azure_education.svg",
+   "tags": "education management + governance azure education"
+  },
+  {
+   "name": "azure_service_catalog_mad",
+   "label": "Service Catalog MAD",
+   "category": "Management + Governance",
+   "file": "assets/azure_service_catalog_mad.svg",
+   "tags": "service catalog mad management + governance azure service catalog mad"
+  },
+  {
+   "name": "azure_intune_trends",
+   "label": "Intune Trends",
+   "category": "Management + Governance",
+   "file": "assets/azure_intune_trends.svg",
+   "tags": "intune trends management + governance azure intune trends"
+  },
+  {
+   "name": "azure_azure_lighthouse",
+   "label": "Azure Lighthouse",
+   "category": "Management + Governance",
+   "file": "assets/azure_azure_lighthouse.svg",
+   "tags": "azure lighthouse management + governance azure azure lighthouse"
+  },
+  {
+   "name": "azure_universal_print",
+   "label": "Universal Print",
+   "category": "Management + Governance",
+   "file": "assets/azure_universal_print.svg",
+   "tags": "universal print management + governance azure universal print"
+  },
+  {
+   "name": "azure_azure_arc",
+   "label": "Azure Arc",
+   "category": "Management + Governance",
+   "file": "assets/azure_azure_arc.svg",
+   "tags": "azure arc management + governance azure azure arc"
+  },
+  {
+   "name": "azure_arc_machines",
+   "label": "Arc Machines",
+   "category": "Management + Governance",
+   "file": "assets/azure_arc_machines.svg",
+   "tags": "arc machines management + governance azure arc machines"
+  },
+  {
+   "name": "azure_resources_provider",
+   "label": "Resources Provider",
+   "category": "Management + Governance",
+   "file": "assets/azure_resources_provider.svg",
+   "tags": "resources provider management + governance azure resources provider"
+  },
+  {
+   "name": "azure_user_privacy",
+   "label": "User Privacy",
+   "category": "Management + Governance",
+   "file": "assets/azure_user_privacy.svg",
+   "tags": "user privacy management + governance azure user privacy"
+  },
+  {
+   "name": "azure_managed_desktop",
+   "label": "Managed Desktop",
+   "category": "Management + Governance",
+   "file": "assets/azure_managed_desktop.svg",
+   "tags": "managed desktop management + governance azure managed desktop"
+  },
+  {
+   "name": "azure_managed_applications_center",
+   "label": "Managed Applications Center",
+   "category": "Management + Governance",
+   "file": "assets/azure_managed_applications_center.svg",
+   "tags": "managed applications center management + governance azure managed applications center"
+  },
+  {
+   "name": "azure_customer_lockbox_for_microsoft_azure",
+   "label": "Customer Lockbox for Microsoft Azure",
+   "category": "Management + Governance",
+   "file": "assets/azure_customer_lockbox_for_microsoft_azure.svg",
+   "tags": "customer lockbox for microsoft azure management + governance azure customer lockbox for microsoft azure"
+  },
+  {
+   "name": "azure_policy",
+   "label": "Policy",
+   "category": "Management + Governance",
+   "file": "assets/azure_policy.svg",
+   "tags": "policy management + governance azure policy"
+  },
+  {
+   "name": "azure_resource_graph_explorer",
+   "label": "Resource Graph Explorer",
+   "category": "Management + Governance",
+   "file": "assets/azure_resource_graph_explorer.svg",
+   "tags": "resource graph explorer management + governance azure resource graph explorer"
+  },
+  {
+   "name": "azure_machinesazurearc",
+   "label": "MachinesAzureArc",
+   "category": "Management + Governance",
+   "file": "assets/azure_machinesazurearc.svg",
+   "tags": "machinesazurearc management + governance azure machinesazurearc"
+  },
+  {
+   "name": "azure_data_box",
+   "label": "Data Box",
+   "category": "Migrate",
+   "file": "assets/azure_data_box.svg",
+   "tags": "data box migrate azure data box"
+  },
+  {
+   "name": "azure_azure_migrate",
+   "label": "Azure Migrate",
+   "category": "Migrate",
+   "file": "assets/azure_azure_migrate.svg",
+   "tags": "azure migrate migrate azure azure migrate"
+  },
+  {
+   "name": "azure_remote_rendering",
+   "label": "Remote Rendering",
+   "category": "Mixed Reality",
+   "file": "assets/azure_remote_rendering.svg",
+   "tags": "remote rendering mixed reality azure remote rendering"
+  },
+  {
+   "name": "azure_spatial_anchor_accounts",
+   "label": "Spatial Anchor Accounts",
+   "category": "Mixed Reality",
+   "file": "assets/azure_spatial_anchor_accounts.svg",
+   "tags": "spatial anchor accounts mixed reality azure spatial anchor accounts"
+  },
+  {
+   "name": "azure_azure_monitors_for_sap_solutions",
+   "label": "Azure Monitors for SAP Solutions",
+   "category": "Monitor",
+   "file": "assets/azure_azure_monitors_for_sap_solutions.svg",
+   "tags": "azure monitors for sap solutions monitor azure azure monitors for sap solutions"
+  },
+  {
+   "name": "azure_network_watcher",
+   "label": "Network Watcher",
+   "category": "Monitor",
+   "file": "assets/azure_network_watcher.svg",
+   "tags": "network watcher monitor azure network watcher"
+  },
+  {
+   "name": "azure_auto_scale",
+   "label": "Auto Scale",
+   "category": "Monitor",
+   "file": "assets/azure_auto_scale.svg",
+   "tags": "auto scale monitor azure auto scale"
+  },
+  {
+   "name": "azure_azure_firewall_manager",
+   "label": "Azure Firewall Manager",
+   "category": "Networking",
+   "file": "assets/azure_azure_firewall_manager.svg",
+   "tags": "azure firewall manager networking azure azure firewall manager"
+  },
+  {
+   "name": "azure_azure_firewall_policy",
+   "label": "Azure Firewall Policy",
+   "category": "Networking",
+   "file": "assets/azure_azure_firewall_policy.svg",
+   "tags": "azure firewall policy networking azure azure firewall policy"
+  },
+  {
+   "name": "azure_private_link",
+   "label": "Private Link",
+   "category": "Networking",
+   "file": "assets/azure_private_link.svg",
+   "tags": "private link networking azure private link"
+  },
+  {
+   "name": "azure_ip_groups",
+   "label": "IP Groups",
+   "category": "Networking",
+   "file": "assets/azure_ip_groups.svg",
+   "tags": "ip groups networking azure ip groups"
+  },
+  {
+   "name": "azure_virtual_wan_hub",
+   "label": "Virtual WAN Hub",
+   "category": "Networking",
+   "file": "assets/azure_virtual_wan_hub.svg",
+   "tags": "virtual wan hub networking azure virtual wan hub"
+  },
+  {
+   "name": "azure_private_link_service",
+   "label": "Private Link Service",
+   "category": "Networking",
+   "file": "assets/azure_private_link_service.svg",
+   "tags": "private link service networking azure private link service"
+  },
+  {
+   "name": "azure_resource_management_private_link",
+   "label": "Resource Management Private Link",
+   "category": "Networking",
+   "file": "assets/azure_resource_management_private_link.svg",
+   "tags": "resource management private link networking azure resource management private link"
+  },
+  {
+   "name": "azure_load_balancer_hub",
+   "label": "Load Balancer Hub",
+   "category": "Networking",
+   "file": "assets/azure_load_balancer_hub.svg",
+   "tags": "load balancer hub networking azure load balancer hub"
+  },
+  {
+   "name": "azure_bastions",
+   "label": "Bastions",
+   "category": "Networking",
+   "file": "assets/azure_bastions.svg",
+   "tags": "bastions networking azure bastions"
+  },
+  {
+   "name": "azure_virtual_router",
+   "label": "Virtual Router",
+   "category": "Networking",
+   "file": "assets/azure_virtual_router.svg",
+   "tags": "virtual router networking azure virtual router"
+  },
+  {
+   "name": "azure_connected_cache",
+   "label": "Connected Cache",
+   "category": "Networking",
+   "file": "assets/azure_connected_cache.svg",
+   "tags": "connected cache networking azure connected cache"
+  },
+  {
+   "name": "azure_spot_vmss",
+   "label": "Spot VMSS",
+   "category": "Networking",
+   "file": "assets/azure_spot_vmss.svg",
+   "tags": "spot vmss networking azure spot vmss"
+  },
+  {
+   "name": "azure_spot_vm",
+   "label": "Spot VM",
+   "category": "Networking",
+   "file": "assets/azure_spot_vm.svg",
+   "tags": "spot vm networking azure spot vm"
+  },
+  {
+   "name": "azure_subnet",
+   "label": "Subnet",
+   "category": "Networking",
+   "file": "assets/azure_subnet.svg",
+   "tags": "subnet networking azure subnet"
+  },
+  {
+   "name": "azure_dns_private_resolver",
+   "label": "DNS Private Resolver",
+   "category": "Networking",
+   "file": "assets/azure_dns_private_resolver.svg",
+   "tags": "dns private resolver networking azure dns private resolver"
+  },
+  {
+   "name": "azure_azure_communications_gateway",
+   "label": "Azure Communications Gateway",
+   "category": "Networking",
+   "file": "assets/azure_azure_communications_gateway.svg",
+   "tags": "azure communications gateway networking azure azure communications gateway"
+  },
+  {
+   "name": "azure_application_gateway_containers",
+   "label": "Application Gateway Containers",
+   "category": "Networking",
+   "file": "assets/azure_application_gateway_containers.svg",
+   "tags": "application gateway containers networking azure application gateway containers"
+  },
+  {
+   "name": "azure_dns_security_policy",
+   "label": "DNS Security Policy",
+   "category": "Networking",
+   "file": "assets/azure_dns_security_policy.svg",
+   "tags": "dns security policy networking azure dns security policy"
+  },
+  {
+   "name": "azure_dns_multistack",
+   "label": "DNS Multistack",
+   "category": "Networking",
+   "file": "assets/azure_dns_multistack.svg",
+   "tags": "dns multistack networking azure dns multistack"
+  },
+  {
+   "name": "azure_atm_multistack",
+   "label": "ATM Multistack",
+   "category": "Networking",
+   "file": "assets/azure_atm_multistack.svg",
+   "tags": "atm multistack networking azure atm multistack"
+  },
+  {
+   "name": "azure_ip_address_manager",
+   "label": "IP Address manager",
+   "category": "Networking",
+   "file": "assets/azure_ip_address_manager.svg",
+   "tags": "ip address manager networking azure ip address manager"
+  },
+  {
+   "name": "azure_virtual_networks",
+   "label": "Virtual Networks",
+   "category": "Networking",
+   "file": "assets/azure_virtual_networks.svg",
+   "tags": "virtual networks networking azure virtual networks"
+  },
+  {
+   "name": "azure_load_balancers",
+   "label": "Load Balancers",
+   "category": "Networking",
+   "file": "assets/azure_load_balancers.svg",
+   "tags": "load balancers networking azure load balancers"
+  },
+  {
+   "name": "azure_virtual_network_gateways",
+   "label": "Virtual Network Gateways",
+   "category": "Networking",
+   "file": "assets/azure_virtual_network_gateways.svg",
+   "tags": "virtual network gateways networking azure virtual network gateways"
+  },
+  {
+   "name": "azure_dns_zones",
+   "label": "DNS Zones",
+   "category": "Networking",
+   "file": "assets/azure_dns_zones.svg",
+   "tags": "dns zones networking azure dns zones"
+  },
+  {
+   "name": "azure_traffic_manager_profiles",
+   "label": "Traffic Manager Profiles",
+   "category": "Networking",
+   "file": "assets/azure_traffic_manager_profiles.svg",
+   "tags": "traffic manager profiles networking azure traffic manager profiles"
+  },
+  {
+   "name": "azure_network_security_groups",
+   "label": "Network Security Groups",
+   "category": "Networking",
+   "file": "assets/azure_network_security_groups.svg",
+   "tags": "network security groups networking azure network security groups"
+  },
+  {
+   "name": "azure_public_ip_addresses_classic",
+   "label": "Public IP Addresses (Classic)",
+   "category": "Networking",
+   "file": "assets/azure_public_ip_addresses_classic.svg",
+   "tags": "public ip addresses (classic) networking azure public ip addresses classic"
+  },
+  {
+   "name": "azure_public_ip_addresses",
+   "label": "Public IP Addresses",
+   "category": "Networking",
+   "file": "assets/azure_public_ip_addresses.svg",
+   "tags": "public ip addresses networking azure public ip addresses"
+  },
+  {
+   "name": "azure_on_premises_data_gateways",
+   "label": "On Premises Data Gateways",
+   "category": "Networking",
+   "file": "assets/azure_on_premises_data_gateways.svg",
+   "tags": "on premises data gateways networking azure on premises data gateways"
+  },
+  {
+   "name": "azure_route_filters",
+   "label": "Route Filters",
+   "category": "Networking",
+   "file": "assets/azure_route_filters.svg",
+   "tags": "route filters networking azure route filters"
+  },
+  {
+   "name": "azure_ddos_protection_plans",
+   "label": "DDoS Protection Plans",
+   "category": "Networking",
+   "file": "assets/azure_ddos_protection_plans.svg",
+   "tags": "ddos protection plans networking azure ddos protection plans"
+  },
+  {
+   "name": "azure_front_door_and_cdn_profiles",
+   "label": "Front Door and CDN Profiles",
+   "category": "Networking",
+   "file": "assets/azure_front_door_and_cdn_profiles.svg",
+   "tags": "front door and cdn profiles networking azure front door and cdn profiles"
+  },
+  {
+   "name": "azure_virtual_networks_classic",
+   "label": "Virtual Networks (Classic)",
+   "category": "Networking",
+   "file": "assets/azure_virtual_networks_classic.svg",
+   "tags": "virtual networks (classic) networking azure virtual networks classic"
+  },
+  {
+   "name": "azure_application_gateways",
+   "label": "Application Gateways",
+   "category": "Networking",
+   "file": "assets/azure_application_gateways.svg",
+   "tags": "application gateways networking azure application gateways"
+  },
+  {
+   "name": "azure_local_network_gateways",
+   "label": "Local Network Gateways",
+   "category": "Networking",
+   "file": "assets/azure_local_network_gateways.svg",
+   "tags": "local network gateways networking azure local network gateways"
+  },
+  {
+   "name": "azure_expressroute_circuits",
+   "label": "ExpressRoute Circuits",
+   "category": "Networking",
+   "file": "assets/azure_expressroute_circuits.svg",
+   "tags": "expressroute circuits networking azure expressroute circuits"
+  },
+  {
+   "name": "azure_network_interfaces",
+   "label": "Network Interfaces",
+   "category": "Networking",
+   "file": "assets/azure_network_interfaces.svg",
+   "tags": "network interfaces networking azure network interfaces"
+  },
+  {
+   "name": "azure_connections",
+   "label": "Connections",
+   "category": "Networking",
+   "file": "assets/azure_connections.svg",
+   "tags": "connections networking azure connections"
+  },
+  {
+   "name": "azure_route_tables",
+   "label": "Route Tables",
+   "category": "Networking",
+   "file": "assets/azure_route_tables.svg",
+   "tags": "route tables networking azure route tables"
+  },
+  {
+   "name": "azure_firewalls",
+   "label": "Firewalls",
+   "category": "Networking",
+   "file": "assets/azure_firewalls.svg",
+   "tags": "firewalls networking azure firewalls"
+  },
+  {
+   "name": "azure_service_endpoint_policies",
+   "label": "Service Endpoint Policies",
+   "category": "Networking",
+   "file": "assets/azure_service_endpoint_policies.svg",
+   "tags": "service endpoint policies networking azure service endpoint policies"
+  },
+  {
+   "name": "azure_nat",
+   "label": "NAT",
+   "category": "Networking",
+   "file": "assets/azure_nat.svg",
+   "tags": "nat networking azure nat"
+  },
+  {
+   "name": "azure_virtual_wans",
+   "label": "Virtual WANs",
+   "category": "Networking",
+   "file": "assets/azure_virtual_wans.svg",
+   "tags": "virtual wans networking azure virtual wans"
+  },
+  {
+   "name": "azure_web_application_firewall_policies_waf",
+   "label": "Web Application Firewall Policies(WAF)",
+   "category": "Networking",
+   "file": "assets/azure_web_application_firewall_policies_waf.svg",
+   "tags": "web application firewall policies(waf) networking azure web application firewall policies waf"
+  },
+  {
+   "name": "azure_proximity_placement_groups",
+   "label": "Proximity Placement Groups",
+   "category": "Networking",
+   "file": "assets/azure_proximity_placement_groups.svg",
+   "tags": "proximity placement groups networking azure proximity placement groups"
+  },
+  {
+   "name": "azure_reserved_ip_addresses_classic",
+   "label": "Reserved IP Addresses (Classic)",
+   "category": "Networking",
+   "file": "assets/azure_reserved_ip_addresses_classic.svg",
+   "tags": "reserved ip addresses (classic) networking azure reserved ip addresses classic"
+  },
+  {
+   "name": "azure_public_ip_prefixes",
+   "label": "Public IP Prefixes",
+   "category": "Networking",
+   "file": "assets/azure_public_ip_prefixes.svg",
+   "tags": "public ip prefixes networking azure public ip prefixes"
+  },
+  {
+   "name": "azure_detonation",
+   "label": "Detonation",
+   "category": "Security",
+   "file": "assets/azure_detonation.svg",
+   "tags": "detonation security azure detonation"
+  },
+  {
+   "name": "azure_microsoft_defender_for_iot",
+   "label": "Microsoft Defender for IoT",
+   "category": "Security",
+   "file": "assets/azure_microsoft_defender_for_iot.svg",
+   "tags": "microsoft defender for iot security azure microsoft defender for iot"
+  },
+  {
+   "name": "azure_microsoft_defender_easm",
+   "label": "Microsoft Defender EASM",
+   "category": "Security",
+   "file": "assets/azure_microsoft_defender_easm.svg",
+   "tags": "microsoft defender easm security azure microsoft defender easm"
+  },
+  {
+   "name": "azure_identity_secure_score",
+   "label": "Identity Secure Score",
+   "category": "Security",
+   "file": "assets/azure_identity_secure_score.svg",
+   "tags": "identity secure score security azure identity secure score"
+  },
+  {
+   "name": "azure_entra_identity_risky_signins",
+   "label": "Entra Identity Risky Signins",
+   "category": "Security",
+   "file": "assets/azure_entra_identity_risky_signins.svg",
+   "tags": "entra identity risky signins security azure entra identity risky signins"
+  },
+  {
+   "name": "azure_entra_identity_risky_users",
+   "label": "Entra Identity Risky Users",
+   "category": "Security",
+   "file": "assets/azure_entra_identity_risky_users.svg",
+   "tags": "entra identity risky users security azure entra identity risky users"
+  },
+  {
+   "name": "azure_multifactor_authentication",
+   "label": "Multifactor Authentication",
+   "category": "Security",
+   "file": "assets/azure_multifactor_authentication.svg",
+   "tags": "multifactor authentication security azure multifactor authentication"
+  },
+  {
+   "name": "azure_conditional_access",
+   "label": "Conditional Access",
+   "category": "Security",
+   "file": "assets/azure_conditional_access.svg",
+   "tags": "conditional access security azure conditional access"
+  },
+  {
+   "name": "azure_microsoft_defender_for_cloud",
+   "label": "Microsoft Defender for Cloud",
+   "category": "Security",
+   "file": "assets/azure_microsoft_defender_for_cloud.svg",
+   "tags": "microsoft defender for cloud security azure microsoft defender for cloud"
+  },
+  {
+   "name": "azure_application_security_groups",
+   "label": "Application Security Groups",
+   "category": "Security",
+   "file": "assets/azure_application_security_groups.svg",
+   "tags": "application security groups security azure application security groups"
+  },
+  {
+   "name": "azure_key_vaults",
+   "label": "Key Vaults",
+   "category": "Security",
+   "file": "assets/azure_key_vaults.svg",
+   "tags": "key vaults security azure key vaults"
+  },
+  {
+   "name": "azure_azure_sentinel",
+   "label": "Azure Sentinel",
+   "category": "Security",
+   "file": "assets/azure_azure_sentinel.svg",
+   "tags": "azure sentinel security azure azure sentinel"
+  },
+  {
+   "name": "azure_extendedsecurityupdates",
+   "label": "ExtendedSecurityUpdates",
+   "category": "Security",
+   "file": "assets/azure_extendedsecurityupdates.svg",
+   "tags": "extendedsecurityupdates security azure extendedsecurityupdates"
+  },
+  {
+   "name": "azure_azure_hcp_cache",
+   "label": "Azure HCP Cache",
+   "category": "Storage",
+   "file": "assets/azure_azure_hcp_cache.svg",
+   "tags": "azure hcp cache storage azure azure hcp cache"
+  },
+  {
+   "name": "azure_storage_actions",
+   "label": "Storage Actions",
+   "category": "Storage",
+   "file": "assets/azure_storage_actions.svg",
+   "tags": "storage actions storage azure storage actions"
+  },
+  {
+   "name": "azure_managed_file_shares",
+   "label": "Managed File Shares",
+   "category": "Storage",
+   "file": "assets/azure_managed_file_shares.svg",
+   "tags": "managed file shares storage azure managed file shares"
+  },
+  {
+   "name": "azure_storage_accounts",
+   "label": "Storage Accounts",
+   "category": "Storage",
+   "file": "assets/azure_storage_accounts.svg",
+   "tags": "storage accounts storage azure storage accounts"
+  },
+  {
+   "name": "azure_storage_accounts_classic",
+   "label": "Storage Accounts (Classic)",
+   "category": "Storage",
+   "file": "assets/azure_storage_accounts_classic.svg",
+   "tags": "storage accounts (classic) storage azure storage accounts classic"
+  },
+  {
+   "name": "azure_data_lake_storage_gen1",
+   "label": "Data Lake Storage Gen1",
+   "category": "Storage",
+   "file": "assets/azure_data_lake_storage_gen1.svg",
+   "tags": "data lake storage gen1 storage azure data lake storage gen1"
+  },
+  {
+   "name": "azure_storage_explorer",
+   "label": "Storage Explorer",
+   "category": "Storage",
+   "file": "assets/azure_storage_explorer.svg",
+   "tags": "storage explorer storage azure storage explorer"
+  },
+  {
+   "name": "azure_storsimple_data_managers",
+   "label": "StorSimple Data Managers",
+   "category": "Storage",
+   "file": "assets/azure_storsimple_data_managers.svg",
+   "tags": "storsimple data managers storage azure storsimple data managers"
+  },
+  {
+   "name": "azure_storage_sync_services",
+   "label": "Storage Sync Services",
+   "category": "Storage",
+   "file": "assets/azure_storage_sync_services.svg",
+   "tags": "storage sync services storage azure storage sync services"
+  },
+  {
+   "name": "azure_azure_netapp_files",
+   "label": "Azure NetApp Files",
+   "category": "Storage",
+   "file": "assets/azure_azure_netapp_files.svg",
+   "tags": "azure netapp files storage azure azure netapp files"
+  },
+  {
+   "name": "azure_data_share_invitations",
+   "label": "Data Share Invitations",
+   "category": "Storage",
+   "file": "assets/azure_data_share_invitations.svg",
+   "tags": "data share invitations storage azure data share invitations"
+  },
+  {
+   "name": "azure_data_shares",
+   "label": "Data Shares",
+   "category": "Storage",
+   "file": "assets/azure_data_shares.svg",
+   "tags": "data shares storage azure data shares"
+  },
+  {
+   "name": "azure_import_export_jobs",
+   "label": "Import Export Jobs",
+   "category": "Storage",
+   "file": "assets/azure_import_export_jobs.svg",
+   "tags": "import export jobs storage azure import export jobs"
+  },
+  {
+   "name": "azure_azure_fileshares",
+   "label": "Azure Fileshares",
+   "category": "Storage",
+   "file": "assets/azure_azure_fileshares.svg",
+   "tags": "azure fileshares storage azure azure fileshares"
+  },
+  {
+   "name": "azure_static_apps",
+   "label": "Static Apps",
+   "category": "Web",
+   "file": "assets/azure_static_apps.svg",
+   "tags": "static apps web azure static apps"
+  },
+  {
+   "name": "azure_api_center",
+   "label": "API Center",
+   "category": "Web",
+   "file": "assets/azure_api_center.svg",
+   "tags": "api center web azure api center"
+  },
+  {
+   "name": "azure_app_space",
+   "label": "App Space",
+   "category": "Web",
+   "file": "assets/azure_app_space.svg",
+   "tags": "app space web azure app space"
+  },
+  {
+   "name": "azure_app_space_component",
+   "label": "App Space Component",
+   "category": "Web",
+   "file": "assets/azure_app_space_component.svg",
+   "tags": "app space component web azure app space component"
+  },
+  {
+   "name": "azure_signalr",
+   "label": "SignalR",
+   "category": "Web",
+   "file": "assets/azure_signalr.svg",
+   "tags": "signalr web azure signalr"
+  },
+  {
+   "name": "azure_azure_media_service",
+   "label": "Azure Media Service",
+   "category": "Web",
+   "file": "assets/azure_azure_media_service.svg",
+   "tags": "azure media service web azure azure media service"
+  },
+  {
+   "name": "azure_preview_features",
+   "label": "Preview Features",
+   "category": "General",
+   "file": "assets/azure_preview_features.svg",
+   "tags": "preview features general azure preview features"
+  },
+  {
+   "name": "azure_all_resources",
+   "label": "All Resources",
+   "category": "General",
+   "file": "assets/azure_all_resources.svg",
+   "tags": "all resources general azure all resources"
+  },
+  {
+   "name": "azure_subscriptions",
+   "label": "Subscriptions",
+   "category": "General",
+   "file": "assets/azure_subscriptions.svg",
+   "tags": "subscriptions general azure subscriptions"
+  },
+  {
+   "name": "azure_reservations",
+   "label": "Reservations",
+   "category": "General",
+   "file": "assets/azure_reservations.svg",
+   "tags": "reservations general azure reservations"
+  },
+  {
+   "name": "azure_service_health",
+   "label": "Service Health",
+   "category": "General",
+   "file": "assets/azure_service_health.svg",
+   "tags": "service health general azure service health"
+  },
+  {
+   "name": "azure_information",
+   "label": "Information",
+   "category": "General",
+   "file": "assets/azure_information.svg",
+   "tags": "information general azure information"
+  },
+  {
+   "name": "azure_recent",
+   "label": "Recent",
+   "category": "General",
+   "file": "assets/azure_recent.svg",
+   "tags": "recent general azure recent"
+  },
+  {
+   "name": "azure_resource_groups",
+   "label": "Resource Groups",
+   "category": "General",
+   "file": "assets/azure_resource_groups.svg",
+   "tags": "resource groups general azure resource groups"
+  },
+  {
+   "name": "azure_marketplace",
+   "label": "Marketplace",
+   "category": "General",
+   "file": "assets/azure_marketplace.svg",
+   "tags": "marketplace general azure marketplace"
+  },
+  {
+   "name": "azure_templates",
+   "label": "Templates",
+   "category": "General",
+   "file": "assets/azure_templates.svg",
+   "tags": "templates general azure templates"
+  },
+  {
+   "name": "azure_quickstart_center",
+   "label": "Quickstart Center",
+   "category": "General",
+   "file": "assets/azure_quickstart_center.svg",
+   "tags": "quickstart center general azure quickstart center"
+  },
+  {
+   "name": "azure_management_groups",
+   "label": "Management Groups",
+   "category": "General",
+   "file": "assets/azure_management_groups.svg",
+   "tags": "management groups general azure management groups"
+  },
+  {
+   "name": "azure_help_and_support",
+   "label": "Help and Support",
+   "category": "General",
+   "file": "assets/azure_help_and_support.svg",
+   "tags": "help and support general azure help and support"
+  },
+  {
+   "name": "azure_tag",
+   "label": "Tag",
+   "category": "General",
+   "file": "assets/azure_tag.svg",
+   "tags": "tag general azure tag"
+  },
+  {
+   "name": "azure_dashboard",
+   "label": "Dashboard",
+   "category": "General",
+   "file": "assets/azure_dashboard.svg",
+   "tags": "dashboard general azure dashboard"
+  },
+  {
+   "name": "azure_free_services",
+   "label": "Free Services",
+   "category": "General",
+   "file": "assets/azure_free_services.svg",
+   "tags": "free services general azure free services"
+  },
+  {
+   "name": "azure_cost_management",
+   "label": "Cost Management",
+   "category": "General",
+   "file": "assets/azure_cost_management.svg",
+   "tags": "cost management general azure cost management"
+  },
+  {
+   "name": "azure_marketplace_management",
+   "label": "Marketplace Management",
+   "category": "General",
+   "file": "assets/azure_marketplace_management.svg",
+   "tags": "marketplace management general azure marketplace management"
+  },
+  {
+   "name": "azure_region_management",
+   "label": "Region Management",
+   "category": "General",
+   "file": "assets/azure_region_management.svg",
+   "tags": "region management general azure region management"
+  },
+  {
+   "name": "azure_troubleshoot",
+   "label": "Troubleshoot",
+   "category": "General",
+   "file": "assets/azure_troubleshoot.svg",
+   "tags": "troubleshoot general azure troubleshoot"
+  },
+  {
+   "name": "azure_resource_explorer",
+   "label": "Resource Explorer",
+   "category": "General",
+   "file": "assets/azure_resource_explorer.svg",
+   "tags": "resource explorer general azure resource explorer"
+  },
+  {
+   "name": "azure_biz_talk",
+   "label": "Biz Talk",
+   "category": "General",
+   "file": "assets/azure_biz_talk.svg",
+   "tags": "biz talk general azure biz talk"
+  },
+  {
+   "name": "azure_blob_block",
+   "label": "Blob Block",
+   "category": "General",
+   "file": "assets/azure_blob_block.svg",
+   "tags": "blob block general azure blob block"
+  },
+  {
+   "name": "azure_blob_page",
+   "label": "Blob Page",
+   "category": "General",
+   "file": "assets/azure_blob_page.svg",
+   "tags": "blob page general azure blob page"
+  },
+  {
+   "name": "azure_branch",
+   "label": "Branch",
+   "category": "General",
+   "file": "assets/azure_branch.svg",
+   "tags": "branch general azure branch"
+  },
+  {
+   "name": "azure_browser",
+   "label": "Browser",
+   "category": "General",
+   "file": "assets/azure_browser.svg",
+   "tags": "browser general azure browser"
+  },
+  {
+   "name": "azure_bug",
+   "label": "Bug",
+   "category": "General",
+   "file": "assets/azure_bug.svg",
+   "tags": "bug general azure bug"
+  },
+  {
+   "name": "azure_builds",
+   "label": "Builds",
+   "category": "General",
+   "file": "assets/azure_builds.svg",
+   "tags": "builds general azure builds"
+  },
+  {
+   "name": "azure_cache",
+   "label": "Cache",
+   "category": "General",
+   "file": "assets/azure_cache.svg",
+   "tags": "cache general azure cache"
+  },
+  {
+   "name": "azure_code",
+   "label": "Code",
+   "category": "General",
+   "file": "assets/azure_code.svg",
+   "tags": "code general azure code"
+  },
+  {
+   "name": "azure_commit",
+   "label": "Commit",
+   "category": "General",
+   "file": "assets/azure_commit.svg",
+   "tags": "commit general azure commit"
+  },
+  {
+   "name": "azure_controls",
+   "label": "Controls",
+   "category": "General",
+   "file": "assets/azure_controls.svg",
+   "tags": "controls general azure controls"
+  },
+  {
+   "name": "azure_controls_horizontal",
+   "label": "Controls Horizontal",
+   "category": "General",
+   "file": "assets/azure_controls_horizontal.svg",
+   "tags": "controls horizontal general azure controls horizontal"
+  },
+  {
+   "name": "azure_cost_alerts",
+   "label": "Cost Alerts",
+   "category": "General",
+   "file": "assets/azure_cost_alerts.svg",
+   "tags": "cost alerts general azure cost alerts"
+  },
+  {
+   "name": "azure_cost_analysis",
+   "label": "Cost Analysis",
+   "category": "General",
+   "file": "assets/azure_cost_analysis.svg",
+   "tags": "cost analysis general azure cost analysis"
+  },
+  {
+   "name": "azure_cost_budgets",
+   "label": "Cost Budgets",
+   "category": "General",
+   "file": "assets/azure_cost_budgets.svg",
+   "tags": "cost budgets general azure cost budgets"
+  },
+  {
+   "name": "azure_counter",
+   "label": "Counter",
+   "category": "General",
+   "file": "assets/azure_counter.svg",
+   "tags": "counter general azure counter"
+  },
+  {
+   "name": "azure_cubes",
+   "label": "Cubes",
+   "category": "General",
+   "file": "assets/azure_cubes.svg",
+   "tags": "cubes general azure cubes"
+  },
+  {
+   "name": "azure_dev_console",
+   "label": "Dev Console",
+   "category": "General",
+   "file": "assets/azure_dev_console.svg",
+   "tags": "dev console general azure dev console"
+  },
+  {
+   "name": "azure_download",
+   "label": "Download",
+   "category": "General",
+   "file": "assets/azure_download.svg",
+   "tags": "download general azure download"
+  },
+  {
+   "name": "azure_error",
+   "label": "Error",
+   "category": "General",
+   "file": "assets/azure_error.svg",
+   "tags": "error general azure error"
+  },
+  {
+   "name": "azure_extensions",
+   "label": "Extensions",
+   "category": "General",
+   "file": "assets/azure_extensions.svg",
+   "tags": "extensions general azure extensions"
+  },
+  {
+   "name": "azure_file",
+   "label": "File",
+   "category": "General",
+   "file": "assets/azure_file.svg",
+   "tags": "file general azure file"
+  },
+  {
+   "name": "azure_files",
+   "label": "Files",
+   "category": "General",
+   "file": "assets/azure_files.svg",
+   "tags": "files general azure files"
+  },
+  {
+   "name": "azure_folder_blank",
+   "label": "Folder Blank",
+   "category": "General",
+   "file": "assets/azure_folder_blank.svg",
+   "tags": "folder blank general azure folder blank"
+  },
+  {
+   "name": "azure_folder_website",
+   "label": "Folder Website",
+   "category": "General",
+   "file": "assets/azure_folder_website.svg",
+   "tags": "folder website general azure folder website"
+  },
+  {
+   "name": "azure_ftp",
+   "label": "FTP",
+   "category": "General",
+   "file": "assets/azure_ftp.svg",
+   "tags": "ftp general azure ftp"
+  },
+  {
+   "name": "azure_gear",
+   "label": "Gear",
+   "category": "General",
+   "file": "assets/azure_gear.svg",
+   "tags": "gear general azure gear"
+  },
+  {
+   "name": "azure_globe_error",
+   "label": "Globe Error",
+   "category": "General",
+   "file": "assets/azure_globe_error.svg",
+   "tags": "globe error general azure globe error"
+  },
+  {
+   "name": "azure_globe_success",
+   "label": "Globe Success",
+   "category": "General",
+   "file": "assets/azure_globe_success.svg",
+   "tags": "globe success general azure globe success"
+  },
+  {
+   "name": "azure_globe_warning",
+   "label": "Globe Warning",
+   "category": "General",
+   "file": "assets/azure_globe_warning.svg",
+   "tags": "globe warning general azure globe warning"
+  },
+  {
+   "name": "azure_guide",
+   "label": "Guide",
+   "category": "General",
+   "file": "assets/azure_guide.svg",
+   "tags": "guide general azure guide"
+  },
+  {
+   "name": "azure_heart",
+   "label": "Heart",
+   "category": "General",
+   "file": "assets/azure_heart.svg",
+   "tags": "heart general azure heart"
+  },
+  {
+   "name": "azure_image",
+   "label": "Image",
+   "category": "General",
+   "file": "assets/azure_image.svg",
+   "tags": "image general azure image"
+  },
+  {
+   "name": "azure_input_output",
+   "label": "Input Output",
+   "category": "General",
+   "file": "assets/azure_input_output.svg",
+   "tags": "input output general azure input output"
+  },
+  {
+   "name": "azure_journey_hub",
+   "label": "Journey Hub",
+   "category": "General",
+   "file": "assets/azure_journey_hub.svg",
+   "tags": "journey hub general azure journey hub"
+  },
+  {
+   "name": "azure_launch_portal",
+   "label": "Launch Portal",
+   "category": "General",
+   "file": "assets/azure_launch_portal.svg",
+   "tags": "launch portal general azure launch portal"
+  },
+  {
+   "name": "azure_learn",
+   "label": "Learn",
+   "category": "General",
+   "file": "assets/azure_learn.svg",
+   "tags": "learn general azure learn"
+  },
+  {
+   "name": "azure_load_test",
+   "label": "Load Test",
+   "category": "General",
+   "file": "assets/azure_load_test.svg",
+   "tags": "load test general azure load test"
+  },
+  {
+   "name": "azure_location",
+   "label": "Location",
+   "category": "General",
+   "file": "assets/azure_location.svg",
+   "tags": "location general azure location"
+  },
+  {
+   "name": "azure_log_streaming",
+   "label": "Log Streaming",
+   "category": "General",
+   "file": "assets/azure_log_streaming.svg",
+   "tags": "log streaming general azure log streaming"
+  },
+  {
+   "name": "azure_management_portal",
+   "label": "Management Portal",
+   "category": "General",
+   "file": "assets/azure_management_portal.svg",
+   "tags": "management portal general azure management portal"
+  },
+  {
+   "name": "azure_media_file",
+   "label": "Media File",
+   "category": "General",
+   "file": "assets/azure_media_file.svg",
+   "tags": "media file general azure media file"
+  },
+  {
+   "name": "azure_mobile",
+   "label": "Mobile",
+   "category": "General",
+   "file": "assets/azure_mobile.svg",
+   "tags": "mobile general azure mobile"
+  },
+  {
+   "name": "azure_mobile_engagement",
+   "label": "Mobile Engagement",
+   "category": "General",
+   "file": "assets/azure_mobile_engagement.svg",
+   "tags": "mobile engagement general azure mobile engagement"
+  },
+  {
+   "name": "azure_power",
+   "label": "Power",
+   "category": "General",
+   "file": "assets/azure_power.svg",
+   "tags": "power general azure power"
+  },
+  {
+   "name": "azure_powershell",
+   "label": "Powershell",
+   "category": "General",
+   "file": "assets/azure_powershell.svg",
+   "tags": "powershell general azure powershell"
+  },
+  {
+   "name": "azure_power_up",
+   "label": "Power Up",
+   "category": "General",
+   "file": "assets/azure_power_up.svg",
+   "tags": "power up general azure power up"
+  },
+  {
+   "name": "azure_feature_previews",
+   "label": "Feature Previews",
+   "category": "General",
+   "file": "assets/azure_feature_previews.svg",
+   "tags": "feature previews general azure feature previews"
+  },
+  {
+   "name": "azure_process_explorer",
+   "label": "Process Explorer",
+   "category": "General",
+   "file": "assets/azure_process_explorer.svg",
+   "tags": "process explorer general azure process explorer"
+  },
+  {
+   "name": "azure_production_ready_database",
+   "label": "Production Ready Database",
+   "category": "General",
+   "file": "assets/azure_production_ready_database.svg",
+   "tags": "production ready database general azure production ready database"
+  },
+  {
+   "name": "azure_resource_group_list",
+   "label": "Resource Group List",
+   "category": "General",
+   "file": "assets/azure_resource_group_list.svg",
+   "tags": "resource group list general azure resource group list"
+  },
+  {
+   "name": "azure_resource_linked",
+   "label": "Resource Linked",
+   "category": "General",
+   "file": "assets/azure_resource_linked.svg",
+   "tags": "resource linked general azure resource linked"
+  },
+  {
+   "name": "azure_scheduler",
+   "label": "Scheduler",
+   "category": "General",
+   "file": "assets/azure_scheduler.svg",
+   "tags": "scheduler general azure scheduler"
+  },
+  {
+   "name": "azure_search",
+   "label": "Search",
+   "category": "General",
+   "file": "assets/azure_search.svg",
+   "tags": "search general azure search"
+  },
+  {
+   "name": "azure_server_farm",
+   "label": "Server Farm",
+   "category": "General",
+   "file": "assets/azure_server_farm.svg",
+   "tags": "server farm general azure server farm"
+  },
+  {
+   "name": "azure_ssd",
+   "label": "SSD",
+   "category": "General",
+   "file": "assets/azure_ssd.svg",
+   "tags": "ssd general azure ssd"
+  },
+  {
+   "name": "azure_storage_azure_files",
+   "label": "Storage Azure Files",
+   "category": "General",
+   "file": "assets/azure_storage_azure_files.svg",
+   "tags": "storage azure files general azure storage azure files"
+  },
+  {
+   "name": "azure_storage_container",
+   "label": "Storage Container",
+   "category": "General",
+   "file": "assets/azure_storage_container.svg",
+   "tags": "storage container general azure storage container"
+  },
+  {
+   "name": "azure_storage_queue",
+   "label": "Storage Queue",
+   "category": "General",
+   "file": "assets/azure_storage_queue.svg",
+   "tags": "storage queue general azure storage queue"
+  },
+  {
+   "name": "azure_table",
+   "label": "Table",
+   "category": "General",
+   "file": "assets/azure_table.svg",
+   "tags": "table general azure table"
+  },
+  {
+   "name": "azure_tags",
+   "label": "Tags",
+   "category": "General",
+   "file": "assets/azure_tags.svg",
+   "tags": "tags general azure tags"
+  },
+  {
+   "name": "azure_tfs_vc_repository",
+   "label": "TFS VC Repository",
+   "category": "General",
+   "file": "assets/azure_tfs_vc_repository.svg",
+   "tags": "tfs vc repository general azure tfs vc repository"
+  },
+  {
+   "name": "azure_toolbox",
+   "label": "Toolbox",
+   "category": "General",
+   "file": "assets/azure_toolbox.svg",
+   "tags": "toolbox general azure toolbox"
+  },
+  {
+   "name": "azure_versions",
+   "label": "Versions",
+   "category": "General",
+   "file": "assets/azure_versions.svg",
+   "tags": "versions general azure versions"
+  },
+  {
+   "name": "azure_website_power",
+   "label": "Website Power",
+   "category": "General",
+   "file": "assets/azure_website_power.svg",
+   "tags": "website power general azure website power"
+  },
+  {
+   "name": "azure_website_staging",
+   "label": "Website Staging",
+   "category": "General",
+   "file": "assets/azure_website_staging.svg",
+   "tags": "website staging general azure website staging"
+  },
+  {
+   "name": "azure_web_slots",
+   "label": "Web Slots",
+   "category": "General",
+   "file": "assets/azure_web_slots.svg",
+   "tags": "web slots general azure web slots"
+  },
+  {
+   "name": "azure_web_test",
+   "label": "Web Test",
+   "category": "General",
+   "file": "assets/azure_web_test.svg",
+   "tags": "web test general azure web test"
+  },
+  {
+   "name": "azure_workbooks",
+   "label": "Workbooks",
+   "category": "General",
+   "file": "assets/azure_workbooks.svg",
+   "tags": "workbooks general azure workbooks"
+  },
+  {
+   "name": "azure_workflow",
+   "label": "Workflow",
+   "category": "General",
+   "file": "assets/azure_workflow.svg",
+   "tags": "workflow general azure workflow"
+  },
+  {
+   "name": "azure_backlog",
+   "label": "Backlog",
+   "category": "General",
+   "file": "assets/azure_backlog.svg",
+   "tags": "backlog general azure backlog"
+  },
+  {
+   "name": "azure_media",
+   "label": "Media",
+   "category": "General",
+   "file": "assets/azure_media.svg",
+   "tags": "media general azure media"
+  },
+  {
+   "name": "azure_module",
+   "label": "Module",
+   "category": "General",
+   "file": "assets/azure_module.svg",
+   "tags": "module general azure module"
+  },
+  {
+   "name": "azure_search_grid",
+   "label": "Search Grid",
+   "category": "General",
+   "file": "assets/azure_search_grid.svg",
+   "tags": "search grid general azure search grid"
+  },
+  {
+   "name": "azure_keys",
+   "label": "Keys",
+   "category": "Menu",
+   "file": "assets/azure_keys.svg",
+   "tags": "keys menu azure keys"
+  },
+  {
+   "name": "azure_toolchain_orchestrator",
+   "label": "Toolchain Orchestrator",
+   "category": "New Icons",
+   "file": "assets/azure_toolchain_orchestrator.svg",
+   "tags": "toolchain orchestrator new icons azure toolchain orchestrator"
+  },
+  {
+   "name": "azure_workload_orchestration",
+   "label": "Workload Orchestration",
+   "category": "New Icons",
+   "file": "assets/azure_workload_orchestration.svg",
+   "tags": "workload orchestration new icons azure workload orchestration"
+  },
+  {
+   "name": "azure_data_virtualization",
+   "label": "Data Virtualization",
+   "category": "New Icons",
+   "file": "assets/azure_data_virtualization.svg",
+   "tags": "data virtualization new icons azure data virtualization"
+  },
+  {
+   "name": "azure_edge_actions",
+   "label": "Edge Actions",
+   "category": "New Icons",
+   "file": "assets/azure_edge_actions.svg",
+   "tags": "edge actions new icons azure edge actions"
+  },
+  {
+   "name": "azure_frd_qa",
+   "label": "FRD QA",
+   "category": "New Icons",
+   "file": "assets/azure_frd_qa.svg",
+   "tags": "frd qa new icons azure frd qa"
+  },
+  {
+   "name": "azure_landing_zone",
+   "label": "Landing Zone",
+   "category": "New Icons",
+   "file": "assets/azure_landing_zone.svg",
+   "tags": "landing zone new icons azure landing zone"
+  },
+  {
+   "name": "azure_service_groups",
+   "label": "Service Groups",
+   "category": "New Icons",
+   "file": "assets/azure_service_groups.svg",
+   "tags": "service groups new icons azure service groups"
+  },
+  {
+   "name": "azure_engage_center_connect",
+   "label": "Engage Center Connect",
+   "category": "New Icons",
+   "file": "assets/azure_engage_center_connect.svg",
+   "tags": "engage center connect new icons azure engage center connect"
+  },
+  {
+   "name": "azure_pubsub",
+   "label": "pubsub",
+   "category": "New Icons",
+   "file": "assets/azure_pubsub.svg",
+   "tags": "pubsub new icons azure pubsub"
+  },
+  {
+   "name": "azure_storage_hubs",
+   "label": "Storage Hubs",
+   "category": "New Icons",
+   "file": "assets/azure_storage_hubs.svg",
+   "tags": "storage hubs new icons azure storage hubs"
+  },
+  {
+   "name": "azure_030777508_icon_service_service_group_relationships",
+   "label": "030777508  icon service Service Group Relationships",
+   "category": "New Icons",
+   "file": "assets/azure_030777508_icon_service_service_group_relationships.svg",
+   "tags": "030777508  icon service service group relationships new icons azure 030777508 icon service service group relationships"
+  },
+  {
+   "name": "azure_stage_maps",
+   "label": "Stage Maps",
+   "category": "New Icons",
+   "file": "assets/azure_stage_maps.svg",
+   "tags": "stage maps new icons azure stage maps"
+  },
+  {
+   "name": "azure_logic_apps_template",
+   "label": "Logic Apps Template",
+   "category": "New Icons",
+   "file": "assets/azure_logic_apps_template.svg",
+   "tags": "logic apps template new icons azure logic apps template"
+  },
+  {
+   "name": "azure_aks_network_policy",
+   "label": "AKS Network Policy",
+   "category": "New Icons",
+   "file": "assets/azure_aks_network_policy.svg",
+   "tags": "aks network policy new icons azure aks network policy"
+  },
+  {
+   "name": "azure_microsoft_discovery",
+   "label": "Microsoft Discovery",
+   "category": "New Icons",
+   "file": "assets/azure_microsoft_discovery.svg",
+   "tags": "microsoft discovery new icons azure microsoft discovery"
+  },
+  {
+   "name": "azure_scheduled_actions",
+   "label": "Scheduled Actions",
+   "category": "New Icons",
+   "file": "assets/azure_scheduled_actions.svg",
+   "tags": "scheduled actions new icons azure scheduled actions"
+  },
+  {
+   "name": "azure_promethus",
+   "label": "promethus",
+   "category": "New Icons",
+   "file": "assets/azure_promethus.svg",
+   "tags": "promethus new icons azure promethus"
+  },
+  {
+   "name": "azure_kubernetes_hub",
+   "label": "Kubernetes Hub",
+   "category": "New Icons",
+   "file": "assets/azure_kubernetes_hub.svg",
+   "tags": "kubernetes hub new icons azure kubernetes hub"
+  },
+  {
+   "name": "azure_azure_local",
+   "label": "Azure Local",
+   "category": "New Icons",
+   "file": "assets/azure_azure_local.svg",
+   "tags": "azure local new icons azure azure local"
+  },
+  {
+   "name": "azure_azure_app_testing",
+   "label": "Azure App Testing",
+   "category": "New Icons",
+   "file": "assets/azure_azure_app_testing.svg",
+   "tags": "azure app testing new icons azure azure app testing"
+  },
+  {
+   "name": "azure_azure_container_storage",
+   "label": "Azure Container Storage",
+   "category": "New Icons",
+   "file": "assets/azure_azure_container_storage.svg",
+   "tags": "azure container storage new icons azure azure container storage"
+  },
+  {
+   "name": "azure_external_id",
+   "label": "external id",
+   "category": "New Icons",
+   "file": "assets/azure_external_id.svg",
+   "tags": "external id new icons azure external id"
+  },
+  {
+   "name": "azure_external_id_modified",
+   "label": "external id modified",
+   "category": "New Icons",
+   "file": "assets/azure_external_id_modified.svg",
+   "tags": "external id modified new icons azure external id modified"
+  },
+  {
+   "name": "azure_vnet_appliance",
+   "label": "VNet Appliance",
+   "category": "New Icons",
+   "file": "assets/azure_vnet_appliance.svg",
+   "tags": "vnet appliance new icons azure vnet appliance"
+  },
+  {
+   "name": "azure_monitor_issues",
+   "label": "Monitor Issues",
+   "category": "New Icons",
+   "file": "assets/azure_monitor_issues.svg",
+   "tags": "monitor issues new icons azure monitor issues"
+  },
+  {
+   "name": "azure_azure_consumption_commitment",
+   "label": "Azure Consumption Commitment",
+   "category": "New Icons",
+   "file": "assets/azure_azure_consumption_commitment.svg",
+   "tags": "azure consumption commitment new icons azure azure consumption commitment"
+  },
+  {
+   "name": "azure_edge_storage_accelerator",
+   "label": "Edge Storage Accelerator",
+   "category": "New Icons",
+   "file": "assets/azure_edge_storage_accelerator.svg",
+   "tags": "edge storage accelerator new icons azure edge storage accelerator"
+  },
+  {
+   "name": "azure_operation_center",
+   "label": "Operation Center",
+   "category": "New Icons",
+   "file": "assets/azure_operation_center.svg",
+   "tags": "operation center new icons azure operation center"
+  },
+  {
+   "name": "azure_sql_database_fleet_manager",
+   "label": "SQL Database Fleet Manager",
+   "category": "New Icons",
+   "file": "assets/azure_sql_database_fleet_manager.svg",
+   "tags": "sql database fleet manager new icons azure sql database fleet manager"
+  },
+  {
+   "name": "azure_breeze",
+   "label": "Breeze",
+   "category": "New Icons",
+   "file": "assets/azure_breeze.svg",
+   "tags": "breeze new icons azure breeze"
+  },
+  {
+   "name": "azure_network_foundation_hub",
+   "label": "Network Foundation Hub",
+   "category": "New Icons",
+   "file": "assets/azure_network_foundation_hub.svg",
+   "tags": "network foundation hub new icons azure network foundation hub"
+  },
+  {
+   "name": "azure_azure_linux",
+   "label": "Azure Linux",
+   "category": "New Icons",
+   "file": "assets/azure_azure_linux.svg",
+   "tags": "azure linux new icons azure azure linux"
+  },
+  {
+   "name": "azure_network_security_hub",
+   "label": "Network Security Hub",
+   "category": "New Icons",
+   "file": "assets/azure_network_security_hub.svg",
+   "tags": "network security hub new icons azure network security hub"
+  },
+  {
+   "name": "azure_hybrid_connectivity_hub",
+   "label": "Hybrid Connectivity Hub",
+   "category": "New Icons",
+   "file": "assets/azure_hybrid_connectivity_hub.svg",
+   "tags": "hybrid connectivity hub new icons azure hybrid connectivity hub"
+  },
+  {
+   "name": "azure_azure_managed_redis",
+   "label": "Azure Managed Redis",
+   "category": "New Icons",
+   "file": "assets/azure_azure_managed_redis.svg",
+   "tags": "azure managed redis new icons azure azure managed redis"
+  },
+  {
+   "name": "azure_ai_at_edge",
+   "label": "AI at Edge",
+   "category": "New Icons",
+   "file": "assets/azure_ai_at_edge.svg",
+   "tags": "ai at edge new icons azure ai at edge"
+  },
+  {
+   "name": "azure_vpnclientwindows",
+   "label": "VPNClientWindows",
+   "category": "New Icons",
+   "file": "assets/azure_vpnclientwindows.svg",
+   "tags": "vpnclientwindows new icons azure vpnclientwindows"
+  },
+  {
+   "name": "azure_planetary_computer_pro",
+   "label": "Planetary Computer Pro",
+   "category": "New Icons",
+   "file": "assets/azure_planetary_computer_pro.svg",
+   "tags": "planetary computer pro new icons azure planetary computer pro"
+  },
+  {
+   "name": "azure_azure_virtual_desktop",
+   "label": "Azure Virtual Desktop",
+   "category": "Other",
+   "file": "assets/azure_azure_virtual_desktop.svg",
+   "tags": "azure virtual desktop other azure azure virtual desktop"
+  },
+  {
+   "name": "azure_ssh_keys",
+   "label": "SSH Keys",
+   "category": "Other",
+   "file": "assets/azure_ssh_keys.svg",
+   "tags": "ssh keys other azure ssh keys"
+  },
+  {
+   "name": "azure_internet_analyzer_profiles",
+   "label": "Internet Analyzer Profiles",
+   "category": "Other",
+   "file": "assets/azure_internet_analyzer_profiles.svg",
+   "tags": "internet analyzer profiles other azure internet analyzer profiles"
+  },
+  {
+   "name": "azure_azure_cloud_shell",
+   "label": "Azure Cloud Shell",
+   "category": "Other",
+   "file": "assets/azure_azure_cloud_shell.svg",
+   "tags": "azure cloud shell other azure azure cloud shell"
+  },
+  {
+   "name": "azure_video_analyzers",
+   "label": "Video Analyzers",
+   "category": "Other",
+   "file": "assets/azure_video_analyzers.svg",
+   "tags": "video analyzers other azure video analyzers"
+  },
+  {
+   "name": "azure_expressroute_direct",
+   "label": "ExpressRoute Direct",
+   "category": "Other",
+   "file": "assets/azure_expressroute_direct.svg",
+   "tags": "expressroute direct other azure expressroute direct"
+  },
+  {
+   "name": "azure_cost_export",
+   "label": "Cost Export",
+   "category": "Other",
+   "file": "assets/azure_cost_export.svg",
+   "tags": "cost export other azure cost export"
+  },
+  {
+   "name": "azure_azure_communication_services",
+   "label": "Azure Communication Services",
+   "category": "Other",
+   "file": "assets/azure_azure_communication_services.svg",
+   "tags": "azure communication services other azure azure communication services"
+  },
+  {
+   "name": "azure_peering_service",
+   "label": "Peering Service",
+   "category": "Other",
+   "file": "assets/azure_peering_service.svg",
+   "tags": "peering service other azure peering service"
+  },
+  {
+   "name": "azure_azure_network_function_manager_functions",
+   "label": "Azure Network Function Manager Functions",
+   "category": "Other",
+   "file": "assets/azure_azure_network_function_manager_functions.svg",
+   "tags": "azure network function manager functions other azure azure network function manager functions"
+  },
+  {
+   "name": "azure_log_analytics_query_pack",
+   "label": "Log Analytics Query Pack",
+   "category": "Other",
+   "file": "assets/azure_log_analytics_query_pack.svg",
+   "tags": "log analytics query pack other azure log analytics query pack"
+  },
+  {
+   "name": "azure_arc_kubernetes",
+   "label": "Arc Kubernetes",
+   "category": "Other",
+   "file": "assets/azure_arc_kubernetes.svg",
+   "tags": "arc kubernetes other azure arc kubernetes"
+  },
+  {
+   "name": "azure_azure_vmware_solution",
+   "label": "Azure VMware Solution",
+   "category": "Other",
+   "file": "assets/azure_azure_vmware_solution.svg",
+   "tags": "azure vmware solution other azure azure vmware solution"
+  },
+  {
+   "name": "azure_peerings",
+   "label": "Peerings",
+   "category": "Other",
+   "file": "assets/azure_peerings.svg",
+   "tags": "peerings other azure peerings"
+  },
+  {
+   "name": "azure_dashboard_hub",
+   "label": "Dashboard Hub",
+   "category": "Other",
+   "file": "assets/azure_dashboard_hub.svg",
+   "tags": "dashboard hub other azure dashboard hub"
+  },
+  {
+   "name": "azure_azure_video_indexer",
+   "label": "Azure Video Indexer",
+   "category": "Other",
+   "file": "assets/azure_azure_video_indexer.svg",
+   "tags": "azure video indexer other azure azure video indexer"
+  },
+  {
+   "name": "azure_avs_vm",
+   "label": "AVS VM",
+   "category": "Other",
+   "file": "assets/azure_avs_vm.svg",
+   "tags": "avs vm other azure avs vm"
+  },
+  {
+   "name": "azure_arc_postgresql",
+   "label": "Arc PostgreSQL",
+   "category": "Other",
+   "file": "assets/azure_arc_postgresql.svg",
+   "tags": "arc postgresql other azure arc postgresql"
+  },
+  {
+   "name": "azure_arc_sql_managed_instance",
+   "label": "Arc SQL Managed Instance",
+   "category": "Other",
+   "file": "assets/azure_arc_sql_managed_instance.svg",
+   "tags": "arc sql managed instance other azure arc sql managed instance"
+  },
+  {
+   "name": "azure_arc_sql_server",
+   "label": "Arc SQL Server",
+   "category": "Other",
+   "file": "assets/azure_arc_sql_server.svg",
+   "tags": "arc sql server other azure arc sql server"
+  },
+  {
+   "name": "azure_data_collection_rules",
+   "label": "Data Collection Rules",
+   "category": "Other",
+   "file": "assets/azure_data_collection_rules.svg",
+   "tags": "data collection rules other azure data collection rules"
+  },
+  {
+   "name": "azure_resource_mover",
+   "label": "Resource Mover",
+   "category": "Other",
+   "file": "assets/azure_resource_mover.svg",
+   "tags": "resource mover other azure resource mover"
+  },
+  {
+   "name": "azure_azure_chaos_studio",
+   "label": "Azure Chaos Studio",
+   "category": "Other",
+   "file": "assets/azure_azure_chaos_studio.svg",
+   "tags": "azure chaos studio other azure azure chaos studio"
+  },
+  {
+   "name": "azure_network_managers",
+   "label": "Network Managers",
+   "category": "Other",
+   "file": "assets/azure_network_managers.svg",
+   "tags": "network managers other azure network managers"
+  },
+  {
+   "name": "azure_dedicated_hsm",
+   "label": "Dedicated HSM",
+   "category": "Other",
+   "file": "assets/azure_dedicated_hsm.svg",
+   "tags": "dedicated hsm other azure dedicated hsm"
+  },
+  {
+   "name": "azure_modular_data_center",
+   "label": "Modular Data Center",
+   "category": "Other",
+   "file": "assets/azure_modular_data_center.svg",
+   "tags": "modular data center other azure modular data center"
+  },
+  {
+   "name": "azure_template_specs",
+   "label": "Template Specs",
+   "category": "Other",
+   "file": "assets/azure_template_specs.svg",
+   "tags": "template specs other azure template specs"
+  },
+  {
+   "name": "azure_arc_data_services",
+   "label": "Arc Data services",
+   "category": "Other",
+   "file": "assets/azure_arc_data_services.svg",
+   "tags": "arc data services other azure arc data services"
+  },
+  {
+   "name": "azure_azure_backup_center",
+   "label": "Azure Backup Center",
+   "category": "Other",
+   "file": "assets/azure_azure_backup_center.svg",
+   "tags": "azure backup center other azure azure backup center"
+  },
+  {
+   "name": "azure_backup_vault",
+   "label": "Backup Vault",
+   "category": "Other",
+   "file": "assets/azure_backup_vault.svg",
+   "tags": "backup vault other azure backup vault"
+  },
+  {
+   "name": "azure_device_update_iot_hub",
+   "label": "Device Update IoT Hub",
+   "category": "Other",
+   "file": "assets/azure_device_update_iot_hub.svg",
+   "tags": "device update iot hub other azure device update iot hub"
+  },
+  {
+   "name": "azure_fiji",
+   "label": "Fiji",
+   "category": "Other",
+   "file": "assets/azure_fiji.svg",
+   "tags": "fiji other azure fiji"
+  },
+  {
+   "name": "azure_azure_monitor_dashboard",
+   "label": "Azure Monitor Dashboard",
+   "category": "Other",
+   "file": "assets/azure_azure_monitor_dashboard.svg",
+   "tags": "azure monitor dashboard other azure azure monitor dashboard"
+  },
+  {
+   "name": "azure_scvmm_management_servers",
+   "label": "SCVMM Management Servers",
+   "category": "Other",
+   "file": "assets/azure_scvmm_management_servers.svg",
+   "tags": "scvmm management servers other azure scvmm management servers"
+  },
+  {
+   "name": "azure_cloud_services_extended_support",
+   "label": "Cloud Services (extended support)",
+   "category": "Other",
+   "file": "assets/azure_cloud_services_extended_support.svg",
+   "tags": "cloud services (extended support) other azure cloud services extended support"
+  },
+  {
+   "name": "azure_azure_support_center_blue",
+   "label": "Azure Support Center Blue",
+   "category": "Other",
+   "file": "assets/azure_azure_support_center_blue.svg",
+   "tags": "azure support center blue other azure azure support center blue"
+  },
+  {
+   "name": "azure_web_app_database",
+   "label": "Web App + Database",
+   "category": "Other",
+   "file": "assets/azure_web_app_database.svg",
+   "tags": "web app + database other azure web app database"
+  },
+  {
+   "name": "azure_azure_hpc_workbenches",
+   "label": "Azure HPC Workbenches",
+   "category": "Other",
+   "file": "assets/azure_azure_hpc_workbenches.svg",
+   "tags": "azure hpc workbenches other azure azure hpc workbenches"
+  },
+  {
+   "name": "azure_disk_pool",
+   "label": "Disk Pool",
+   "category": "Other",
+   "file": "assets/azure_disk_pool.svg",
+   "tags": "disk pool other azure disk pool"
+  },
+  {
+   "name": "azure_bare_metal_infrastructure",
+   "label": "Bare Metal Infrastructure",
+   "category": "Other",
+   "file": "assets/azure_bare_metal_infrastructure.svg",
+   "tags": "bare metal infrastructure other azure bare metal infrastructure"
+  },
+  {
+   "name": "azure_connected_vehicle_platform",
+   "label": "Connected Vehicle Platform",
+   "category": "Other",
+   "file": "assets/azure_connected_vehicle_platform.svg",
+   "tags": "connected vehicle platform other azure connected vehicle platform"
+  },
+  {
+   "name": "azure_private_endpoints",
+   "label": "Private Endpoints",
+   "category": "Other",
+   "file": "assets/azure_private_endpoints.svg",
+   "tags": "private endpoints other azure private endpoints"
+  },
+  {
+   "name": "azure_open_supply_chain_platform",
+   "label": "Open Supply Chain Platform",
+   "category": "Other",
+   "file": "assets/azure_open_supply_chain_platform.svg",
+   "tags": "open supply chain platform other azure open supply chain platform"
+  },
+  {
+   "name": "azure_aquila",
+   "label": "Aquila",
+   "category": "Other",
+   "file": "assets/azure_aquila.svg",
+   "tags": "aquila other azure aquila"
+  },
+  {
+   "name": "azure_reserved_capacity",
+   "label": "Reserved Capacity",
+   "category": "Other",
+   "file": "assets/azure_reserved_capacity.svg",
+   "tags": "reserved capacity other azure reserved capacity"
+  },
+  {
+   "name": "azure_custom_ip_prefix",
+   "label": "Custom IP Prefix",
+   "category": "Other",
+   "file": "assets/azure_custom_ip_prefix.svg",
+   "tags": "custom ip prefix other azure custom ip prefix"
+  },
+  {
+   "name": "azure_fhir_service",
+   "label": "FHIR Service",
+   "category": "Other",
+   "file": "assets/azure_fhir_service.svg",
+   "tags": "fhir service other azure fhir service"
+  },
+  {
+   "name": "azure_medtech_service",
+   "label": "MedTech Service",
+   "category": "Other",
+   "file": "assets/azure_medtech_service.svg",
+   "tags": "medtech service other azure medtech service"
+  },
+  {
+   "name": "azure_managed_instance_apache_cassandra",
+   "label": "Managed Instance Apache Cassandra",
+   "category": "Other",
+   "file": "assets/azure_managed_instance_apache_cassandra.svg",
+   "tags": "managed instance apache cassandra other azure managed instance apache cassandra"
+  },
+  {
+   "name": "azure_confidential_ledgers",
+   "label": "Confidential Ledgers",
+   "category": "Other",
+   "file": "assets/azure_confidential_ledgers.svg",
+   "tags": "confidential ledgers other azure confidential ledgers"
+  },
+  {
+   "name": "azure_test_base",
+   "label": "Test Base",
+   "category": "Other",
+   "file": "assets/azure_test_base.svg",
+   "tags": "test base other azure test base"
+  },
+  {
+   "name": "azure_azure_orbital",
+   "label": "Azure Orbital",
+   "category": "Other",
+   "file": "assets/azure_azure_orbital.svg",
+   "tags": "azure orbital other azure azure orbital"
+  },
+  {
+   "name": "azure_capacity_reservation_groups",
+   "label": "Capacity Reservation Groups",
+   "category": "Other",
+   "file": "assets/azure_capacity_reservation_groups.svg",
+   "tags": "capacity reservation groups other azure capacity reservation groups"
+  },
+  {
+   "name": "azure_windows_notification_services",
+   "label": "Windows Notification Services",
+   "category": "Other",
+   "file": "assets/azure_windows_notification_services.svg",
+   "tags": "windows notification services other azure windows notification services"
+  },
+  {
+   "name": "azure_azure_network_function_manager",
+   "label": "Azure Network Function Manager",
+   "category": "Other",
+   "file": "assets/azure_azure_network_function_manager.svg",
+   "tags": "azure network function manager other azure azure network function manager"
+  },
+  {
+   "name": "azure_mission_landing_zone",
+   "label": "Mission Landing Zone",
+   "category": "Other",
+   "file": "assets/azure_mission_landing_zone.svg",
+   "tags": "mission landing zone other azure mission landing zone"
+  },
+  {
+   "name": "azure_mobile_networks",
+   "label": "Mobile Networks",
+   "category": "Other",
+   "file": "assets/azure_mobile_networks.svg",
+   "tags": "mobile networks other azure mobile networks"
+  },
+  {
+   "name": "azure_vm_app_definitions",
+   "label": "VM App Definitions",
+   "category": "Other",
+   "file": "assets/azure_vm_app_definitions.svg",
+   "tags": "vm app definitions other azure vm app definitions"
+  },
+  {
+   "name": "azure_vm_app_versions",
+   "label": "VM App Versions",
+   "category": "Other",
+   "file": "assets/azure_vm_app_versions.svg",
+   "tags": "vm app versions other azure vm app versions"
+  },
+  {
+   "name": "azure_azure_edge_hardware_center",
+   "label": "Azure Edge Hardware Center",
+   "category": "Other",
+   "file": "assets/azure_azure_edge_hardware_center.svg",
+   "tags": "azure edge hardware center other azure azure edge hardware center"
+  },
+  {
+   "name": "azure_resource_guard",
+   "label": "Resource Guard",
+   "category": "Other",
+   "file": "assets/azure_resource_guard.svg",
+   "tags": "resource guard other azure resource guard"
+  },
+  {
+   "name": "azure_ceres",
+   "label": "Ceres",
+   "category": "Other",
+   "file": "assets/azure_ceres.svg",
+   "tags": "ceres other azure ceres"
+  },
+  {
+   "name": "azure_azurite",
+   "label": "Azurite",
+   "category": "Other",
+   "file": "assets/azure_azurite.svg",
+   "tags": "azurite other azure azurite"
+  },
+  {
+   "name": "azure_update_management_center",
+   "label": "Update Management Center",
+   "category": "Other",
+   "file": "assets/azure_update_management_center.svg",
+   "tags": "update management center other azure update management center"
+  },
+  {
+   "name": "azure_community_images",
+   "label": "Community Images",
+   "category": "Other",
+   "file": "assets/azure_community_images.svg",
+   "tags": "community images other azure community images"
+  },
+  {
+   "name": "azure_vm_image_version",
+   "label": "VM Image Version",
+   "category": "Other",
+   "file": "assets/azure_vm_image_version.svg",
+   "tags": "vm image version other azure vm image version"
+  },
+  {
+   "name": "azure_savings_plans",
+   "label": "Savings Plans",
+   "category": "Other",
+   "file": "assets/azure_savings_plans.svg",
+   "tags": "savings plans other azure savings plans"
+  },
+  {
+   "name": "azure_worker_container_app",
+   "label": "Worker Container App",
+   "category": "Other",
+   "file": "assets/azure_worker_container_app.svg",
+   "tags": "worker container app other azure worker container app"
+  },
+  {
+   "name": "azure_azure_managed_grafana",
+   "label": "Azure Managed Grafana",
+   "category": "Other",
+   "file": "assets/azure_azure_managed_grafana.svg",
+   "tags": "azure managed grafana other azure azure managed grafana"
+  },
+  {
+   "name": "azure_targets_management",
+   "label": "Targets Management",
+   "category": "Other",
+   "file": "assets/azure_targets_management.svg",
+   "tags": "targets management other azure targets management"
+  },
+  {
+   "name": "azure_storage_functions",
+   "label": "Storage Functions",
+   "category": "Other",
+   "file": "assets/azure_storage_functions.svg",
+   "tags": "storage functions other azure storage functions"
+  },
+  {
+   "name": "azure_sonic_dash",
+   "label": "Sonic Dash",
+   "category": "Other",
+   "file": "assets/azure_sonic_dash.svg",
+   "tags": "sonic dash other azure sonic dash"
+  },
+  {
+   "name": "azure_compliance_center",
+   "label": "Compliance Center",
+   "category": "Other",
+   "file": "assets/azure_compliance_center.svg",
+   "tags": "compliance center other azure compliance center"
+  },
+  {
+   "name": "azure_network_security_perimeters",
+   "label": "Network Security Perimeters",
+   "category": "Other",
+   "file": "assets/azure_network_security_perimeters.svg",
+   "tags": "network security perimeters other azure network security perimeters"
+  },
+  {
+   "name": "azure_azure_load_testing",
+   "label": "Azure Load Testing",
+   "category": "Other",
+   "file": "assets/azure_azure_load_testing.svg",
+   "tags": "azure load testing other azure azure load testing"
+  },
+  {
+   "name": "azure_virtual_visits_builder",
+   "label": "Virtual Visits Builder",
+   "category": "Other",
+   "file": "assets/azure_virtual_visits_builder.svg",
+   "tags": "virtual visits builder other azure virtual visits builder"
+  },
+  {
+   "name": "azure_azure_quotas",
+   "label": "Azure Quotas",
+   "category": "Other",
+   "file": "assets/azure_azure_quotas.svg",
+   "tags": "azure quotas other azure azure quotas"
+  },
+  {
+   "name": "azure_container_apps_environments",
+   "label": "Container Apps Environments",
+   "category": "Other",
+   "file": "assets/azure_container_apps_environments.svg",
+   "tags": "container apps environments other azure container apps environments"
+  },
+  {
+   "name": "azure_app_compliance_automation",
+   "label": "App Compliance Automation",
+   "category": "Other",
+   "file": "assets/azure_app_compliance_automation.svg",
+   "tags": "app compliance automation other azure app compliance automation"
+  },
+  {
+   "name": "azure_virtual_instance_for_sap",
+   "label": "Virtual Instance for SAP",
+   "category": "Other",
+   "file": "assets/azure_virtual_instance_for_sap.svg",
+   "tags": "virtual instance for sap other azure virtual instance for sap"
+  },
+  {
+   "name": "azure_azure_center_for_sap",
+   "label": "Azure Center for SAP",
+   "category": "Other",
+   "file": "assets/azure_azure_center_for_sap.svg",
+   "tags": "azure center for sap other azure azure center for sap"
+  },
+  {
+   "name": "azure_azure_storage_mover",
+   "label": "Azure Storage Mover",
+   "category": "Other",
+   "file": "assets/azure_azure_storage_mover.svg",
+   "tags": "azure storage mover other azure azure storage mover"
+  },
+  {
+   "name": "azure_central_service_instance_for_sap",
+   "label": "Central Service Instance For SAP",
+   "category": "Other",
+   "file": "assets/azure_central_service_instance_for_sap.svg",
+   "tags": "central service instance for sap other azure central service instance for sap"
+  },
+  {
+   "name": "azure_kubernetes_fleet_manager",
+   "label": "Kubernetes Fleet Manager",
+   "category": "Other",
+   "file": "assets/azure_kubernetes_fleet_manager.svg",
+   "tags": "kubernetes fleet manager other azure kubernetes fleet manager"
+  },
+  {
+   "name": "azure_express_route_traffic_collector",
+   "label": "Express Route Traffic Collector",
+   "category": "Other",
+   "file": "assets/azure_express_route_traffic_collector.svg",
+   "tags": "express route traffic collector other azure express route traffic collector"
+  },
+  {
+   "name": "azure_database_instance_for_sap",
+   "label": "Database Instance For SAP",
+   "category": "Other",
+   "file": "assets/azure_database_instance_for_sap.svg",
+   "tags": "database instance for sap other azure database instance for sap"
+  },
+  {
+   "name": "azure_elastic_san",
+   "label": "Elastic SAN",
+   "category": "Other",
+   "file": "assets/azure_elastic_san.svg",
+   "tags": "elastic san other azure elastic san"
+  },
+  {
+   "name": "azure_microsoft_dev_box",
+   "label": "Microsoft Dev Box",
+   "category": "Other",
+   "file": "assets/azure_microsoft_dev_box.svg",
+   "tags": "microsoft dev box other azure microsoft dev box"
+  },
+  {
+   "name": "azure_azure_deployment_environments",
+   "label": "Azure Deployment Environments",
+   "category": "Other",
+   "file": "assets/azure_azure_deployment_environments.svg",
+   "tags": "azure deployment environments other azure azure deployment environments"
+  },
+  {
+   "name": "azure_azure_dev_tunnels",
+   "label": "Azure Dev Tunnels",
+   "category": "Other",
+   "file": "assets/azure_azure_dev_tunnels.svg",
+   "tags": "azure dev tunnels other azure azure dev tunnels"
+  },
+  {
+   "name": "azure_azure_sustainability",
+   "label": "Azure Sustainability",
+   "category": "Other",
+   "file": "assets/azure_azure_sustainability.svg",
+   "tags": "azure sustainability other azure azure sustainability"
+  },
+  {
+   "name": "azure_icm_troubleshooting",
+   "label": "IcM Troubleshooting",
+   "category": "Other",
+   "file": "assets/azure_icm_troubleshooting.svg",
+   "tags": "icm troubleshooting other azure icm troubleshooting"
+  },
+  {
+   "name": "azure_osconfig",
+   "label": "OSConfig",
+   "category": "Other",
+   "file": "assets/azure_osconfig.svg",
+   "tags": "osconfig other azure osconfig"
+  },
+  {
+   "name": "azure_virtual_enclaves",
+   "label": "Virtual Enclaves",
+   "category": "Other",
+   "file": "assets/azure_virtual_enclaves.svg",
+   "tags": "virtual enclaves other azure virtual enclaves"
+  },
+  {
+   "name": "azure_aks_istio",
+   "label": "AKS Istio",
+   "category": "Other",
+   "file": "assets/azure_aks_istio.svg",
+   "tags": "aks istio other azure aks istio"
+  },
+  {
+   "name": "azure_defender_cm_local_manager",
+   "label": "Defender CM Local Manager",
+   "category": "Other",
+   "file": "assets/azure_defender_cm_local_manager.svg",
+   "tags": "defender cm local manager other azure defender cm local manager"
+  },
+  {
+   "name": "azure_defender_external_management",
+   "label": "Defender External Management",
+   "category": "Other",
+   "file": "assets/azure_defender_external_management.svg",
+   "tags": "defender external management other azure defender external management"
+  },
+  {
+   "name": "azure_defender_freezer_monitor",
+   "label": "Defender Freezer Monitor",
+   "category": "Other",
+   "file": "assets/azure_defender_freezer_monitor.svg",
+   "tags": "defender freezer monitor other azure defender freezer monitor"
+  },
+  {
+   "name": "azure_defender_historian",
+   "label": "Defender Historian",
+   "category": "Other",
+   "file": "assets/azure_defender_historian.svg",
+   "tags": "defender historian other azure defender historian"
+  },
+  {
+   "name": "azure_defender_hmi",
+   "label": "Defender HMI",
+   "category": "Other",
+   "file": "assets/azure_defender_hmi.svg",
+   "tags": "defender hmi other azure defender hmi"
+  },
+  {
+   "name": "azure_defender_marquee",
+   "label": "Defender Marquee",
+   "category": "Other",
+   "file": "assets/azure_defender_marquee.svg",
+   "tags": "defender marquee other azure defender marquee"
+  },
+  {
+   "name": "azure_defender_robot_controller",
+   "label": "Defender Robot Controller",
+   "category": "Other",
+   "file": "assets/azure_defender_robot_controller.svg",
+   "tags": "defender robot controller other azure defender robot controller"
+  },
+  {
+   "name": "azure_defender_sensor",
+   "label": "Defender Sensor",
+   "category": "Other",
+   "file": "assets/azure_defender_sensor.svg",
+   "tags": "defender sensor other azure defender sensor"
+  },
+  {
+   "name": "azure_defender_slot",
+   "label": "Defender Slot",
+   "category": "Other",
+   "file": "assets/azure_defender_slot.svg",
+   "tags": "defender slot other azure defender slot"
+  },
+  {
+   "name": "azure_defender_web_guiding_system",
+   "label": "Defender Web Guiding System",
+   "category": "Other",
+   "file": "assets/azure_defender_web_guiding_system.svg",
+   "tags": "defender web guiding system other azure defender web guiding system"
+  },
+  {
+   "name": "azure_defender_dcs_controller",
+   "label": "Defender DCS Controller",
+   "category": "Other",
+   "file": "assets/azure_defender_dcs_controller.svg",
+   "tags": "defender dcs controller other azure defender dcs controller"
+  },
+  {
+   "name": "azure_defender_distributer_control_system",
+   "label": "Defender Distributer Control System",
+   "category": "Other",
+   "file": "assets/azure_defender_distributer_control_system.svg",
+   "tags": "defender distributer control system other azure defender distributer control system"
+  },
+  {
+   "name": "azure_defender_engineering_station",
+   "label": "Defender Engineering Station",
+   "category": "Other",
+   "file": "assets/azure_defender_engineering_station.svg",
+   "tags": "defender engineering station other azure defender engineering station"
+  },
+  {
+   "name": "azure_defender_industrial_packaging_system",
+   "label": "Defender Industrial Packaging System",
+   "category": "Other",
+   "file": "assets/azure_defender_industrial_packaging_system.svg",
+   "tags": "defender industrial packaging system other azure defender industrial packaging system"
+  },
+  {
+   "name": "azure_defender_industrial_printer",
+   "label": "Defender Industrial Printer",
+   "category": "Other",
+   "file": "assets/azure_defender_industrial_printer.svg",
+   "tags": "defender industrial printer other azure defender industrial printer"
+  },
+  {
+   "name": "azure_defender_industrial_scale_system",
+   "label": "Defender Industrial Scale System",
+   "category": "Other",
+   "file": "assets/azure_defender_industrial_scale_system.svg",
+   "tags": "defender industrial scale system other azure defender industrial scale system"
+  },
+  {
+   "name": "azure_defender_industrial_robot",
+   "label": "Defender Industrial Robot",
+   "category": "Other",
+   "file": "assets/azure_defender_industrial_robot.svg",
+   "tags": "defender industrial robot other azure defender industrial robot"
+  },
+  {
+   "name": "azure_defender_meter",
+   "label": "Defender Meter",
+   "category": "Other",
+   "file": "assets/azure_defender_meter.svg",
+   "tags": "defender meter other azure defender meter"
+  },
+  {
+   "name": "azure_defender_plc",
+   "label": "Defender PLC",
+   "category": "Other",
+   "file": "assets/azure_defender_plc.svg",
+   "tags": "defender plc other azure defender plc"
+  },
+  {
+   "name": "azure_defender_pneumatic_device",
+   "label": "Defender Pneumatic Device",
+   "category": "Other",
+   "file": "assets/azure_defender_pneumatic_device.svg",
+   "tags": "defender pneumatic device other azure defender pneumatic device"
+  },
+  {
+   "name": "azure_defender_programable_board",
+   "label": "Defender Programable Board",
+   "category": "Other",
+   "file": "assets/azure_defender_programable_board.svg",
+   "tags": "defender programable board other azure defender programable board"
+  },
+  {
+   "name": "azure_defender_relay",
+   "label": "Defender Relay",
+   "category": "Other",
+   "file": "assets/azure_defender_relay.svg",
+   "tags": "defender relay other azure defender relay"
+  },
+  {
+   "name": "azure_defender_rtu",
+   "label": "Defender RTU",
+   "category": "Other",
+   "file": "assets/azure_defender_rtu.svg",
+   "tags": "defender rtu other azure defender rtu"
+  },
+  {
+   "name": "azure_hdi_aks_cluster",
+   "label": "HDI AKS Cluster",
+   "category": "Other",
+   "file": "assets/azure_hdi_aks_cluster.svg",
+   "tags": "hdi aks cluster other azure hdi aks cluster"
+  },
+  {
+   "name": "azure_monitor_health_models",
+   "label": "Monitor Health Models",
+   "category": "Other",
+   "file": "assets/azure_monitor_health_models.svg",
+   "tags": "monitor health models other azure monitor health models"
+  },
+  {
+   "name": "azure_wac_installer",
+   "label": "WAC Installer",
+   "category": "Other",
+   "file": "assets/azure_wac_installer.svg",
+   "tags": "wac installer other azure wac installer"
+  },
+  {
+   "name": "azure_azure_a",
+   "label": "Azure A",
+   "category": "Other",
+   "file": "assets/azure_azure_a.svg",
+   "tags": "azure a other azure azure a"
+  },
+  {
+   "name": "azure_edge_management",
+   "label": "Edge Management",
+   "category": "Other",
+   "file": "assets/azure_edge_management.svg",
+   "tags": "edge management other azure edge management"
+  },
+  {
+   "name": "azure_azure_sphere",
+   "label": "Azure Sphere",
+   "category": "Other",
+   "file": "assets/azure_azure_sphere.svg",
+   "tags": "azure sphere other azure azure sphere"
+  },
+  {
+   "name": "azure_exchange_on_premises_access",
+   "label": "Exchange On Premises Access",
+   "category": "Other",
+   "file": "assets/azure_exchange_on_premises_access.svg",
+   "tags": "exchange on premises access other azure exchange on premises access"
+  },
+  {
+   "name": "azure_wac",
+   "label": "WAC",
+   "category": "Other",
+   "file": "assets/azure_wac.svg",
+   "tags": "wac other azure wac"
+  },
+  {
+   "name": "azure_azureattestation",
+   "label": "AzureAttestation",
+   "category": "Other",
+   "file": "assets/azure_azureattestation.svg",
+   "tags": "azureattestation other azure azureattestation"
+  },
+  {
+   "name": "azure_rtos",
+   "label": "RTOS",
+   "category": "Other",
+   "file": "assets/azure_rtos.svg",
+   "tags": "rtos other azure rtos"
+  },
+  {
+   "name": "azure_web_jobs",
+   "label": "Web Jobs",
+   "category": "Other",
+   "file": "assets/azure_web_jobs.svg",
+   "tags": "web jobs other azure web jobs"
+  }
+ ]
+}

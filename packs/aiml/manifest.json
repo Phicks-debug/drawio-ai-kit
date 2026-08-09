@@ -1,0 +1,210 @@
+{
+ "pack": "aiml",
+ "category": "AI / ML",
+ "note": "AI / ML tooling as square tiles. devicon -> vectorlogo.zone -> gilbarbara -> simple-icons -> text. Rebuild: python3 scripts/build_pack.py aiml",
+ "icons": [
+  {
+   "name": "pytorch",
+   "label": "PyTorch",
+   "devicon": "pytorch",
+   "color": "#EE4C2C",
+   "abbr": "PyTorch",
+   "tags": "pytorch pytorch ai / ml"
+  },
+  {
+   "name": "tensorflow",
+   "label": "TensorFlow",
+   "devicon": "tensorflow",
+   "color": "#FF6F00",
+   "abbr": "TensorFlow",
+   "tags": "tensorflow tensorflow ai / ml"
+  },
+  {
+   "name": "keras",
+   "label": "Keras",
+   "devicon": "keras",
+   "color": "#D00000",
+   "abbr": "Keras",
+   "tags": "keras keras ai / ml"
+  },
+  {
+   "name": "scikitlearn",
+   "label": "scikit-learn",
+   "devicon": "scikitlearn",
+   "color": "#F7931E",
+   "abbr": "scikit-learn",
+   "tags": "scikitlearn scikit-learn ai / ml"
+  },
+  {
+   "name": "numpy",
+   "label": "NumPy",
+   "devicon": "numpy",
+   "color": "#013243",
+   "abbr": "NumPy",
+   "tags": "numpy numpy ai / ml"
+  },
+  {
+   "name": "pandas",
+   "label": "pandas",
+   "devicon": "pandas",
+   "color": "#150458",
+   "abbr": "pandas",
+   "tags": "pandas pandas ai / ml"
+  },
+  {
+   "name": "huggingface",
+   "label": "Hugging Face",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/hugging-face.svg",
+   "color": "#FFD21E",
+   "abbr": "Hugging Face",
+   "tags": "huggingface hugging face ai / ml"
+  },
+  {
+   "name": "onnx",
+   "label": "ONNX",
+   "slug": "onnx",
+   "color": "#005CED",
+   "abbr": "ONNX",
+   "tags": "onnx onnx ai / ml"
+  },
+  {
+   "name": "opencv",
+   "label": "OpenCV",
+   "devicon": "opencv",
+   "color": "#5C3EE8",
+   "abbr": "OpenCV",
+   "tags": "opencv opencv ai / ml"
+  },
+  {
+   "name": "jax",
+   "label": "JAX",
+   "color": "#8A2BE2",
+   "abbr": "JAX",
+   "tags": "jax jax ai / ml"
+  },
+  {
+   "name": "langchain",
+   "label": "LangChain",
+   "slug": "langchain",
+   "color": "#1C3C3C",
+   "abbr": "LangChain",
+   "tags": "langchain langchain ai / ml"
+  },
+  {
+   "name": "llamaindex",
+   "label": "LlamaIndex",
+   "color": "#8A2BE2",
+   "abbr": "LlamaIndex",
+   "tags": "llamaindex llamaindex ai / ml"
+  },
+  {
+   "name": "ollama",
+   "label": "Ollama",
+   "slug": "ollama",
+   "color": "#000000",
+   "abbr": "Ollama",
+   "tags": "ollama ollama ai / ml"
+  },
+  {
+   "name": "openai",
+   "label": "OpenAI",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/openai.svg",
+   "color": "#412991",
+   "abbr": "OpenAI",
+   "tags": "openai openai ai / ml"
+  },
+  {
+   "name": "anthropic",
+   "label": "Anthropic",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/anthropic.svg",
+   "color": "#D4A27F",
+   "abbr": "Anthropic",
+   "tags": "anthropic anthropic ai / ml"
+  },
+  {
+   "name": "mistralai",
+   "label": "Mistral AI",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/mistral-ai.svg",
+   "color": "#FA520F",
+   "abbr": "Mistral AI",
+   "tags": "mistralai mistral ai ai / ml"
+  },
+  {
+   "name": "wandb",
+   "label": "Weights & Biases",
+   "slug": "weightsandbiases",
+   "color": "#FFBE00",
+   "abbr": "Weights & Biases",
+   "tags": "wandb weights & biases ai / ml"
+  },
+  {
+   "name": "spacy",
+   "label": "spaCy",
+   "slug": "spacy",
+   "color": "#09A3D5",
+   "abbr": "spaCy",
+   "tags": "spacy spacy ai / ml"
+  },
+  {
+   "name": "xgboost",
+   "label": "XGBoost",
+   "color": "#337AB7",
+   "abbr": "XGBoost",
+   "tags": "xgboost xgboost ai / ml"
+  },
+  {
+   "name": "gradio",
+   "label": "Gradio",
+   "url": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/gradio.svg",
+   "color": "#F97316",
+   "abbr": "Gradio",
+   "tags": "gradio gradio ai / ml"
+  },
+  {
+   "name": "streamlit",
+   "label": "Streamlit",
+   "devicon": "streamlit",
+   "color": "#FF4B4B",
+   "abbr": "Streamlit",
+   "tags": "streamlit streamlit ai / ml"
+  },
+  {
+   "name": "vllm",
+   "label": "vLLM",
+   "slug": "vllm",
+   "color": "#FBBF24",
+   "abbr": "vLLM",
+   "tags": "vllm vllm ai / ml"
+  },
+  {
+   "name": "comet",
+   "label": "Comet ML",
+   "color": "#262C3E",
+   "abbr": "Comet ML",
+   "tags": "comet comet ml ai / ml"
+  },
+  {
+   "name": "paddlepaddle",
+   "label": "PaddlePaddle",
+   "slug": "paddlepaddle",
+   "color": "#0062B0",
+   "abbr": "PaddlePaddle",
+   "tags": "paddlepaddle paddlepaddle ai / ml"
+  },
+  {
+   "name": "fastai",
+   "label": "fast.ai",
+   "color": "#00A3E0",
+   "abbr": "fast.ai",
+   "tags": "fastai fast.ai ai / ml"
+  },
+  {
+   "name": "matplotlib",
+   "label": "Matplotlib",
+   "devicon": "matplotlib",
+   "color": "#11557C",
+   "abbr": "Matplotlib",
+   "tags": "matplotlib matplotlib ai / ml"
+  }
+ ]
+}
