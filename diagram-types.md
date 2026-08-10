@@ -15,6 +15,8 @@ Never nest one cloud inside another.
 
 Each type has its own layout and edge-routing preset, exposed as `typePreset(name)` from `index.mjs`.
 
+Use semantic layers as the primary layout. Declare links before placement and call `renderGraph`; its Sugiyama-style barycenter sweeps reorder children inside `stage` and containers marked `{ graphOrder: true }`. The router then uses simple orthogonal lanes, with A* reserved for paths that still meet a protected service or header.
+
 - `pipeline`: Data/request pipelines, ETL, or request-response across tiers.
 - `hierarchy`: Organization structures, landing zones, accounts, or organizational units.
 - `network`: VPC/VNet topology, multi-AZ deployment, or three-tier networking.

@@ -239,7 +239,14 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
   }
 
   errors.push(...validateBranches(xml));
+  errors.push(...validateArrowConsistency(xml));
+  errors.push(...validateFlowAnimations(xml));
+  errors.push(...validateEndpointApproaches(xml));
   errors.push(...validateEdgeClearance(xml));
+  const pathQuality = validateEdgePathQuality(xml);
+  errors.push(...pathQuality.errors);
+  warnings.push(...pathQuality.warnings);
+  warnings.push(...validateContainerLabels(xml));
 
   // lint: every style containing resourceIcon should have aspect=fixed
   const iconStyles = xml.match(/style="[^"]*mxgraph\.aws4\.resourceIcon[^"]*"/g) ?? [];
@@ -315,6 +322,14 @@ export function validateBranches(xml) {
     const dx = other.x + other.w / 2 - (here.x + here.w / 2), dy = other.y + other.h / 2 - (here.y + here.h / 2);
     return Math.abs(dx) >= Math.abs(dy) ? (dx >= 0 ? "right" : "left") : (dy >= 0 ? "bottom" : "top");
   };
+  // Group equivalent peers by where they are placed relative to the service. Router-selected
+  // ports are a presentation detail and may spread one logical fan-out over several faces.
+  const semanticSideOf = (edge, end) => {
+    const here = byId.get(edge[end])?.absGeo, other = byId.get(edge[end === "source" ? "target" : "source"])?.absGeo;
+    if (!here || !other) return sideOf(edge, end);
+    const dx = other.x + other.w / 2 - (here.x + here.w / 2), dy = other.y + other.h / 2 - (here.y + here.h / 2);
+    return Math.abs(dx) >= Math.abs(dy) ? (dx >= 0 ? "right" : "left") : (dy >= 0 ? "bottom" : "top");
+  };
   const grouped = (direction) => {
     const groups = new Map();
     for (const edge of edges) {
@@ -322,7 +337,7 @@ export function validateBranches(xml) {
       if (junctionIds.has(node)) continue;
       const peer = edge[direction === "out" ? "target" : "source"], type = typeOf(peer);
       if (!type) continue;
-      const side = sideOf(edge, direction === "out" ? "source" : "target");
+      const side = semanticSideOf(edge, direction === "out" ? "source" : "target");
       const key = `${node}|${side}|${type}`;
       (groups.get(key) ?? groups.set(key, []).get(key)).push(peer);
     }
@@ -402,6 +417,81 @@ function attr(tag, name) {
 /** Read a numeric style key (exitX=0.5 …) from a style string. */
 // nosemgrep: detect-non-literal-regexp -- `k` is an internal style-key name (fixed set), not external input; pattern is linear
 const num = (style, k) => { const m = style.match(new RegExp(`(?:^|;)${k}=([\\d.]+)`)); return m ? +m[1] : null; };
+
+const styleToken = (style, key, fallback = null) => {
+  const matches = [...String(style || "").matchAll(new RegExp(`(?:^|;)${key}=([^;]+)`, "g"))];
+  return matches.length ? matches[matches.length - 1][1] : fallback;
+};
+
+/** Enforce one directional arrowhead selection across the complete diagram. */
+export function validateArrowConsistency(xml) {
+  const errors = [];
+  const byArrow = new Map();
+  for (const edge of parseCells(xml).filter((c) => c.edge === "1")) {
+    const end = styleToken(edge.style, "endArrow", "classic");
+    const arrow = styleToken(edge.style, "edgeArrow", end);
+    if (arrow && arrow !== "none") (byArrow.get(arrow) ?? byArrow.set(arrow, []).get(arrow)).push(edge.id || `${edge.source}→${edge.target}`);
+    if (end && end !== "none" && arrow && arrow !== "none" && end !== arrow)
+      errors.push(`Edge "${edge.id || `${edge.source}→${edge.target}`}" renders endArrow=${end} while its diagram arrow is ${arrow} — use the selected diagram arrowhead.`);
+    const start = styleToken(edge.style, "startArrow", "none");
+    if (start && start !== "none" && arrow && arrow !== "none" && start !== arrow)
+      errors.push(`Edge "${edge.id || `${edge.source}→${edge.target}`}" uses startArrow=${start} with diagram arrow=${arrow} — use the same arrowhead at both ends.`);
+  }
+  if (byArrow.size > 1) {
+    const details = [...byArrow.entries()].map(([arrow, ids]) => `${arrow}: ${ids.slice(0, 5).join(", ")}${ids.length > 5 ? "…" : ""}`).join("; ");
+    errors.push(`Diagram uses multiple directional arrowheads (${details}) — select one arrowhead type and apply it to every directional edge.`);
+  }
+  return errors;
+}
+
+/** Flow animation requires a deliberate marker emitted by an explicitly enabled Diagram. */
+export function validateFlowAnimations(xml) {
+  const errors = [];
+  for (const edge of parseCells(xml).filter((c) => c.edge === "1")) {
+    if (styleToken(edge.style, "flowAnimation", "0") === "1" && styleToken(edge.style, "flowExplicit", "0") !== "1")
+      errors.push(`Edge "${edge.id || `${edge.source}→${edge.target}`}" enables flow animation without explicit diagram opt-in — remove flowAnimation or rebuild with Diagram({ allowFlowAnimation: true }) after the user requests animation.`);
+  }
+  return errors;
+}
+
+/** Ensure terminal segments meet the declared service edge without crossing its body. */
+export function validateEndpointApproaches(xml) {
+  const errors = [];
+  const cells = parseCells(xml);
+  const byId = new Map(cells.filter((c) => c.id).map((c) => [c.id, c]));
+  const rectOf = (c) => c?.absGeo || c?.geo || null;
+  const side = (style, prefix) => {
+    const x = num(style, `${prefix}X`), y = num(style, `${prefix}Y`);
+    if (y === 0 && x !== 0 && x !== 1) return "top";
+    if (y === 1 && x !== 0 && x !== 1) return "bottom";
+    if (x === 0) return "left";
+    if (x === 1) return "right";
+    if (y === 0) return "top";
+    if (y === 1) return "bottom";
+    return null;
+  };
+  const wrongSide = (point, rect, declared) => {
+    const EPS = 1;
+    if (declared === "left") return point.x > rect.x + EPS;
+    if (declared === "right") return point.x < rect.x + rect.w - EPS;
+    if (declared === "top") return point.y > rect.y + EPS;
+    if (declared === "bottom") return point.y < rect.y + rect.h - EPS;
+    return false;
+  };
+  for (const edge of cells) {
+    if (edge.edge !== "1" || !edge.source || !edge.target || !(edge.wp || []).length) continue;
+    const sourceRect = rectOf(byId.get(edge.source)), targetRect = rectOf(byId.get(edge.target));
+    if (!sourceRect || !targetRect) continue;
+    const sourceJunction = /(?:^|;)(?:branchPoint|mergePoint)=1(?:;|$)/.test(byId.get(edge.source)?.style || "");
+    const targetJunction = /(?:^|;)(?:branchPoint|mergePoint)=1(?:;|$)/.test(byId.get(edge.target)?.style || "");
+    const exitSide = side(edge.style, "exit"), entrySide = side(edge.style, "entry");
+    if (!sourceJunction && exitSide && wrongSide(edge.wp[0], sourceRect, exitSide))
+      errors.push(`Edge "${edge.id || `${edge.source}→${edge.target}`}" departs service "${edge.source}" through its ${exitSide} edge while the first segment lies inside or across the service — shift the port to the nearest outward edge.`);
+    if (!targetJunction && entrySide && wrongSide(edge.wp[edge.wp.length - 1], targetRect, entrySide))
+      errors.push(`Edge "${edge.id || `${edge.source}→${edge.target}`}" approaches service "${edge.target}" from the wrong side of its ${entrySide} edge — shift the arrow to the nearest edge so the terminal segment stays outside the service body.`);
+  }
+  return errors;
+}
 
 /**
  * Aesthetics check derived from comparing the AI-drawn version against the human-corrected one.
@@ -730,6 +820,81 @@ function parseCells(xml) {
 
 const MIN_EDGE_CLEARANCE = 10;
 
+/** Ask for an explicit decision whenever a visible container has no reader-facing name. */
+export function validateContainerLabels(xml) {
+  const warnings = [];
+  const cells = parseCells(xml);
+  const hasChildren = new Set(cells.map((c) => c.parent).filter(Boolean));
+  const isJunction = (c) => /(?:^|;)(?:branchPoint|mergePoint)=1(?:;|$)/.test(c.style || "");
+  const isText = (c) => /(?:^|;)text;/.test(c.style || "") || c.id === "__title";
+  const isVisibleContainer = (c) => {
+    if (!c.id || c.edge === "1" || !c.geo || isJunction(c) || isText(c)) return false;
+    if (hasChildren.has(c.id)) return true;
+    return /(?:^|;)container=1(?:;|$)|grIcon=|serviceFrame=1|shape=mxgraph\.aws4\.group/.test(c.style || "")
+      || (c.parent === "boundaries" && !/_icon$/.test(c.id));
+  };
+  for (const c of cells.filter(isVisibleContainer)) {
+    const label = String(c.value || "").replace(/<[^>]*>/g, "").replace(/&nbsp;/gi, " ").trim();
+    if (!label)
+      warnings.push(`Container "${c.id}" has an empty name — confirm that it communicates meaningful ownership, scope, or grouping; add a short label, or replace the visible frame with a phantom/layout grouping when it exists only for alignment.`);
+  }
+  return warnings;
+}
+
+/** Detect routed paths that are technically valid but visibly broken, jagged, or looped back. */
+export function validateEdgePathQuality(xml) {
+  const errors = [], warnings = [];
+  const cells = parseCells(xml);
+  const byId = new Map(cells.filter((c) => c.id).map((c) => [c.id, c]));
+  const rectOf = (c) => c?.absGeo || c?.geo || null;
+  const pointOn = (r, x, y) => ({ x: r.x + (x ?? 0.5) * r.w, y: r.y + (y ?? 0.5) * r.h });
+  const EPS = 0.5;
+  const between = (v, a, b) => v > Math.min(a, b) + EPS && v < Math.max(a, b) - EPS;
+  for (const edge of cells) {
+    if (edge.edge !== "1" || !edge.source || !edge.target || !(edge.wp || []).length) continue;
+    const sg = rectOf(byId.get(edge.source)), tg = rectOf(byId.get(edge.target));
+    if (!sg || !tg) continue;
+    const start = pointOn(sg, num(edge.style, "exitX"), num(edge.style, "exitY"));
+    const end = pointOn(tg, num(edge.style, "entryX"), num(edge.style, "entryY"));
+    const points = [start, ...edge.wp, end].filter((p, i, all) => !i || Math.abs(p.x - all[i - 1].x) > EPS || Math.abs(p.y - all[i - 1].y) > EPS);
+    const name = `Edge "${edge.id || `${edge.source}→${edge.target}`}" (${edge.source}→${edge.target})`;
+    const segments = points.slice(0, -1).map((a, i) => ({ a, b: points[i + 1], i }));
+    const diagonal = segments.find((s) => Math.abs(s.a.x - s.b.x) > EPS && Math.abs(s.a.y - s.b.y) > EPS);
+    if (diagonal) {
+      errors.push(`${name} contains a diagonal or jagged segment — route it as a clean orthogonal path.`);
+      continue;
+    }
+    const dx = end.x - start.x, dy = end.y - start.y;
+    const horizontal = Math.abs(dx) >= Math.abs(dy), direction = Math.sign(horizontal ? dx : dy);
+    const directAxis = Math.abs(horizontal ? dx : dy);
+    let reverse = 0, length = 0;
+    for (const s of segments) {
+      const sx = s.b.x - s.a.x, sy = s.b.y - s.a.y;
+      length += Math.abs(sx) + Math.abs(sy);
+      const movement = horizontal ? sx : sy;
+      if (direction && movement && Math.sign(movement) !== direction) reverse += Math.abs(movement);
+    }
+    if (reverse > Math.max(32, directAxis * 0.12))
+      errors.push(`${name} backtracks ${Math.round(reverse)}px against its main ${horizontal ? "horizontal" : "vertical"} direction — reroute it through a monotonic corridor or reposition the endpoints.`);
+
+    let selfCrosses = false;
+    for (let i = 0; i < segments.length && !selfCrosses; i++) for (let j = i + 2; j < segments.length; j++) {
+      const a = segments[i], b = segments[j];
+      const ah = Math.abs(a.a.y - a.b.y) <= EPS, bh = Math.abs(b.a.y - b.b.y) <= EPS;
+      if (ah === bh) continue;
+      const h = ah ? a : b, v = ah ? b : a;
+      if (between(v.a.x, h.a.x, h.b.x) && between(h.a.y, v.a.y, v.b.y)) selfCrosses = true;
+    }
+    if (selfCrosses) errors.push(`${name} crosses itself — use one traceable orthogonal corridor.`);
+
+    const bends = Math.max(0, points.length - 2);
+    const manhattan = Math.abs(dx) + Math.abs(dy);
+    if (bends > 4 || (manhattan > 0 && length > manhattan * 1.6 + 80))
+      warnings.push(`${name} uses ${bends} bends and ${Math.round(length)}px of routing for a ${Math.round(manhattan)}px Manhattan path — simplify the corridor or move the connected services closer.`);
+  }
+  return { errors, warnings };
+}
+
 /** Hard geometry gate for routed edges: protect unrelated primitives and separate independent links. */
 export function validateEdgeClearance(xml, { minClearance = MIN_EDGE_CLEARANCE } = {}) {
   const errors = [];
@@ -740,6 +905,8 @@ export function validateEdgeClearance(xml, { minClearance = MIN_EDGE_CLEARANCE }
   const pointOn = (r, x, y) => ({ x: r.x + (x ?? 0.5) * r.w, y: r.y + (y ?? 0.5) * r.h });
   const holds = (outer, inner) => inner.x >= outer.x - 2 && inner.y >= outer.y - 2 && inner.x + inner.w <= outer.x + outer.w + 2 && inner.y + inner.h <= outer.y + outer.h + 2;
   const cleanPoints = (points) => points.filter((p, i) => !i || Math.abs(p.x - points[i - 1].x) > 0.1 || Math.abs(p.y - points[i - 1].y) > 0.1);
+  const hasChildren = new Set(cells.map((c) => c.parent).filter(Boolean));
+  const isContainer = (c) => hasChildren.has(c.id) || /container=1|shape=mxgraph\.aws4\.group|grIcon=|serviceFrame=1/.test(c.style || "");
 
   const routed = [];
   for (const edge of cells) {
@@ -773,7 +940,7 @@ export function validateEdgeClearance(xml, { minClearance = MIN_EDGE_CLEARANCE }
     return t1 - t0 > 1e-4;
   };
 
-  const primitives = cells.filter((c) => c.edge !== "1" && c.id && rectOf(c) && !isJunction(c) && c.id !== "0" && c.id !== "1");
+  const primitives = cells.filter((c) => c.edge !== "1" && c.id && rectOf(c) && !isJunction(c) && !isContainer(c) && c.id !== "0" && c.id !== "1");
   for (const route of routed) {
     for (const primitive of primitives) {
       if (primitive.id === route.edge.source || primitive.id === route.edge.target) continue;
@@ -782,6 +949,16 @@ export function validateEdgeClearance(xml, { minClearance = MIN_EDGE_CLEARANCE }
       if (route.segments.some((segment) => segmentHitsRect(segment.a, segment.b, pr)))
         errors.push(`Edge "${route.edge.id || `${route.edge.source}→${route.edge.target}`}" (${route.edge.source}→${route.edge.target}) crosses unrelated primitive "${primitive.id}" — route around its visible geometry or connect directly to it.`);
     }
+  }
+
+  // Container bodies are routing space. Protect their reader-facing header strip so compact paths
+  // may cross a logical frame without running through its title.
+  const headers = cells.filter((c) => c.edge !== "1" && c.id && rectOf(c) && isContainer(c) && String(c.value || "").trim())
+    .map((c) => ({ c, rect: { ...rectOf(c), h: Math.min(30, rectOf(c).h) } }));
+  for (const route of routed) for (const { c, rect } of headers) {
+    if (c.id === route.edge.source || c.id === route.edge.target) continue;
+    if (route.segments.some((segment) => segmentHitsRect(segment.a, segment.b, rect)))
+      errors.push(`Edge "${route.edge.id || `${route.edge.source}→${route.edge.target}`}" (${route.edge.source}→${route.edge.target}) crosses container header "${c.id}" — cross the frame through open body space and keep its title clear.`);
   }
 
   const parallelDistance = (s, t) => {
@@ -990,6 +1167,12 @@ export function auditEdges(xml) {
   }
   if (segs.length === 0) return advice;
 
+  const hasChildren = new Set(cells.map((c) => c.parent).filter(Boolean));
+  const serviceNodes = cells.filter((c) => c.edge !== "1" && c.id && (c.absGeo || c.geo)
+    && !hasChildren.has(c.id) && !/(?:^|;)text;|branchPoint=1|mergePoint=1/.test(c.style || "")).length;
+  if (segs.length >= 40 || (segs.length >= 30 && segs.length > Math.max(1, serviceNodes) * 1.2))
+    advice.push(`Dense dependency view (${segs.length} links across ${serviceNodes} service nodes) — keep the primary end-to-end flow in the overview and move secondary CRUD, operational, or record-level relationships into one or more focused detail diagrams.`);
+
   // 1) long detour connectors: edges spanning most of the diagram. A few are normal (a DR link,
   //    a cross-account trust); but ≥3 is the signature of a node parked far from its consumers
   //    (e.g. shared ECR/S3/CloudWatch dumped in a far row) — every reference becomes a long line.
@@ -1003,7 +1186,6 @@ export function auditEdges(xml) {
     advice.push(`Long connector(s) spanning most of the diagram (${longs.length}: ${names.join(", ")}${longs.length > 4 ? "…" : ""}) — place these nodes closer; keep shared resources (ECR/S3/CloudWatch/registries) in a band NEXT TO their consumers instead of a far-away row, to avoid long detour edges.`);
   }
 
-  const hasChildren = new Set(cells.map((c) => c.parent).filter(Boolean));
   // Floating arrowheads: edges anchored to a transparent leaf (not a real container)
   // hasChildren guards out AWS Cloud/Region/AZ/VPC group frames — those use fillColor=none legitimately.
   const isEmptyLeaf = (x) => {

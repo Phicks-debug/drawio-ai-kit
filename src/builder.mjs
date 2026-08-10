@@ -27,12 +27,19 @@ const insideKit = (dir, filename) => {
 export class Diagram {
   /** type: pipeline|hierarchy|network|hubspoke|hybrid|mesh|sequence
    *  contract: "scaffold" (default — drag-resilient, no waypoints) | "bake" (frozen waypoints). */
-  constructor(type = "pipeline", { title = "", page = [2000, 1200], contract = "scaffold", iconSize = 48 } = {}) {
+  constructor(type = "pipeline", { title = "", page = [2000, 1200], contract = "scaffold", iconSize = 48, routing = "simple", arrow = "block", allowFlowAnimation = false } = {}) {
     if (contract !== "scaffold" && contract !== "bake")
       throw new Error(`Invalid contract "${contract}" — use "scaffold" or "bake".`);
+    if (routing !== "simple" && routing !== "adaptive")
+      throw new Error(`Invalid routing "${routing}" — use "simple" or "adaptive".`);
+    if (!ARROW_STYLES.has(arrow) || arrow === "none")
+      throw new Error(`Invalid diagram arrow "${arrow}" — select one directional arrow from ${[...ARROW_STYLES].filter((one) => one !== "none").join(", ")}.`);
     this.c = loadCatalog();
     this.type = type;
     this.contract = contract;
+    this.routing = routing;
+    this.arrow = arrow;
+    this.allowFlowAnimation = !!allowFlowAnimation;
     this.iconSize = iconSize;   // global icon glyph size; per-icon {size} overrides (issue #58)
     this.preset = typePreset(type);
     this.page = page;
@@ -45,10 +52,21 @@ export class Diagram {
     if (title) this.text("__title", [0, 24], page[0], title, { fs: 14 });
   }
   _put(id, parent, x, y, w, h, style, label) {
-    this.R[id] = { x, y, w, h };
+    this.R[id] = { x, y, w, h, parent, label, style };
     const p = this.R[parent]; const ox = p ? p.x : 0, oy = p ? p.y : 0;   // layer parents ("1"/"boundaries") → offset 0
     this.cells.push(`<mxCell id="${id}" value="${esc(label)}" style="${style}" vertex="1" parent="${parent}"><mxGeometry x="${x - ox}" y="${y - oy}" width="${w}" height="${h}" as="geometry"/></mxCell>`);
     return this.R[id];
+  }
+  _move(id, x, y) {
+    const r = this.R[id];
+    if (!r) return null;
+    r.x = Math.round(x); r.y = Math.round(y);
+    const p = this.R[r.parent], rx = r.x - (p?.x ?? 0), ry = r.y - (p?.y ?? 0);
+    const marker = `<mxCell id="${id}"`;
+    const index = this.cells.findIndex((cell) => cell.startsWith(marker));
+    if (index >= 0)
+      this.cells[index] = this.cells[index].replace(/<mxGeometry\s+x="-?[\d.]+"\s+y="-?[\d.]+"/, `<mxGeometry x="${rx}" y="${ry}"`);
+    return r;
   }
   /** AWS icon by catalog name (verbatim style). [x,y] = top-left corner; size defaults to 48. */
   icon(id, name, [x, y], { parent = "1", label = "", size = 48, functionGroup = null } = {}) {
@@ -73,11 +91,12 @@ export class Diagram {
     const marker = functionGroup ? `functionGroup=${functionGroup};` : "";
     const r = this._put(id, parent, x, y, w, h, `rounded=${round ? 1 : 0};whiteSpace=wrap;html=1;fillColor=${fill};strokeColor=${stroke};fontColor=#1A1A1A;fontSize=${fs};fontStyle=${bold ? 1 : 0};verticalAlign=${va};${marker}`, label); r.ob = ob; return r;
   }
-  _junction(id, [x, y], marker, { parent = "1", size = 1 } = {}) {
+  _junction(id, [x, y], marker, { parent = "1", size = 1, atBend = false } = {}) {
     if (size < 1 || size > 4) throw new Error(`junction: size must be between 1 and 4, got ${size}.`);
     const r = this._put(id, parent, x, y, size, size, `ellipse;html=1;aspect=fixed;${marker}=1;fillColor=none;strokeColor=none;opacity=0;`, "");
     r.ob = true;
     r.junction = marker;
+    r.junctionAtBend = atBend === true;
     return r;
   }
   /** Invisible junction for one shared trunk that splits into at least three equivalent targets. */
@@ -185,7 +204,7 @@ export class Diagram {
       dash: !!opts.dash,
       rounded: !!opts.rounded,
       flow: !!opts.flow,
-      arrow: opts.arrow ?? "block",
+      arrow: opts.arrow ?? this.arrow,
       startArrow: opts.startArrow ?? "none",
       arrowSize: opts.arrowSize ?? 8,
       arrowFill: opts.arrowFill ?? true,
@@ -207,6 +226,8 @@ export class Diagram {
       }
     }
     const edgeOpts = { ...opts };
+    if (edgeOpts.flow && !this.allowFlowAnimation)
+      throw new Error("link: flow animation requires Diagram({ allowFlowAnimation: true }) and should be enabled only after an explicit user request.");
     for (const [key, value] of [["exitSide", edgeOpts.exitSide], ["entrySide", edgeOpts.entrySide]]) {
       if (value != null && !ROUTE_SIDES.has(value)) throw new Error(`link: ${key} must be L, R, T, or B; got "${value}".`);
     }
@@ -227,29 +248,42 @@ export class Diagram {
     if (!edgeOpts.route && !edgeOpts.style) edgeOpts.route = this._junctionRoute(src, tgt, edgeOpts.dir);
     if (edgeOpts.route && edgeOpts.via?.length)
       throw new Error("link: via checkpoints cannot be combined with a fixed route; steer the trunk before creating branch/merge links.");
-    const endArrow = edgeOpts.arrow ?? "block", startArrow = edgeOpts.startArrow ?? "none";
+    const endArrow = edgeOpts.arrow ?? this.arrow, startArrow = edgeOpts.startArrow ?? "none";
     if (!ARROW_STYLES.has(endArrow)) throw new Error(`link: invalid arrow "${endArrow}" — use ${[...ARROW_STYLES].join(", ")}.`);
     if (!ARROW_STYLES.has(startArrow)) throw new Error(`link: invalid startArrow "${startArrow}" — use ${[...ARROW_STYLES].join(", ")}.`);
+    if (endArrow !== this.arrow)
+      throw new Error(`link: arrow "${endArrow}" differs from the diagram arrow "${this.arrow}" — select one arrowhead for the Diagram and use it on every directional edge.`);
+    if (startArrow !== "none" && startArrow !== this.arrow)
+      throw new Error(`link: startArrow "${startArrow}" differs from the diagram arrow "${this.arrow}" — bidirectional edges use the same arrowhead at both ends.`);
+    const rawEnd = String(edgeOpts.style || "").match(/(?:^|;)endArrow=([^;]+)/)?.[1];
+    if (rawEnd && rawEnd !== "none" && rawEnd !== this.arrow)
+      throw new Error(`link: custom style endArrow "${rawEnd}" differs from the diagram arrow "${this.arrow}".`);
+    const rawStart = String(edgeOpts.style || "").match(/(?:^|;)startArrow=([^;]+)/)?.[1];
+    if (rawStart && rawStart !== "none" && rawStart !== this.arrow)
+      throw new Error(`link: custom style startArrow "${rawStart}" differs from the diagram arrow "${this.arrow}".`);
     if (edgeOpts.arrowSize != null && (!Number.isFinite(edgeOpts.arrowSize) || edgeOpts.arrowSize < 4 || edgeOpts.arrowSize > 24))
       throw new Error(`link: arrowSize must be between 4 and 24, got ${edgeOpts.arrowSize}.`);
+    edgeOpts.arrow = this.arrow;
     this._assertJunctionLineType(src, tgt, edgeOpts);
     this.edgeSpecs.push({ src, tgt, label, opts: edgeOpts });
     return this;
   }
 
-  /** Build all edges — deterministic ORTHOGONAL router with HARD obstacle avoidance.
-   *  Visibility graph → constrained A* → negotiated rip-up/reroute → nudge. Ports are
-   *  DE-COLLIDED first, then every edge is routed AT ITS FINAL PORT POSITION:
-   *  try straight → facing-Z in the gap → L; if any still clip an icon, A* through the gaps between
-   *  cards. Finally a global NUDGE pass spreads parallel overlapping segments onto distinct tracks,
-   *  so the result no longer depends on link() order. A line never cuts through an icon, and parallel
-   *  runs never overlap. No jump arcs. (Clear Waypoints in draw.io to re-flow after moving a node.) */
+  /** Build deterministic orthogonal edges. Simple lanes are the default; constrained A* is a
+   *  fallback for paths that would hit a service/icon. Adaptive mode additionally performs
+   *  negotiated congestion rerouting. Container bodies remain traversable while their headers
+   *  and leaf primitives stay protected. */
   _buildEdges() {
     if (this._edgesBuilt) return;
     this._edgesBuilt = true;
     const specs = this.edgeSpecs, R = (id) => this.R[id];
     const cards = [];
-    for (const id in this.R) { const r = this.R[id]; if (r.ob) cards.push({ id, x: r.x, y: r.y, w: r.w, h: r.h }); }
+    for (const id in this.R) {
+      const r = this.R[id];
+      if (r.ob) cards.push({ id, x: r.x, y: r.y, w: r.w, h: r.h });
+      else if (r.ob === false && String(r.label || "").trim())
+        cards.push({ id, x: r.x, y: r.y, w: r.w, h: Math.min(30, r.h) });
+    }
     const M = 7;
     const segHit = (p, q, ex) => {
       for (const c of cards) {
@@ -282,26 +316,9 @@ export class Diagram {
     };
     const BM = 24;
     const insideAny = (px, py) => containers.some(c => px > c.x + 1 && px < c.x + c.w - 1 && py > c.y + 1 && py < c.y + c.h - 1);
-    const holds = (c, n) => c.x <= n.x + 1 && c.y <= n.y + 1 && c.x + c.w >= n.x + n.w - 1 && c.y + c.h >= n.y + n.h - 1;
-    // a segment that passes through the interior of a frame holding NEITHER endpoint is a foreign
-    // transit (the validator rejects it) — hard rule for heuristic + A*, mirror of validateEdgeCrossing.
-    const segInRect = (p, q, c) => {
-      const r = { x: c.x + 1, y: c.y + 1, w: Math.max(0, c.w - 2), h: Math.max(0, c.h - 2) };
-      let t0 = 0, t1 = 1;
-      const dx = q.x - p.x, dy = q.y - p.y;
-      for (const [d, s] of [[-dx, p.x - r.x], [dx, r.x + r.w - p.x], [-dy, p.y - r.y], [dy, r.y + r.h - p.y]]) {
-        if (Math.abs(d) < 1e-9) { if (s < 0) return false; continue; }
-        const t = s / d;
-        if (d < 0) { if (t > t1) return false; t0 = Math.max(t0, t); }
-        else { if (t < t0) return false; t1 = Math.min(t1, t); }
-      }
-      return t1 - t0 > 1e-4;
-    };
-    const foreign = (p, q, a, b) => { for (const c of containers) { if (holds(c, a) || holds(c, b)) continue; if (segInRect(p, q, c)) return true; } return false; };
     const along = (p, q, a = null, b = null) => {
-      if (a && b && foreign(p, q, a, b)) return true;
       if (Math.abs(p.x - q.x) < 1) { const y0 = Math.min(p.y, q.y), y1 = Math.max(p.y, q.y); if (y1 - y0 < 28) return false;
-        // interior routing — skip border-hugging penalty, only cross-container check applies
+        // Interior whitespace is a valid corridor; apply border-hugging penalties outside frames.
         if (!insideAny(p.x, (y0 + y1) / 2)) {
           for (const c of containers)
             for (const bx of [c.x, c.x + c.w]) if (Math.abs(p.x - bx) < BM && Math.min(y1, c.y + c.h) - Math.max(y0, c.y) > 28) return true;
@@ -435,7 +452,7 @@ export class Diagram {
 
       const xI = new Map(X.map((v, i) => [v, i])), yI = new Map(Y.map((v, i) => [v, i])), W = X.length;
       const idx = (i, j) => j * W + i;
-      const segOK = (x1, y1, x2, y2) => !segHit({ x: x1, y: y1 }, { x: x2, y: y2 }, ex) && !foreign({ x: x1, y: y1 }, { x: x2, y: y2 }, a, b)
+      const segOK = (x1, y1, x2, y2) => !segHit({ x: x1, y: y1 }, { x: x2, y: y2 }, ex)
       && Math.min(x1, x2) >= page.x0 - 1 && Math.max(x1, x2) <= page.x1 + 1 && Math.min(y1, y2) >= page.y0 - 1 && Math.max(y1, y2) <= page.y1 + 1;
       const checkCrossing = (cx, cy, nx, ny) => {
         const isHoriz = Math.abs(cy - ny) < 1;
@@ -467,9 +484,13 @@ export class Diagram {
         }
         return near;
       };
-      const mode = edge?.opts.monotonic || "none", wantX = Math.sign(g0.x - s0.x), wantY = Math.sign(g0.y - s0.y);
-      const reversePenalty = (dx, dy) => ((mode === "horizontal" || mode === "both") && dx && wantX && Math.sign(dx) !== wantX ? 180 : 0)
-        + ((mode === "vertical" || mode === "both") && dy && wantY && Math.sign(dy) !== wantY ? 180 : 0);
+      // Prefer progress toward the target on the dominant axis. This remains a soft constraint, so
+      // dense diagrams can still take a necessary detour; callers may pass monotonic:"none" to
+      // remove the preference or a specific mode to steer a deliberate corridor.
+      const inferredMode = Math.abs(g0.x - s0.x) >= Math.abs(g0.y - s0.y) ? "horizontal" : "vertical";
+      const mode = edge?.opts.monotonic ?? inferredMode, wantX = Math.sign(g0.x - s0.x), wantY = Math.sign(g0.y - s0.y);
+      const reversePenalty = (dx, dy) => ((mode === "horizontal" || mode === "both") && dx && wantX && Math.sign(dx) !== wantX ? Math.abs(dx) * 12 : 0)
+        + ((mode === "vertical" || mode === "both") && dy && wantY && Math.sign(dy) !== wantY ? Math.abs(dy) * 12 : 0);
       const search = (from, to) => {
         const gi = xI.get(to.x), gj = yI.get(to.y), start = idx(xI.get(from.x), yI.get(from.y)), goal = idx(gi, gj);
         const heur = (n) => { const i = n % W, j = (n - i) / W; return Math.abs(X[i] - X[gi]) + Math.abs(Y[j] - Y[gj]); };
@@ -487,7 +508,7 @@ export class Diagram {
             const nx = X[ni], ny = Y[nj]; if (!segOK(cx, cy, nx, ny)) continue;
             const nid = idx(ni, nj), nd = di !== 0 ? "h" : "v", key = usedKey(cx, cy, nx, ny);
             const cost = Math.abs(nx - cx) + Math.abs(ny - cy)
-              + (cdir[cur] && cdir[cur] !== nd ? 80 : 0)
+              + (cdir[cur] && cdir[cur] !== nd ? 300 : 0)
               + (used.has(key) ? 400 : 0)
               + (history.get(key) || 0) * 300
               + reversePenalty(nx - cx, ny - cy)
@@ -522,12 +543,11 @@ export class Diagram {
         }
         simp.push(q); }
       simp.push(path[path.length - 1]);
-      // the grid search only covers s0→g0 — the terminal hops (sp→s0, g0→ep) cross the port's
-      // container border on faith. Verify the FULL pin-to-pin path; reject if a hop clips an icon
-      // or transits a foreign frame (the validator would fail the saved file anyway).
+      // The grid search only covers s0→g0. Verify the full pin-to-pin path so terminal hops
+      // across container boundaries still keep service primitives and headers clear.
       const full0 = [sp, s0, ...simp, g0, ep];
       for (let k = 0; k < full0.length - 1; k++) { const f = full0[k], g = full0[k + 1];
-        if (segHit(f, g, ex) || foreign(f, g, a, b)) return null;
+        if (segHit(f, g, ex)) return null;
         if (Math.min(f.x, g.x) < page.x0 - 1 || Math.max(f.x, g.x) > page.x1 + 1 || Math.min(f.y, g.y) < page.y0 - 1 || Math.max(f.y, g.y) > page.y1 + 1) return null; }
       // collapse reversals spanning the port hops too (sp→s0→next / prev→g0→ep) — merged segment
       // is a subset of the removed ones, so it can never introduce a new hit or crossing
@@ -680,7 +700,7 @@ export class Diagram {
     };
     const pathQuality = (path) => path ? [Math.max(0, path.length - 2), path.slice(0, -1).reduce((sum, p, i) => sum + Math.abs(path[i + 1].x - p.x) + Math.abs(path[i + 1].y - p.y), 0)] : [Infinity, Infinity];
     const history = new Map(); this._reroutes = 0;
-    for (let pass = 0; pass < 6; pass++) {
+    for (let pass = 0; pass < (this.routing === "adaptive" ? 6 : 0); pass++) {
       let paths = routes.map((_, i) => absPath(i)), state = conflictState(paths);
       if (!state.pairs.length) break;
       for (const [i, j] of state.pairs) for (const edgeIndex of [i, j]) {
@@ -708,11 +728,11 @@ export class Diagram {
           const candidateRoute = { es: r.es, en: r.en, kind: "poly", pts: r.pts }, candidatePath = absPath(i, candidateRoute);
           const conflicts = paths.reduce((sum, path, j) => j === i ? sum : sum + pairConflicts(i, candidatePath, j, path), 0);
           const quality = pathQuality(candidatePath);
-          if (!best || conflicts < best.conflicts || (conflicts === best.conflicts && (quality[1] < best.quality[1] || (quality[1] === best.quality[1] && quality[0] < best.quality[0]))))
+          if (!best || conflicts < best.conflicts || (conflicts === best.conflicts && (quality[0] < best.quality[0] || (quality[0] === best.quality[0] && quality[1] < best.quality[1]))))
             best = { route: candidateRoute, path: candidatePath, conflicts, quality };
         }
         const currentQuality = pathQuality(current);
-        if (best && (best.conflicts < state.count[i] || (best.conflicts === state.count[i] && (best.quality[1] < currentQuality[1] || (best.quality[1] === currentQuality[1] && best.quality[0] < currentQuality[0]))))) {
+        if (best && (best.conflicts < state.count[i] || (best.conflicts === state.count[i] && (best.quality[0] < currentQuality[0] || (best.quality[0] === currentQuality[0] && best.quality[1] < currentQuality[1]))))) {
           routes[i] = best.route; paths[i] = best.path; changed++; this._reroutes++;
           state = conflictState(paths);
         }
@@ -817,7 +837,7 @@ export class Diagram {
     const end = this.R[tgt]?.junction ? "none" : arrow;
     let st = `edgeStyle=orthogonalEdgeStyle;html=1;rounded=${rounded ? 1 : 0};jettySize=auto;orthogonalLoop=1;fontSize=10;fontColor=${THEME.edge.fontColor};strokeColor=${stroke};strokeWidth=${THEME.edge.strokeWidth};startArrow=${startArrow};startFill=${arrowFill ? 1 : 0};startSize=${arrowSize};endArrow=${end};endFill=${arrowFill ? 1 : 0};endSize=${arrowSize};edgeArrow=${arrow};`;
     if (dash) st += "dashed=1;";
-    if (flow) st += "flowAnimation=1;";          // animated moving dashes in draw.io / SVG (not PNG)
+    if (flow) st += "flowAnimation=1;flowExplicit=1;";
     if (lbl) st += `labelBackgroundColor=${THEME.edge.labelBg};`;
     let wpXml = "";
     if (r && !r.raw) {
@@ -831,15 +851,23 @@ export class Diagram {
       const clamp01 = (v) => Math.max(0.04, Math.min(0.96, v));
       const snap = (n, adj, fb) => {
         const inX = adj.x > n.x + 1 && adj.x < n.x + n.w - 1, inY = adj.y > n.y + 1 && adj.y < n.y + n.h - 1;
-        if (inX === inY) return fb;                                  // corner / ambiguous → trust the router
         const cx = n.x + n.w / 2, cy = n.y + n.h / 2;
-        return inX ? { x: clamp01((adj.x - n.x) / n.w), y: adj.y <= cy ? 0 : 1 }
-                   : { x: adj.x <= cx ? 0 : 1, y: clamp01((adj.y - n.y) / n.h) };
+        if (inX !== inY)
+          return inX ? { x: clamp01((adj.x - n.x) / n.w), y: adj.y <= cy ? 0 : 1 }
+                     : { x: adj.x <= cx ? 0 : 1, y: clamp01((adj.y - n.y) / n.h) };
+        const candidates = [
+          { d: Math.hypot(adj.x - n.x, adj.y - Math.max(n.y, Math.min(n.y + n.h, adj.y))), p: { x: 0, y: clamp01((adj.y - n.y) / n.h) } },
+          { d: Math.hypot(adj.x - (n.x + n.w), adj.y - Math.max(n.y, Math.min(n.y + n.h, adj.y))), p: { x: 1, y: clamp01((adj.y - n.y) / n.h) } },
+          { d: Math.hypot(adj.x - Math.max(n.x, Math.min(n.x + n.w, adj.x)), adj.y - n.y), p: { x: clamp01((adj.x - n.x) / n.w), y: 0 } },
+          { d: Math.hypot(adj.x - Math.max(n.x, Math.min(n.x + n.w, adj.x)), adj.y - (n.y + n.h)), p: { x: clamp01((adj.x - n.x) / n.w), y: 1 } },
+        ];
+        candidates.sort((one, two) => one.d - two.d);
+        return candidates[0]?.p ?? fb;
       };
       const psR = port(r.es, fr.s), peR = port(r.en, fr.t);
       const ps = g.wp.length ? snap(a, g.wp[0], psR) : psR;
       const pe = g.wp.length ? snap(b, g.wp[g.wp.length - 1], peR) : peR;
-      st += `exitX=${ps.x};exitY=${r3(ps.y)};exitDx=0;exitDy=0;entryX=${pe.x};entryY=${r3(pe.y)};entryDx=0;entryDy=0;`;
+      st += `exitX=${ps.x};exitY=${r3(ps.y)};exitDx=0;exitDy=0;exitPerimeter=0;entryX=${pe.x};entryY=${r3(pe.y)};entryDx=0;entryDy=0;entryPerimeter=0;`;
       // Contract fork: Scaffold omits waypoints (draw.io re-routes from pins on every edit);
       // Bake freezes the router's waypoints as absolute <mxPoint>s. Pins are emitted in BOTH.
       // Exceptions that freeze in scaffold too: (a) LABELED bent edges — the label sits at the path

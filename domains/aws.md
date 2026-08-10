@@ -2,9 +2,9 @@
 
 Apply these AWS-specific conventions together with the shared principles in `SKILL.md`.
 
-## Containers — nest in the real order
+## Containers and nesting
 
-Resolve official AWS group shapes with `node "$DRAWIO_CLOUD_SKILL/index.mjs" search "<name>" --kind group` and nest them by parent-child, not by stacking:
+Resolve official AWS group shapes with `node "$DRAWIO_CLOUD_SKILL/index.mjs" search "<name>" --kind group`. Build the hierarchy through parent-child nesting:
 
 ```text
 AWS Cloud (group_aws_cloud_alt)
@@ -12,47 +12,68 @@ AWS Cloud (group_aws_cloud_alt)
    └─ Region (group_region, dashed)
       └─ VPC (group_vpc)
          └─ Availability Zone (group_availability_zone, dashed)
-            └─ Subnet (group_subnet — color auto-set by label: "Public"→blue, "Private"→green; NEVER pass fill manually)
+            └─ Subnet (group_subnet; color follows its label: "Public" → blue, "Private" → green)
                └─ Security Group (group_security_group, dashed)
                   └─ service icons
 ```
 
-Every AWS service must be nested inside the black `AWS Cloud (group_aws_cloud_alt) → AWS Account → Region` hierarchy. Add `VPC → Availability Zone → Subnet → Security Group` only for infrastructure that exists; each deeper network group requires all of those parents in order. Services outside a VPC remain inside Region, Account, and Cloud. Do not write explanatory absence text such as “no VPC.” Category colors from the catalog are authoritative; never recolor AWS icons.
-
-- Every AWS service icon belongs inside the black `AWS Cloud (group_aws_cloud_alt) → AWS Account → Region` hierarchy. The validator emits a warning when any layer is missing or ordered incorrectly, including multi-account and multi-Region diagrams.
-- Network-scoped groups extend that chain exactly: `Region → VPC → Availability Zone → Subnet → Security Group`. Don't put a Subnet directly under a VPC or a Security Group outside a Subnet.
-- Managed/global services (S3, IAM, KMS, CloudWatch, Route 53, Organizations) live outside the VPC but remain inside the Region, Account, and Cloud containers for a consistent diagram hierarchy.
-- Omit infrastructure that does not exist. The absence of a VPC container already communicates “no VPC”; do not add prose saying so.
+- Place every AWS service inside `AWS Cloud → AWS Account → Region`. The validator reports missing, misplaced, or incorrectly ordered layers, including in multi-account and multi-Region diagrams.
+- Extend the hierarchy with `VPC → Availability Zone → Subnet → Security Group` for network-scoped infrastructure. Include each parent in order so the containment reflects AWS structure.
+- Keep services outside a VPC within their Region, Account, and Cloud containers. The container structure communicates the scope clearly on its own.
+- Place managed or global services such as S3, IAM, KMS, CloudWatch, Route 53, and Organizations outside the VPC while retaining the consistent Region, Account, and Cloud hierarchy.
+- Include the infrastructure that exists in the source of truth. A concise hierarchy keeps the diagram accurate and readable.
+- Give each visible logical container a short name that explains the AWS boundary or grouping. Use `phantom` when a wrapper exists only to align services; the validator asks for an explicit decision when a visible container has an empty name.
+- Let `group_subnet` derive its fill from the label: `Public` produces blue and `Private` produces green.
+- Retain the official catalog styles for AWS service icons; their category colors carry service identity.
 
 ## Resource fidelity
 
-- Inventory deployed resources from the source of truth before drawing. Every separately defined Lambda function appears as its own visible Lambda icon, even when several functions share a CRUD domain.
-- Group distinct functions with a normal labelled `grid`; do not replace them with one Lambda icon or a `serviceFrame`. A service frame represents one parent service and its non-service internal children.
-- Use short human-readable role names such as `Create tag` or `Pipeline`. Do not show generated deployment names, account IDs, Regions, interpolation syntax, variables, or placeholders in service labels.
-- Connect each operational storage, database, queue, compute, and network icon to at least one producer, consumer, dependency, or data flow. Decorative badges and cross-cutting IAM, logging, audit, or provisioning services may remain unwired.
+- Give every separately defined Lambda function its own visible Lambda icon, including functions that share one CRUD domain.
+- Place distinct functions in a normal labelled `grid`. Choose `serviceFrame` when one parent service owns non-service internal children.
+- Use short human-readable role names such as `Create tag` or `Pipeline`.
+- Keep service labels focused on reader-facing roles. Deployment names, account IDs, Regions, interpolation syntax, variables, and placeholders belong in the source rather than the diagram.
+- Connect each operational storage, database, queue, compute, and network icon to at least one producer, consumer, dependency, or data flow.
+- Treat IAM, logging, audit, provisioning services, and decorative badges as cross-cutting context; they may remain unwired when containment or placement already explains their role.
 
-## Icon color = identity — never recolor
+## Icon color and identity
 
-Each AWS icon ships with its official category color; the catalog style already carries the correct `fillColor`. Do not override it — a recolored S3 icon is a recognizability bug, and the validator flags it.
+Use each AWS icon with the official category color supplied by its catalog style. Consistent official colors make services immediately recognizable, and the validator reports style overrides.
 
-Category colors: Compute/Containers `#ED7100` · Storage `#7AA116` · Database `#C925D1` · Networking & Analytics `#8C4FFF` · Security `#DD344C` · Management & App-Integration `#E7157B` · Migration/ML `#01A88D`.
+Category colors:
+
+- Compute and Containers: `#ED7100`
+- Storage: `#7AA116`
+- Database: `#C925D1`
+- Networking and Analytics: `#8C4FFF`
+- Security: `#DD344C`
+- Management and Application Integration: `#E7157B`
+- Migration and Machine Learning: `#01A88D`
 
 ## Canonical layouts
 
-- Data pipeline (left → right): Sources → Ingestion → Processing → Storage → Integration/Serving → Consumers; cross-cutting layers as a band below (see `SKILL.md` §Density and layout).
-- VPC / network diagram: Each Availability Zone is a vertical COLUMN, the AZs sit side by side, and the VPC is the horizontal box wrapping them (Region → VPC → AZ columns → subnets). Inside an AZ, subnets are tiers stacked top→bottom (Public → App → Data); keep the same tier aligned horizontally across AZs (public-a level with public-b). Users/Internet sit outside the VPC; a shared ALB/NAT/bus spans horizontally across the AZ columns.
-- Event-driven / bus: see the `hubspoke` preset in `diagram-types.md` (bus in the centre, producers one side, consumers the other).
-- Hybrid / DR: on-prem is a SEPARATE block OUTSIDE the AWS Region/Cloud container — never nested. See the `hybrid` preset in `diagram-types.md`.
+- Data pipeline: arrange `Sources → Ingestion → Processing → Storage → Integration/Serving → Consumers` from left to right. Place cross-cutting layers in a band below, following `SKILL.md` under `Density and layout`.
+- VPC or network diagram: use one vertical column per Availability Zone and place the columns side by side inside a horizontal VPC frame. Stack subnet tiers from top to bottom as `Public → App → Data`, and align matching tiers horizontally across AZs. Place users and the Internet outside the VPC. Let a shared ALB, NAT gateway, or bus span the AZ columns horizontally when its scope requires it.
+- Event-driven or bus architecture: use the `hubspoke` preset from `diagram-types.md`, with the bus in the center, producers on one side, and consumers on the other.
+- Hybrid or disaster recovery: place on-premises infrastructure in a separate block outside the AWS Cloud and Region hierarchy. Use the `hybrid` preset from `diagram-types.md`.
 
 ## Multi-AZ
 
-- For HA, draw ≥2 Availability Zone columns side by side inside the VPC and mirror the stateful tier in each; label AZ-a / AZ-b.
-- Stateless services scale horizontally inside each AZ; managed data services (RDS Multi-AZ, etc.) span AZs — show one icon at the VPC level with a note, or one per AZ with a sync link.
+- Represent high availability with at least two Availability Zone columns side by side inside the VPC; label them `AZ-a`, `AZ-b`, and so on.
+- Mirror stateful tiers across the AZ columns when the architecture deploys them per AZ.
+- Arrange stateless services horizontally within each AZ.
+- Show a managed multi-AZ data service such as RDS at the VPC level with a concise scope note, or place one icon in each AZ and connect the replicas with a sync link.
 
-## Edges in AWS diagrams
+## Edges
 
-- Connect to the bounding box, not each replica. When a multi-AZ stack is wrapped in a dashed `clusterBox` (the per-app / node-group / cluster frame that spans the AZs), point edges at the BOX's id — one tidy arrow to the border — instead of drawing a separate arrow to the same component's icon in every AZ. The frame already says "this is N replicas across the AZs", so a single edge to it reads cleanly; N arrows to N child icons just clutter. Create the `clusterBox`es before `d.link(...)` so the box ids exist as edge targets. (A genuine fan-out to *distinct* services still combs as usual — this rule is only about the per-AZ replicas of one stack.)
+- Connect an edge to a dashed `clusterBox` when that frame represents replicas of one stack across multiple AZs. One edge to the frame boundary communicates the replicated target cleanly.
+- Create each `clusterBox` before calling `d.link(...)` so its ID is available as an edge endpoint.
+- Connect directly to individual icons when the relationship is a genuine fan-out to distinct services. Use the shared branch and merge guidance in `SKILL.md` for equivalent groups.
+- Point to the icon when a frame contains different components; point to the frame when it represents replicas of one component.
 
-## Placement — keep edges short (avoid the "long detour" smell)
+## Placement
 
-The layout engine places by declared nesting; it does not move nodes to shorten edges. Put a node next to what it talks to most: shared resources (ECR, S3, CloudWatch, KMS) go in a band immediately next to their consumers, not a far-away bottom row. When validation flags "Long connector(s)," reposition the nodes. Perpendicular link crossings remain useful when they prevent large detours or congestion.
+The layout engine follows declared nesting while the router tidies connector paths. Place each node near the services it communicates with most so the resulting paths stay compact and traceable.
+
+- Put shared resources such as ECR, S3, CloudWatch, and KMS in a nearby band beside their main consumers.
+- Reposition nodes when validation reports `Long connector(s)`; this warning usually indicates that the layout can better reflect communication locality.
+- Use compact perpendicular crossings when they preserve traceability and prevent large detours or corridor congestion.

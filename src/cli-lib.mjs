@@ -164,7 +164,7 @@ Set the skill directory once, then import from its public entrypoint:
 DRAWIO_CLOUD_SKILL="<absolute path of the folder containing SKILL.md>"
 \`\`\`
 \`\`\`js
-import { Diagram, group, frame, grid, icon, box, branch, merge, serviceFrame, renderTree, loadCatalog, searchIcon } from "<DRAWIO_CLOUD_SKILL>/index.mjs";
+import { Diagram, group, frame, grid, icon, box, branch, merge, phantom, serviceFrame, renderGraph, renderTree, loadCatalog, searchIcon } from "<DRAWIO_CLOUD_SKILL>/index.mjs";
 \`\`\`
 (Replace \`<DRAWIO_CLOUD_SKILL>\` with the absolute skill path; shell substitution does not run inside JS strings.)
 
@@ -179,10 +179,16 @@ terramate list --run-order                             # real stack order (terra
 Anything not in the inventory does not go in the diagram.
 
 ## 2. Build the diagram
-Declare the nested structure with \`group\`/\`frame\`/\`grid\` + \`icon\`/\`box\`. Use \`serviceFrame(id, icon, name, opts, children)\` only when one AWS service owns every child; \`opts.borderStyle\` is optional and defaults to \`solid\`. Then \`renderTree(d, tree)\` computes every x/y/w/h — never hand-write coordinates. Add edges with \`d.link(source, target, label)\`.
+Declare the nested structure with \`group\`/\`frame\`/\`grid\` + \`icon\`/\`box\`. Use \`serviceFrame(id, icon, name, opts, children)\` only when one AWS service owns every child; \`opts.borderStyle\` is optional and defaults to \`solid\`.
+
+Assign semantic layers first, such as Clients → Interfaces → Services → Async/Workers → Data. Declare links as \`{ source, target, label, opts }\`, then call \`renderGraph(d, tree, links)\`. It performs barycenter crossing reduction inside \`stage\` and containers marked \`{ graphOrder: true }\`, computes every coordinate, and adds the links. Use \`renderTree\` when child order is intentionally fixed.
+
+Give every visible container a short reader-facing name. Use \`phantom\` for layout-only alignment; validation asks for an explicit decision when a visible container has an empty name.
 
 Use \`branch("split")\` or \`merge("join")\` only for at least three same-type/same-function peers on one icon side. Keep different service types on individual links and no more than four total connections per side. Use the same \`{ functionGroup: "workers" }\` on different icons/boxes only when they perform the same function.
 Junctions are transparent. Use the same stroke, width, dash, corner, animation, and arrow options on every incident junction edge; validation rejects mixed line types.
+
+Select one arrowhead for the complete diagram with \`new Diagram(type, { arrow: "block" })\`; every link inherits it and validation rejects mixed arrowheads. Use \`branch("split", { atBend: true })\` or \`merge("join", { atBend: true })\` when the transparent junction should sit on the natural trunk turn.
 
 Edge API cheat-sheet (so you never have to read builder.mjs):
 \`\`\`js
@@ -190,10 +196,8 @@ d.link(srcId, tgtId, label = "", opts = {})
 // opts: { role: "fanout"|"tree",  // sharp corners, bundled lanes
 //         dir: "LR"|"TB",         // force horizontal-first / vertical-first exit
 //         dash: true,             // dashed (governance/replication semantics)
-//         flow: true,             // animated flow (draw.io/SVG only)
 //         rounded: true,          // rounded corners (flow edges)
-//         arrow: "block",         // end arrow; also classic/open/thin/oval/diamond/none
-//         startArrow: "none",     // set to block for bidirectional flow
+//         startArrow: "none",     // set to the Diagram arrow for bidirectional flow
 //         arrowSize: 8,            // 4–24
 //         exitSide: "R",           // hard source side: L/R/T/B
 //         entrySide: "L",          // hard target side: L/R/T/B
@@ -201,14 +205,16 @@ d.link(srcId, tgtId, label = "", opts = {})
 //         monotonic: "horizontal", // prefer forward horizontal/vertical/both movement
 //         priority: "primary",     // primary, normal, secondary, or a number
 //         stroke: "#hex" }        // override color
-// Let the router choose geometry by default. Add the fewest via checkpoints needed to preserve
-// an intentional corridor; it globally reroutes congested links while keeping those checkpoints.
+// Let the router choose simple orthogonal geometry by default. Add the fewest via checkpoints
+// needed to preserve an intentional corridor; constrained A* honors them when a direct lane cannot.
 // Containers (frames/groups) are valid link targets — prefer linking a cluster frame over
 // each replica inside it.
 // Hard gate: links route around unrelated primitives; parallel independent links keep 10px.
 // Perpendicular link crossings are valid when they preserve compact, traceable routing.
 // Shared junction trunks and terminal convergence at a common endpoint are intentional exemptions.
 \`\`\`
+
+Flow animation stays disabled. When the user explicitly requests it, construct the diagram with \`{ allowFlowAnimation: true }\` and add \`{ flow: true }\` only to the requested links.
 
 ## 3. Validate
 If your build script already prints its \`d.validate()\` result (the examples all do), read that during
@@ -230,8 +236,8 @@ extra cycle re-reads the whole context plus another image).
 ## 5. Write output to an absolute path under the user's project
 Never write into the kit itself. Always write the .drawio (and rendered .png) to the user's project directory, using an absolute path they specify.
 
-## Preflight: Graphviz (optional)
-Bake-route quality is best with Graphviz (\`dot\`) installed; if absent, the kit's built-in A*/nudge router is used (zero-dependency, works everywhere). Scaffold is unaffected either way — drag-time routing is always draw.io-native.
+## Routing mode
+Use \`new Diagram(type, { routing: "simple" })\` for the default fixed-side orthogonal lanes. A* is reserved for a simple route that still hits a service or protected header. Choose \`routing: "adaptive"\` only for a focused diagram that still benefits from negotiated congestion cleanup.
 
 ## Loop
 If the visual check reveals layout issues, go back to step 2 (rebuild), then re-validate and re-render. Do not skip validation.`;
