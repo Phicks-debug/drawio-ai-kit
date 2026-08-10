@@ -25,9 +25,9 @@ const insideKit = (dir, filename) => {
 };
 
 export class Diagram {
-  /** type: pipeline|hierarchy|network|hubspoke|hybrid|mesh|sequence
+  /** type: deployment|pipeline|hierarchy|network|hubspoke|hybrid|mesh|sequence
    *  contract: "scaffold" (default — drag-resilient, no waypoints) | "bake" (frozen waypoints). */
-  constructor(type = "pipeline", { title = "", page = [2000, 1200], contract = "scaffold", iconSize = 48, routing = "simple", arrow = "block", allowFlowAnimation = false } = {}) {
+  constructor(type = "deployment", { title = "", page = [2000, 1200], contract = "scaffold", iconSize = 48, routing = "simple", arrow = "block", allowFlowAnimation = false } = {}) {
     if (contract !== "scaffold" && contract !== "bake")
       throw new Error(`Invalid contract "${contract}" — use "scaffold" or "bake".`);
     if (routing !== "simple" && routing !== "adaptive")
@@ -69,11 +69,12 @@ export class Diagram {
     return r;
   }
   /** AWS icon by catalog name (verbatim style). [x,y] = top-left corner; size defaults to 48. */
-  icon(id, name, [x, y], { parent = "1", label = "", size = 48, functionGroup = null } = {}) {
+  icon(id, name, [x, y], { parent = "1", label = "", size = 48, functionGroup = null, deployed = true, deploymentId = id } = {}) {
     const s = styleForIcon(this.c, name);
     if (!s) throw new Error(`Icon not found in catalog: "${name}" — use search_icon to look up the correct name.`);
     if (functionGroup && !/^[a-zA-Z0-9_.-]+$/.test(functionGroup)) throw new Error(`icon: invalid functionGroup "${functionGroup}".`);
-    const marker = `catalogIcon=${name};${functionGroup ? `functionGroup=${functionGroup};` : ""}`;
+    if (deploymentId && !/^[a-zA-Z0-9_.:/-]+$/.test(deploymentId)) throw new Error(`icon: invalid deploymentId "${deploymentId}".`);
+    const marker = `catalogIcon=${name};deployment=${deployed ? 1 : 0};${deployed ? `deploymentId=${deploymentId};` : ""}${functionGroup ? `functionGroup=${functionGroup};` : ""}`;
     const r = this._put(id, parent, x, y, size, size, `${s.style}${s.style.endsWith(";") ? "" : ";"}${marker}`, label); r.ob = true; return r;   // ob = leaf obstacle (router avoids)
   }
   /** Small catalog icon at a container's top-left corner (for Azure/GCP frames — mimics the corner
@@ -86,26 +87,26 @@ export class Diagram {
   }
   // Default SQUARE CORNERS — AWS diagrams rarely use rounded frames. (round:true if needed.)
   // ob: true = a leaf card the edge-router must not cross; false = a container frame (edges pass through).
-  box(id, [x, y], [w, h], label = "", { parent = "1", fill = "#FFFFFF", stroke = "#5A6B7B", va = "middle", bold = false, fs = 11, round = false, ob = true, functionGroup = null } = {}) {
+  box(id, [x, y], [w, h], label = "", { parent = "1", fill = "#FFFFFF", stroke = "#5A6B7B", va = "middle", bold = false, fs = 11, round = false, ob = true, functionGroup = null, semanticGroup = false, documentationOnly = false } = {}) {
     if (functionGroup && !/^[a-zA-Z0-9_.-]+$/.test(functionGroup)) throw new Error(`box: invalid functionGroup "${functionGroup}".`);
-    const marker = functionGroup ? `functionGroup=${functionGroup};` : "";
+    const marker = `${semanticGroup ? "semanticGroup=1;" : ""}${documentationOnly ? "documentationOnly=1;" : ""}${functionGroup ? `functionGroup=${functionGroup};` : ""}`;
     const r = this._put(id, parent, x, y, w, h, `rounded=${round ? 1 : 0};whiteSpace=wrap;html=1;fillColor=${fill};strokeColor=${stroke};fontColor=#1A1A1A;fontSize=${fs};fontStyle=${bold ? 1 : 0};verticalAlign=${va};${marker}`, label); r.ob = ob; return r;
   }
-  _junction(id, [x, y], marker, { parent = "1", size = 1, atBend = false } = {}) {
+  _junction(id, [x, y], marker, { parent = "1", size = 1, atBend = false, equivalentOnly = false } = {}) {
     if (size < 1 || size > 4) throw new Error(`junction: size must be between 1 and 4, got ${size}.`);
-    const r = this._put(id, parent, x, y, size, size, `ellipse;html=1;aspect=fixed;${marker}=1;fillColor=none;strokeColor=none;opacity=0;`, "");
+    const r = this._put(id, parent, x, y, size, size, `ellipse;html=1;aspect=fixed;${marker}=1;equivalentOnly=${equivalentOnly ? 1 : 0};fillColor=none;strokeColor=none;opacity=0;`, "");
     r.ob = true;
     r.junction = marker;
     r.junctionAtBend = atBend === true;
     return r;
   }
-  /** Invisible junction for one shared trunk that splits into at least three equivalent targets. */
+  /** Invisible junction for one shared trunk that splits into at least two targets. */
   junction(id, at, opts = {}) { return this._junction(id, at, "branchPoint", opts); }
-  /** Invisible junction for at least three equivalent inputs that combine into one target trunk. */
+  /** Invisible junction for at least two inputs that combine into one target trunk. */
   mergeJunction(id, at, opts = {}) { return this._junction(id, at, "mergePoint", opts); }
   /** AWS group container (group_aws_cloud_alt, group_region, group_vpc, group_account, ...).
    *  fill/stroke (optional) override the stencil's colours by appending to the style. */
-  group(id, gname, [x, y], [w, h], label = "", { parent = "1", fill = null, stroke = null } = {}) {
+  group(id, gname, [x, y], [w, h], label = "", { parent = "1", fill = null, stroke = null, semanticGroup = true } = {}) {
     const s = styleForGroup(this.c, gname);
     if (!s) throw new Error(`Group not found: "${gname}"`);
     let style = s.style;
@@ -122,6 +123,7 @@ export class Diagram {
     if (!stroke && gname === "group_availability_zone") stroke = THEME.azStroke;
     if (fill) style += `fillColor=${fill};`;
     if (stroke) style += `strokeColor=${stroke};`;
+    if (semanticGroup) style += "semanticGroup=1;";
     const r = this._put(id, parent, x, y, w, h, style, label); r.ob = false; return r;   // container → edges pass through
   }
   /** Dashed "logical cluster" frame that SPANS already-placed children — call AFTER renderTree (it reads
@@ -906,7 +908,7 @@ export class Diagram {
     const cellsXml = this.cells.join("");
     // emit a separate (locked) layer for the dashed boundary frames, so editing the content layer is easy.
     const boundsLayer = cellsXml.includes('parent="boundaries"') ? `<mxCell id="boundaries" value="Stack boundaries (locked)" parent="0" style="locked=1;"/>` : "";
-    return `<mxGraphModel dx="1400" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="${this.page[0]}" pageHeight="${this.page[1]}" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/>${boundsLayer}${cellsXml}</root></mxGraphModel>`;
+    return `<mxGraphModel diagramType="${esc(this.type)}" dx="1400" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="${this.page[0]}" pageHeight="${this.page[1]}" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/>${boundsLayer}${cellsXml}</root></mxGraphModel>`;
   }
   routingStats() {
     this._buildEdges();

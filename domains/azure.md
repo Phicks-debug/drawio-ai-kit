@@ -33,7 +33,6 @@ Management Group  →  Subscription  →  Resource Group  →  (resources)     �
 ## Edges
 
 - Solid = data/control flow; dashed = policy/identity/replication/peering.
-- Connect to a container's border box (the `frame` id), not to every replica inside it.
 - ExpressRoute / VPN Gateway is a node between Azure and on-prem — not just a labelled edge.
 
 ## Multi-cloud / hybrid composition

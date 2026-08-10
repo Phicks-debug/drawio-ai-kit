@@ -10,7 +10,8 @@ import {
   searchIcon,
   getIcon,
   validateDiagram,
-  auditAesthetics,
+  deploymentInventory,
+  validateDeploymentModel,
   listCategories,
 } from "./core.mjs";
 import { packageRoot, findDrawioCli, buildRenderArgs, pageIndexFor, workflowText, scaffoldSource } from "./cli-lib.mjs";
@@ -89,6 +90,14 @@ switch (cmd) {
     } else {
       res = validateDiagram(catalog, xml, { strict: !!flags.strict });
     }
+    if (flags.inventory) {
+      const expected = JSON.parse(readFileSync(flags.inventory, "utf8"));
+      const deployment = validateDeploymentModel(xml, expected);
+      res.errors.push(...deployment.errors);
+      res.warnings.push(...deployment.warnings);
+      res.ok = res.errors.length === 0;
+      res.deploymentInventory = deployment.inventory;
+    }
     // ponytail: a clean pass needs no metrics — but keep the empty arrays so "all three are empty"
     // is visible, not inferred (an A/B agent flagged the bare {ok:true} as ambiguous)
     const clean = res.ok && !res.warnings?.length && !res.audit?.advice?.length;
@@ -96,10 +105,17 @@ switch (cmd) {
     process.exit(res.ok ? 0 : 2);
     break;
   }
+  case "inventory": {
+    const f = positional[0];
+    if (!f) { console.error("A file is required. Example: node <skill>/index.mjs inventory diagram.drawio"); process.exit(1); }
+    out(deploymentInventory(readFileSync(f, "utf8")));
+    break;
+  }
   case "audit": {
     const f = positional[0];
     if (!f) { console.error("A file is required. Example: node <skill>/index.mjs audit diagram.drawio"); process.exit(1); }
-    out(auditAesthetics(readFileSync(f, "utf8")));
+    const result = validateDiagram(catalog, readFileSync(f, "utf8"), { strict: !!flags.strict });
+    out({ audit: result.audit, validation: result.validation, warnings: result.warnings });
     break;
   }
   case "categories":
@@ -128,9 +144,17 @@ switch (cmd) {
       gcp: "domains/gcp.md",
       databricks: "domains/databricks.md",
     };
-    const sections = [read("diagram-types.md")];
+    const sections = [read("SKILL.md")];
+    if (flags.type) {
+      const { listTypes } = await import("./types.mjs");
+      const typeNames = new Set(listTypes().map((type) => type.key));
+      if (flags.type !== true && !typeNames.has(flags.type)) {
+        console.error(`Unknown --type "${flags.type}". Valid types: ${[...typeNames].join(", ")}.`);
+        process.exit(1);
+      }
+      sections.push(read("diagram-types.md"));
+    }
     if (domainMap[mode]) sections.push(read(domainMap[mode]));
-    sections.push(read("SKILL.md"));
     process.stdout.write(sections.join("\n\n---\n\n") + cats(mode));
     break;
   }
@@ -228,16 +252,23 @@ switch (cmd) {
     out(listTypes());
     break;
   }
+  case "selftest": {
+    const { runSelfTest } = await import("./selftest.mjs");
+    out(runSelfTest());
+    break;
+  }
   default:
     console.error(
 `Draw.io Cloud skill commands (run with node <skill>/index.mjs)
   search <query>[, <query>…] [--category C] [--limit N] [--kind icon|group] [--full]
   style <name>
-  validate <file> [--strict]
+  validate <file> [--strict] [--inventory manifest.json]
+  inventory <file>
   audit <file>
   categories
   types
-  principles [--mode aws|azure|gcp|databricks]
+  selftest
+  principles [--mode aws|azure|gcp|databricks] [--type deployment|pipeline|hierarchy|network|hubspoke|hybrid|mesh|sequence]
   scaffold <template.mjs> [-o out.mjs] | --list   copy a template as a standalone build script
   root
   render <file> [-o out.png] [--scale N] [--page N] [--check]

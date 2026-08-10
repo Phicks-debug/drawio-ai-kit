@@ -3,6 +3,14 @@
 // picks the right corner & lane style per diagram type instead of forcing one approach on all.
 
 export const DIAGRAM_TYPES = {
+  deployment: {
+    label: "Deployment inventory and runtime relationships",
+    orientation: "LR",
+    edgeCorner: "rounded",
+    laneStrategy: "domain-corridors",
+    grouping: "deployed-resources-by-domain",
+    notes: "One visible service icon equals one deployed resource. Keep runtime resources inside their real cloud boundaries, expand group relationships semantically, and use labels or a dependency matrix when individual permission edges would obscure the inventory.",
+  },
   pipeline: {
     label: "Layered pipeline (data / request flow)",
     orientation: "LR",          // flow left → right
@@ -63,7 +71,7 @@ export const DIAGRAM_TYPES = {
 };
 
 export function typePreset(name) {
-  return DIAGRAM_TYPES[name] || DIAGRAM_TYPES.pipeline;
+  return DIAGRAM_TYPES[name] || DIAGRAM_TYPES.deployment;
 }
 
 /**

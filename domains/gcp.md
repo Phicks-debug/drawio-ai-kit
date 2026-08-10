@@ -34,7 +34,6 @@ Organization → Folder → Project → (resources)                 ← logical 
 ## Edges
 
 - Solid = data/control flow; dashed = policy/replication/peering.
-- Connect to a container's border box, not every replica inside it.
 - Cloud Interconnect / Cloud VPN is a node between GCP and on-prem / other clouds — not just a labelled edge.
 
 ## Multi-cloud / hybrid composition

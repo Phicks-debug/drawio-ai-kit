@@ -247,6 +247,9 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
   errors.push(...pathQuality.errors);
   warnings.push(...pathQuality.warnings);
   warnings.push(...validateContainerLabels(xml));
+  const deployment = validateDeploymentModel(xml);
+  errors.push(...deployment.errors);
+  warnings.push(...deployment.warnings);
 
   // lint: every style containing resourceIcon should have aspect=fixed
   const iconStyles = xml.match(/style="[^"]*mxgraph\.aws4\.resourceIcon[^"]*"/g) ?? [];
@@ -259,7 +262,8 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
 
   const audit = auditAesthetics(xml);
   audit.advice.push(...auditAwsConventions(catalog, xml));
-  warnings.push(...validateAwsHierarchy(xml));
+  const awsHierarchyWarnings = validateAwsHierarchy(xml);
+  warnings.push(...awsHierarchyWarnings);
   audit.advice.push(...auditServiceFrames(catalog, xml));
   audit.advice.push(...auditVisualSemantics(xml));
   audit.advice.push(...auditEdgeLabels(xml));
@@ -278,11 +282,118 @@ export function validateDiagram(catalog, xml, { strict = false } = {}) {
       shapes: shapes.length,
       uniqueStencils: new Set([...resIcons, ...grIcons, ...shapes]).size,
       cellIds: ids.size,
+      deployedResources: deployment.inventory.resources.length,
+      semanticRelationships: deployment.inventory.relationships.length,
+    },
+    validation: {
+      architecture: { ok: awsHierarchyWarnings.length === 0 && !errors.some((message) => /Branch|Merge|AWS container|requires parent chain/.test(message)) },
+      deployment: { ok: deployment.errors.length === 0, resources: deployment.inventory.resources.length, relationships: deployment.inventory.relationships.length },
+      geometry: { ok: !errors.some((message) => /Edge|route|clearance|crosses|backtracks|diagonal|jagged/.test(message)) && pathQuality.warnings.length === 0 },
+      presentation: { ok: warnings.length === 0 && audit.advice.length === 0 },
     },
   };
 }
 
-/** Enforce shared-trunk branching and merging. */
+/** Expand visible group links into their leaf-level meaning without multiplying rendered edges. */
+export function semanticTopology(xml) {
+  const cells = parseCells(xml);
+  const byId = new Map(cells.filter((cell) => cell.id).map((cell) => [cell.id, cell]));
+  const children = new Map();
+  for (const cell of cells) {
+    if (!cell.parent || cell.edge === "1") continue;
+    (children.get(cell.parent) ?? children.set(cell.parent, []).get(cell.parent)).push(cell.id);
+  }
+  const isIgnoredLeaf = (cell) => !cell || cell.edge === "1"
+    || /(?:^|;)text;|branchPoint=1|mergePoint=1|documentationOnly=1/.test(cell.style || "")
+    || cell.id === "__title" || /(?:__ci|_icon)$/.test(cell.id || "");
+  const leaves = (id, seen = new Set()) => {
+    if (!id || seen.has(id)) return [];
+    seen.add(id);
+    const cell = byId.get(id);
+    if (!cell) return [];
+    const childIds = children.get(id) || [];
+    if (!childIds.length) return isIgnoredLeaf(cell) ? [] : [id];
+    return [...new Set(childIds.flatMap((childId) => leaves(childId, new Set(seen))))];
+  };
+  const relationships = [];
+  for (const edge of cells.filter((cell) => cell.edge === "1" && cell.source && cell.target)) {
+    const sources = leaves(edge.source);
+    const targets = leaves(edge.target);
+    for (const source of sources) for (const target of targets) {
+      relationships.push({ source, target, edgeId: edge.id, label: edge.value || "", grouped: source !== edge.source || target !== edge.target });
+    }
+  }
+  const unique = new Map();
+  for (const relationship of relationships) unique.set(`${relationship.source}\u0000${relationship.target}\u0000${relationship.edgeId}`, relationship);
+  return { leaves, relationships: [...unique.values()] };
+}
+
+/** Return the deployed-resource inventory encoded by icon metadata. */
+export function deploymentInventory(xml) {
+  const cells = parseCells(xml);
+  const topology = semanticTopology(xml);
+  const styleValue = (style, key) => (String(style || "").match(new RegExp(`(?:^|;)${key}=([^;]+)`)) || [])[1] || null;
+  const resources = cells
+    .filter((cell) => cell.edge !== "1" && cell.id && styleValue(cell.style, "deployment") === "1")
+    .map((cell) => ({
+      id: cell.id,
+      deploymentId: styleValue(cell.style, "deploymentId") || cell.id,
+      type: styleValue(cell.style, "catalogIcon") || styleValue(cell.style, "serviceIcon") || "component",
+      label: cell.value || "",
+      parent: cell.parent || null,
+    }));
+  const deployedIds = new Set(resources.map((resource) => resource.id));
+  const deployedByCellId = new Map(resources.map((resource) => [resource.id, resource.deploymentId]));
+  const relationships = topology.relationships
+    .filter((relationship) => deployedIds.has(relationship.source) && deployedIds.has(relationship.target))
+    .map(({ source, target, edgeId, label, grouped }) => ({
+      source: deployedByCellId.get(source), target: deployedByCellId.get(target),
+      sourceCell: source, targetCell: target, edgeId, label, grouped,
+    }));
+  const counts = Object.fromEntries([...resources.reduce((map, resource) => map.set(resource.type, (map.get(resource.type) || 0) + 1), new Map())].sort(([a], [b]) => a.localeCompare(b)));
+  return { resources, relationships, counts };
+}
+
+/** Validate one-icon-per-deployment identity and optionally compare it with an IaC inventory manifest. */
+export function validateDeploymentModel(xml, expected = null) {
+  const errors = [], warnings = [];
+  const inventory = deploymentInventory(xml);
+  const deploymentMode = /<mxGraphModel\b[^>]*\bdiagramType="deployment"/.test(xml);
+  if (deploymentMode && !inventory.resources.length)
+    errors.push("Deployment diagram contains no deployed resources — use icon(...), keep deployed:true, and assign stable deploymentId values.");
+  if (deploymentMode) {
+    const unmarked = parseCells(xml).filter((cell) => cell.edge !== "1" && cell.id
+      && /(?:^|;)catalogIcon=/.test(cell.style || "") && !/(?:^|;)deployment=[01](?:;|$)/.test(cell.style || ""));
+    if (unmarked.length) errors.push(`Deployment diagram has unclassified service icon(s): ${unmarked.map((cell) => cell.id).join(", ")} — mark each as deployed or decorative.`);
+  }
+  const byDeploymentId = new Map();
+  for (const resource of inventory.resources)
+    (byDeploymentId.get(resource.deploymentId) ?? byDeploymentId.set(resource.deploymentId, []).get(resource.deploymentId)).push(resource.id);
+  for (const [deploymentId, ids] of byDeploymentId) if (ids.length > 1)
+    errors.push(`Deployed resource "${deploymentId}" appears ${ids.length} times (${ids.join(", ")}) — keep exactly one icon for each deployment identity.`);
+  if (!expected) return { errors, warnings, inventory };
+
+  const expectedResources = Array.isArray(expected) ? expected : expected.resources || [];
+  const expectedRelationships = Array.isArray(expected?.relationships) ? expected.relationships : [];
+  const actualById = new Map(inventory.resources.map((resource) => [resource.deploymentId, resource]));
+  const expectedById = new Map(expectedResources.map((resource) => [resource.id, resource]));
+  if (expectedById.size !== expectedResources.length) errors.push("Supplied deployment inventory contains duplicate resource identities.");
+  for (const [id, resource] of expectedById) {
+    const actual = actualById.get(id);
+    if (!actual) errors.push(`Deployment inventory is missing resource "${id}"${resource.type ? ` (${resource.type})` : ""}.`);
+    else if (resource.type && actual.type !== resource.type) errors.push(`Deployment resource "${id}" uses icon type "${actual.type}"; expected "${resource.type}".`);
+  }
+  for (const [id] of actualById) if (!expectedById.has(id)) warnings.push(`Diagram contains deployed resource "${id}" that is absent from the supplied inventory.`);
+  const actualEdges = new Set(inventory.relationships.map((relationship) => `${relationship.source}->${relationship.target}`));
+  const expectedEdges = new Set(expectedRelationships.map((relationship) => `${relationship.source}->${relationship.target}`));
+  for (const relationship of expectedRelationships) if (!actualEdges.has(`${relationship.source}->${relationship.target}`))
+    errors.push(`Deployment inventory is missing relationship "${relationship.source}→${relationship.target}"${relationship.kind ? ` (${relationship.kind})` : ""}.`);
+  for (const relationship of inventory.relationships) if (expectedEdges.size && !expectedEdges.has(`${relationship.source}->${relationship.target}`))
+    warnings.push(`Diagram contains relationship "${relationship.source}→${relationship.target}" that is absent from the supplied inventory.`);
+  return { errors, warnings, inventory };
+}
+
+/** Enforce traceable shared-trunk branching and merging. */
 export function validateBranches(xml) {
   const errors = [];
   const cells = parseCells(xml);
@@ -344,11 +455,11 @@ export function validateBranches(xml) {
     return groups;
   };
   const typeLabel = (type) => type.startsWith("function:") ? `function group "${type.slice(9)}"` : `catalog type "${type}"`;
-  for (const [key, peers] of grouped("out")) if (peers.length >= 3) {
+  for (const [key, peers] of grouped("out")) if (peers.length >= 5) {
     const [source, side, type] = key.split("|");
     errors.push(`Service "${source}" has ${peers.length} direct connections to equivalent targets in ${typeLabel(type)} on its ${side} side (${peers.join(", ")}) — group only these targets behind one branch point; keep different service types as individual links.`);
   }
-  for (const [key, peers] of grouped("in")) if (peers.length >= 3) {
+  for (const [key, peers] of grouped("in")) if (peers.length >= 5) {
     const [target, side, type] = key.split("|");
     errors.push(`Service "${target}" has ${peers.length} direct inputs from equivalent sources in ${typeLabel(type)} on its ${side} side (${peers.join(", ")}) — group only these sources through one merge point; keep different service types as individual links.`);
   }
@@ -358,25 +469,27 @@ export function validateBranches(xml) {
     const key = `${id}|${sideOf(edge, end)}`;
     sideDegree.set(key, (sideDegree.get(key) ?? 0) + 1);
   }
-  for (const [key, count] of sideDegree) if (count > 4) {
+  for (const [key, count] of sideDegree) if (count > 6) {
     const [id, side] = key.split("|");
-    errors.push(`Service "${id}" has ${count} incoming/outgoing connections on its ${side} side — keep at most 4; consolidate same-type groups with branch/merge points or move individual links to another side.`);
+    errors.push(`Service "${id}" has ${count} incoming/outgoing connections on its ${side} side — keep at most 6; consolidate a readable shared trunk or move individual links to another side.`);
   }
   for (const id of branchIds) {
     const ins = incoming.get(id)?.length ?? 0, outs = outgoing.get(id)?.length ?? 0;
-    if (ins !== 1 || outs < 3)
-      errors.push(`Branch point "${id}" must have exactly 1 incoming trunk and at least 3 outgoing equivalent-service branches; found ${ins} incoming and ${outs} outgoing.`);
+    if (ins !== 1 || outs < 2)
+      errors.push(`Branch point "${id}" must have exactly 1 incoming trunk and at least 2 outgoing branches; found ${ins} incoming and ${outs} outgoing.`);
     const types = new Set((outgoing.get(id) || []).map(typeOf).filter(Boolean));
-    if (outs >= 3 && (types.size !== 1 || (outgoing.get(id) || []).some((peer) => !typeOf(peer))))
-      errors.push(`Branch point "${id}" may connect only equivalent targets — use the same catalog icon type or functionGroup, and keep different service types on individual links.`);
+    const equivalentOnly = /(?:^|;)equivalentOnly=1(?:;|$)/.test(byId.get(id)?.style || "");
+    if (equivalentOnly && outs >= 2 && (types.size !== 1 || (outgoing.get(id) || []).some((peer) => !typeOf(peer))))
+      errors.push(`Branch point "${id}" is marked equivalentOnly but its targets differ — use the same catalog icon type or functionGroup, or remove equivalentOnly.`);
   }
   for (const id of mergeIds) {
     const ins = incoming.get(id)?.length ?? 0, outs = outgoing.get(id)?.length ?? 0;
-    if (ins < 3 || outs !== 1)
-      errors.push(`Merge point "${id}" must have at least 3 incoming equivalent-service branches and exactly 1 outgoing trunk; found ${ins} incoming and ${outs} outgoing.`);
+    if (ins < 2 || outs !== 1)
+      errors.push(`Merge point "${id}" must have at least 2 incoming branches and exactly 1 outgoing trunk; found ${ins} incoming and ${outs} outgoing.`);
     const types = new Set((incoming.get(id) || []).map(typeOf).filter(Boolean));
-    if (ins >= 3 && (types.size !== 1 || (incoming.get(id) || []).some((peer) => !typeOf(peer))))
-      errors.push(`Merge point "${id}" may connect only equivalent sources — use the same catalog icon type or functionGroup, and keep different service types on individual links.`);
+    const equivalentOnly = /(?:^|;)equivalentOnly=1(?:;|$)/.test(byId.get(id)?.style || "");
+    if (equivalentOnly && ins >= 2 && (types.size !== 1 || (incoming.get(id) || []).some((peer) => !typeOf(peer))))
+      errors.push(`Merge point "${id}" is marked equivalentOnly but its sources differ — use the same catalog icon type or functionGroup, or remove equivalentOnly.`);
   }
   const styleValue = (style, key, fallback = "") => {
     const matches = [...style.matchAll(new RegExp(`(?:^|;)${key}=([^;]+)`, "g"))];
@@ -518,6 +631,14 @@ export function auditAesthetics(xml) {
   const big = uniqFonts.filter((s) => s >= 16);
   if (bigCells > 1 || big.some((s) => s > 20))
     advice.push(`Font sizes too large [${big.join(", ")}] on ${bigCells} cells — use ≤ 14 for labels; at most one hero title per page.`);
+  if (uniqFonts.some((size) => size < 10))
+    advice.push(`Text below 10px found [${uniqFonts.filter((size) => size < 10).join(", ")}] — increase it so the delivery image remains readable without extreme zoom.`);
+  const page = xml.match(/pageWidth="([\d.]+)"\s+pageHeight="([\d.]+)"/);
+  if (page) {
+    const width = Number(page[1]), height = Number(page[2]), ratio = Math.max(width / height, height / width);
+    if (Math.max(width, height) > 2400 && ratio > 2.4)
+      advice.push(`Extreme canvas aspect ratio (${width}×${height}) — rebalance domains or use a matrix so labels remain readable at delivery width.`);
+  }
 
   // 2) Palette: only count BACKGROUND/BOX colors — ignore AWS icon/group colors (mandated by category).
   const fills = [];
@@ -686,10 +807,9 @@ export function auditVisualSemantics(xml) {
   const cells = parseCells(xml);
   const hasChildren = new Set(cells.map((c) => c.parent).filter(Boolean));
   const incident = new Set();
-  for (const c of cells) {
-    if (c.edge !== "1") continue;
-    if (c.source) incident.add(c.source);
-    if (c.target) incident.add(c.target);
+  for (const relationship of semanticTopology(xml).relationships) {
+    incident.add(relationship.source);
+    incident.add(relationship.target);
   }
   const serviceName = (c) => {
     const resource = (c.style.match(/resIcon=mxgraph\.aws4\.([a-zA-Z0-9_]+)/) || [])[1];

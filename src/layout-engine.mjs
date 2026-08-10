@@ -14,7 +14,9 @@ const ICON = 48;
 const SERVICE_FRAME_BORDERS = new Set(["solid", "dashed", "dotted", "dash-dot"]);
 
 // ---- node creators ----
-export const icon = (id, name, label = "", opts = {}) => ({ kind: "icon", id, name, label, ...opts });
+export const icon = (id, name, label = "", opts = {}) => ({
+  kind: "icon", id, name, label, deployed: opts.deployed ?? true, deploymentId: opts.deploymentId ?? id, ...opts,
+});
 // A text box AUTO-SIZES to its label (longest wrapped line → width, line count → height), so you
 // don't hand-pick w/h. Pass w/h only to override (e.g. a deliberately tall source/consumer card).
 function autoBox(label) {
@@ -29,18 +31,20 @@ export const box = (id, label = "", opts = {}) => {
   const a = autoBox(label);
   return { kind: "box", id, label, ...opts, w: opts.w ?? a.w, h: opts.h ?? a.h };
 };
-/** Small junction used to split one shared trunk into three or more equivalent branches. Place it on the
+/** Small junction used to split one shared trunk into two or more branches. Place it on the
  * main flow between the source and primary target, then link source → branch → targets. */
 export const branch = (id, opts = {}) => ({
   kind: "branch", id,
   size: opts.size ?? 1,
   atBend: opts.atBend ?? false,
+  equivalentOnly: opts.equivalentOnly ?? false,
 });
-/** Small junction used to combine three or more equivalent inputs into one shared trunk. */
+/** Small junction used to combine two or more inputs into one shared trunk. */
 export const merge = (id, opts = {}) => ({
   kind: "merge", id,
   size: opts.size ?? 1,
   atBend: opts.atBend ?? false,
+  equivalentOnly: opts.equivalentOnly ?? false,
 });
 export const group = (id, gname, label = "", opts = {}, children = []) => ({
   kind: "group", id, gname: gname || null, label, children,
@@ -53,6 +57,7 @@ export const group = (id, gname, label = "", opts = {}, children = []) => ({
   serviceFrame: opts.serviceFrame ?? false,
   borderStyle: opts.borderStyle ?? "solid",
   graphOrder: opts.graphOrder ?? false,
+  semanticGroup: opts.semanticGroup ?? true,
   // routeGap: minimum gap enforced between children when routing lanes need to pass between them.
   // Set to ≥ 2×BM (48px) so the A* router has clearance. Overrides gap only when larger.
   routeGap: opts.routeGap ?? 0,
@@ -90,7 +95,29 @@ export const grid = (id, gname, label = "", opts = {}, children = []) => ({
   cols: Math.max(1, opts.cols ?? 2), gap: opts.gap ?? 30, pad: opts.pad ?? 24,
   header: label ? (opts.header ?? 36) : (opts.header ?? 0),   // no label → no dead title strip (issue #58)
   fill: opts.fill, stroke: opts.stroke, graphOrder: opts.graphOrder ?? false,
+  semanticGroup: opts.semanticGroup ?? true,
 });
+/** Documentation-only dependency matrix. Rows and columns accept strings or { id, label }.
+ * Relations accept [rowId, columnId] pairs or { source, target } objects. */
+export function dependencyMatrix(id, label, { rows = [], columns = [], relations = [] } = {}, opts = {}) {
+  const safe = (value) => String(value).replace(/[^a-zA-Z0-9_.-]+/g, "_");
+  const item = (value) => typeof value === "string" ? { id: value, label: value } : value;
+  const rowItems = rows.map(item), columnItems = columns.map(item);
+  const connected = new Set(relations.map((relation) => Array.isArray(relation)
+    ? `${relation[0]}\u0000${relation[1]}`
+    : `${relation.source}\u0000${relation.target}`));
+  const cell = (cellId, value, extra = {}) => box(cellId, value, {
+    w: opts.cellW ?? 118, h: opts.cellH ?? 42, documentationOnly: true, ...extra,
+  });
+  const children = [cell(`${id}__corner`, "Service / dependency", { bold: true })];
+  for (const column of columnItems) children.push(cell(`${id}__column__${safe(column.id)}`, column.label, { bold: true }));
+  for (const row of rowItems) {
+    children.push(cell(`${id}__row__${safe(row.id)}`, row.label, { bold: true }));
+    for (const column of columnItems)
+      children.push(cell(`${id}__cell__${safe(row.id)}__${safe(column.id)}`, connected.has(`${row.id}\u0000${column.id}`) ? "✓" : ""));
+  }
+  return grid(id, null, label, { cols: columnItems.length + 1, gap: opts.gap ?? 4, pad: opts.pad ?? 12, semanticGroup: false }, children);
+}
 // ---- themed creators (apply the THEME so diagrams inherit the house style by default) ----
 // Big frames use a WHITE (theme-aware) background; the AWS icons carry the color. A per-stage
 // border colour keeps layers distinguishable without tinting the fill.
@@ -197,20 +224,23 @@ function pGroup(n) {
 // ---- emit: output to the Diagram builder ----
 function eIcon(d, n, parent) {
   const s = n.size ?? ICON;
-  d.icon(n.id, n.name, [Math.round(n.x + (n.w - s) / 2), n.y], { parent, label: n.label, size: s, functionGroup: n.functionGroup });
+  d.icon(n.id, n.name, [Math.round(n.x + (n.w - s) / 2), n.y], {
+    parent, label: n.label, size: s, functionGroup: n.functionGroup,
+    deployed: n.deployed, deploymentId: n.deploymentId,
+  });
 }
 function eBox(d, n, parent) {
-  if (n.style) { const marker = n.functionGroup ? `functionGroup=${n.functionGroup};` : ""; const r = d._put(n.id, parent, n.x, n.y, n.w, n.h, `${n.style}${n.style.endsWith(";") ? "" : ";"}${marker}`, n.label); r.ob = true; return; }   // curated shape: raw style, leaf obstacle
-  d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke, round: n.round, va: n.va, bold: n.bold, functionGroup: n.functionGroup });
+  if (n.style) { const marker = `${n.documentationOnly ? "documentationOnly=1;" : ""}${n.functionGroup ? `functionGroup=${n.functionGroup};` : ""}`; const r = d._put(n.id, parent, n.x, n.y, n.w, n.h, `${n.style}${n.style.endsWith(";") ? "" : ";"}${marker}`, n.label); r.ob = true; return; }   // curated shape: raw style, leaf obstacle
+  d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke, round: n.round, va: n.va, bold: n.bold, functionGroup: n.functionGroup, documentationOnly: n.documentationOnly });
 }
 function eBranch(d, n, parent) {
-  d.junction(n.id, [n.x, n.y], { parent, size: n.size, atBend: n.atBend });
+  d.junction(n.id, [n.x, n.y], { parent, size: n.size, atBend: n.atBend, equivalentOnly: n.equivalentOnly });
 }
 function eMerge(d, n, parent) {
-  d.mergeJunction(n.id, [n.x, n.y], { parent, size: n.size, atBend: n.atBend });
+  d.mergeJunction(n.id, [n.x, n.y], { parent, size: n.size, atBend: n.atBend, equivalentOnly: n.equivalentOnly });
 }
 function eGroup(d, n, parent) {
-  if (n.gname) d.group(n.id, n.gname, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke });
+  if (n.gname) d.group(n.id, n.gname, [n.x, n.y], [n.w, n.h], n.label, { parent, fill: n.fill, stroke: n.stroke, semanticGroup: n.semanticGroup });
   else if (n.serviceFrame) {
     const CI = 22;
     const entry = d.c.byName.get(n.cornerIcon);
@@ -219,7 +249,7 @@ function eGroup(d, n, parent) {
     const border = serviceBorderStyle(n.borderStyle);
     const fill = n.fill ?? "light-dark(#FFFFFF,#0F1620)";
     const stroke = `light-dark(${iconColor},${darkColor})`;
-    const marker = `serviceFrame=1;serviceIcon=${n.cornerIcon};serviceBorder=${n.borderStyle};`;
+    const marker = `serviceFrame=1;semanticGroup=${n.semanticGroup ? 1 : 0};serviceIcon=${n.cornerIcon};serviceBorder=${n.borderStyle};`;
     const style = `rounded=0;whiteSpace=wrap;html=1;fillColor=${fill};strokeColor=${stroke};strokeWidth=2;${border}${marker}fontColor=light-dark(#1A1A1A,#E8EEF5);fontSize=12;fontStyle=0;verticalAlign=top;align=left;spacingLeft=${CI + 8};spacingTop=4;`;
     const r = d._put(n.id, parent, n.x, n.y, n.w, n.h, style, n.label); r.ob = false;
     d.cornerIcon(`${n.id}__ci`, n.cornerIcon, [Math.round(n.x), Math.round(n.y)], CI, n.id);
@@ -227,7 +257,7 @@ function eGroup(d, n, parent) {
   else if (n.cornerIcon) {
     // Azure/GCP-style container: corner icon top-left, label beside it (like an AWS group stencil).
     const CI = 22;
-    const style = `rounded=0;whiteSpace=wrap;html=1;fillColor=${n.fill ?? "#FFFFFF"};strokeColor=${n.stroke ?? "#999999"};fontColor=#1A1A1A;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=${CI + 12};spacingTop=8;`;
+    const style = `rounded=0;whiteSpace=wrap;html=1;semanticGroup=${n.semanticGroup ? 1 : 0};fillColor=${n.fill ?? "#FFFFFF"};strokeColor=${n.stroke ?? "#999999"};fontColor=#1A1A1A;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=${CI + 12};spacingTop=8;`;
     const r = d._put(n.id, parent, n.x, n.y, n.w, n.h, style, n.label); r.ob = false;
     d.cornerIcon(`${n.id}__ci`, n.cornerIcon, [Math.round(n.x + 8), Math.round(n.y + 7)], CI, n.id);
   } else {
@@ -235,7 +265,7 @@ function eGroup(d, n, parent) {
     // entirely. Registering it as a container (ob:false) made insideAny() true across the whole
     // page (a root wrapper encloses everything), which silently disabled the border-hugging
     // penalty for every renderTree diagram — and gave pushOff phantom borders to jump outside of.
-    d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, va: "top", bold: true, fill: n.fill ?? "#FFFFFF", stroke: n.stroke ?? "#999999", ob: n.stroke === "none" ? null : false });
+    d.box(n.id, [n.x, n.y], [n.w, n.h], n.label, { parent, va: "top", bold: true, fill: n.fill ?? "#FFFFFF", stroke: n.stroke ?? "#999999", ob: n.stroke === "none" ? null : false, semanticGroup: n.semanticGroup });
   }
   for (const c of n.children) emit(d, c, n.id);
 }

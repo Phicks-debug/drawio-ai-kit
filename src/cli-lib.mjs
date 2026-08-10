@@ -164,7 +164,7 @@ Set the skill directory once, then import from its public entrypoint:
 DRAWIO_CLOUD_SKILL="<absolute path of the folder containing SKILL.md>"
 \`\`\`
 \`\`\`js
-import { Diagram, group, frame, grid, icon, box, branch, merge, phantom, serviceFrame, renderGraph, renderTree, loadCatalog, searchIcon } from "<DRAWIO_CLOUD_SKILL>/index.mjs";
+import { Diagram, group, frame, grid, icon, box, branch, merge, phantom, serviceFrame, dependencyMatrix, renderGraph, renderTree } from "<DRAWIO_CLOUD_SKILL>/index.mjs";
 \`\`\`
 (Replace \`<DRAWIO_CLOUD_SKILL>\` with the absolute skill path; shell substitution does not run inside JS strings.)
 
@@ -179,14 +179,18 @@ terramate list --run-order                             # real stack order (terra
 Anything not in the inventory does not go in the diagram.
 
 ## 2. Build the diagram
+Start with \`new Diagram()\`; it uses deployment fidelity and the \`deployment\` preset by default. Read \`diagram-types.md\` and pass another type only when the request needs a specialized dominant view.
+
 Declare the nested structure with \`group\`/\`frame\`/\`grid\` + \`icon\`/\`box\`. Use \`serviceFrame(id, icon, name, opts, children)\` only when one AWS service owns every child; \`opts.borderStyle\` is optional and defaults to \`solid\`.
 
 Assign semantic layers first, such as Clients → Interfaces → Services → Async/Workers → Data. Declare links as \`{ source, target, label, opts }\`, then call \`renderGraph(d, tree, links)\`. It performs barycenter crossing reduction inside \`stage\` and containers marked \`{ graphOrder: true }\`, computes every coordinate, and adds the links. Use \`renderTree\` when child order is intentionally fixed.
 
 Give every visible container a short reader-facing name. Use \`phantom\` for layout-only alignment; validation asks for an explicit decision when a visible container has an empty name.
 
-Use \`branch("split")\` or \`merge("join")\` only for at least three same-type/same-function peers on one icon side. Keep different service types on individual links and no more than four total connections per side. Use the same \`{ functionGroup: "workers" }\` on different icons/boxes only when they perform the same function.
+Use \`branch("split")\` or \`merge("join")\` for at least two branches. Heterogeneous branches are valid; add \`{ equivalentOnly: true }\` only when every peer must share one catalog type or \`functionGroup\`. Keep no more than six total connections per side.
 Junctions are transparent. Use the same stroke, width, dash, corner, animation, and arrow options on every incident junction edge; validation rejects mixed line types.
+
+A group relationship applies to every deployed leaf: service-to-group is one-to-all, group-to-service is all-to-one, and group-to-group is all-to-all. Connect individual children whenever that complete meaning is false.
 
 Select one arrowhead for the complete diagram with \`new Diagram(type, { arrow: "block" })\`; every link inherits it and validation rejects mixed arrowheads. Use \`branch("split", { atBend: true })\` or \`merge("join", { atBend: true })\` when the transparent junction should sit on the natural trunk turn.
 
@@ -207,8 +211,7 @@ d.link(srcId, tgtId, label = "", opts = {})
 //         stroke: "#hex" }        // override color
 // Let the router choose simple orthogonal geometry by default. Add the fewest via checkpoints
 // needed to preserve an intentional corridor; constrained A* honors them when a direct lane cannot.
-// Containers (frames/groups) are valid link targets — prefer linking a cluster frame over
-// each replica inside it.
+// Containers are valid targets only when the relationship applies to every deployed leaf.
 // Hard gate: links route around unrelated primitives; parallel independent links keep 10px.
 // Perpendicular link crossings are valid when they preserve compact, traceable routing.
 // Shared junction trunks and terminal convergence at a common endpoint are intentional exemptions.
@@ -220,6 +223,7 @@ Flow animation stays disabled. When the user explicitly requests it, construct t
 If your build script already prints its \`d.validate()\` result (the examples all do), read that during
 iteration — do NOT also run the entrypoint validator on every loop; it re-prints the same report.
 Run \`node "$DRAWIO_CLOUD_SKILL/index.mjs" validate <file>\` ONCE as the final gate before delivering.
+For deployment diagrams, also run \`node "$DRAWIO_CLOUD_SKILL/index.mjs" inventory <file>\` and compare the counts and expanded relationships with the source inventory.
 
 ## 4. Render
 Run \`node "$DRAWIO_CLOUD_SKILL/index.mjs" render <file> --check -o <output.png>\` for the vision self-check — \`--check\` clamps

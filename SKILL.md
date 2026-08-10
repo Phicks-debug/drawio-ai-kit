@@ -9,7 +9,7 @@ Produce correct cloud architecture diagrams in draw.io.
 
 ## Skill structure
 
-- `diagram-types.md`: read first to select the layout and routing preset.
+- `diagram-types.md`: read when the default deployment view does not fit and a specialized layout or routing preset is needed.
 - `domains/`: read each domain file represented in the diagram.
 - `index.mjs`: public entrypoint for commands and engine imports.
 - `src/`: private implementation for debugging, customization, and extension work.
@@ -38,16 +38,18 @@ Ask whenever either answer is missing. Proceed directly when the user has alread
 
 For a multi-diagram request, spawn one subagent per diagram in parallel with distinct filenames. Otherwise, work inline.
 
-1. Read `diagram-types.md` first. Use it to identify and select the suitable dominant diagram type and every domain contained in the diagram, ask the user to confirm if necessary.
+1. Start with deployment fidelity and the `deployment` type. Inventory the source of truth and preserve one icon per deployed runtime resource.
 
-2. Apply the shared principles and style in this file together with the selected type and domain rules. Rebuild until every check passes.
+2. Switch to another type only when the request needs a specialized pipeline, hierarchy, network, hub-spoke, hybrid, mesh, or sequence view. Read `diagram-types.md` at that point and apply the selected type together with every represented domain file.
+
+3. Apply the shared principles and style in this file. Rebuild until every check passes.
 
 Import public engine functions from the root entrypoint during normal use. Reserve direct `src/` imports for source debugging or extension:
 
 ```js
 import {
   Diagram, group, frame, grid, icon, box, branch, merge, serviceFrame,
-  phantom, stage, band, endpoint, ossBox, onpremFrame,
+  phantom, stage, band, endpoint, ossBox, onpremFrame, dependencyMatrix,
   renderGraph, renderTree, orderGraph,
   loadCatalog, searchIcon,
 } from "<DRAWIO_CLOUD_SKILL>/index.mjs";
@@ -61,7 +63,7 @@ const links = [
   { source: "api", target: "worker", label: "invoke" },
 ];
 
-const d = new Diagram("pipeline", { contract: "bake", routing: "simple", arrow: "block" });
+const d = new Diagram("deployment", { contract: "bake", routing: "simple", arrow: "block" });
 renderGraph(d, tree, links);
 ```
 
@@ -86,6 +88,26 @@ node "$DRAWIO_CLOUD_SKILL/index.mjs" render <file>.drawio -o <file>.png
 - Give every separately deployed function its own icon so distinct deployed services remain visible.
 - Use short human-readable role labels; omit generated names, IDs, variables, and placeholders.
 
+### Deployment fidelity
+
+- Use deployment fidelity as the default way to draw architecture. Select the `deployment` type unless the request clearly needs another dominant view from `diagram-types.md`.
+- Inventory the source of truth before drawing. One visible service icon equals one deployed runtime resource; use `{ deploymentId: "<stable source identity>" }` when the cell ID differs from the IaC address.
+- Do not duplicate a resource to simplify routing. Validation rejects repeated `deploymentId` values.
+- Set `{ deployed: false }` only on decorative or conceptual service icons that must remain outside the deployment inventory.
+- Separate runtime resources from provisioning constructs. Do not draw CloudFormation stacks, Terraform modules, CDK constructs, or SST components as runtime peers unless provisioning is the subject.
+- Use `dependencyMatrix(...)` for exact secondary permissions or CRUD dependencies when individual arrows would hide the deployment inventory. Keep triggers, queue delivery, and primary request/data flow as visible edges.
+- Mark explanatory boxes with `{ documentationOnly: true }`; they remain outside group relationship expansion.
+- Export the encoded inventory with `node "$DRAWIO_CLOUD_SKILL/index.mjs" inventory <file>.drawio`. Compare it with an IaC manifest using `validate <file>.drawio --inventory <manifest>.json`.
+
+Use stable deployment identities in the manifest. Relationships use those identities after group expansion:
+
+```json
+{
+  "resources": [{ "id": "aws_lambda.upload", "type": "lambda" }],
+  "relationships": [{ "source": "aws_apigateway.main", "target": "aws_lambda.upload", "kind": "invoke" }]
+}
+```
+
 ### Density and layout
 
 - Pack related services into one labelled `grid`; 3–8 icons per functional area is normal.
@@ -95,7 +117,7 @@ node "$DRAWIO_CLOUD_SKILL/index.mjs" render <file>.drawio -o <file>.png
 - Default to left-to-right data/request flow and top-to-bottom hierarchy. Keep one dominant direction.
 - Place sources/clients on the left, cloud or platform content in the center, consumers on the right, and cross-cutting controls in a band or column.
 - Assign semantic layers before routing, such as `Clients → Interfaces → Services → Async/Workers → Data`. Let graph ordering reduce crossings inside each layer while preserving the declared architecture hierarchy.
-- Keep the overview focused on primary end-to-end relationships. When a page needs dozens of secondary CRUD, operational, or record-level links, create focused detail diagrams so each path remains traceable.
+- Keep the overview focused on primary end-to-end relationships. When the user requires one deployment page, keep the resource inventory on that page and use a dependency matrix for dense secondary relationships. Use focused detail diagrams only when multiple pages are acceptable.
 
 ### House style
 
@@ -121,13 +143,12 @@ Use the theme tokens and themed creators exported by `index.mjs`, letting the cl
 - Use solid edges for primary data/control flow and dashed edges for sync, dependency, policy, replication, peering, or lineage.
 - Select one arrowhead on the `Diagram`, with filled `block` as the default, and use it for every directional edge. A bidirectional edge uses the same selected arrowhead at both ends. Validation returns a hard error when edited XML mixes arrowhead types.
 - Represent a bidirectional relationship with one double-headed edge in one corridor.
-- Choose `branch("id")` for at least three same-type or same-function targets on one side: `source → branch → equivalent targets`. Individual links keep different target types easy to distinguish.
-- Choose `merge("id")` for at least three same-type or same-function sources on one side: `equivalent sources → merge → target`. Individual links keep different source types easy to distinguish.
+- Choose `branch("id")` for one trunk splitting to at least two targets and `merge("id")` for at least two sources joining one trunk. Heterogeneous branches are valid. Add `{ equivalentOnly: true }` only when every branch must share one catalog type or `functionGroup`.
 - Use one line type across every edge in a branch or merge: the same stroke, width, dash pattern, corner style, animation, and arrow selection. The builder throws immediately for mixed options; validation returns a hard error for edited XML.
-- Junctions are useful, but overusing them makes paths harder to trace. Use judgment based on readability; keep up to four total incoming/outgoing connections on one side, consolidate equivalent groups, or distribute individual links across suitable sides.
-- Use `branch("id", { atBend: true })` or `merge("id", { atBend: true })` as an optional aesthetic variation when a shared transparent junction can sit on the natural orthogonal turn between the trunk and equivalent services.
+- Junctions are useful, but overusing them makes paths harder to trace. Use judgment based on readability; keep up to six total incoming/outgoing connections on one side, consolidate a readable shared trunk, or distribute individual links across suitable sides.
+- Use `branch("id", { atBend: true })` or `merge("id", { atBend: true })` when a transparent junction can sit on the natural orthogonal turn between its trunk and branches.
 - The validator identifies equivalent catalog icons automatically. For visually different components with the same function, assign the same `{ functionGroup: "workers" }` to their `icon` or `box` creators.
-- Point to the icon when a frame contains different components. Point to the frame only when it represents replicas of one component.
+- Treat group relationships as first-class semantics. `service → group` means the service connects to every deployed leaf in the group. `group → service` means every deployed leaf connects to the service. `group → group` means every deployed leaf in the source connects to every deployed leaf in the target. Connect individual children whenever that complete meaning is false.
 - Move nodes to obtain straight, short connectors. Use another entry face or deliberate waypoints when dense routing still collides.
 - Prefer `routing: "simple"`: fixed-side ports, straight/Z/L orthogonal lanes, branch/merge trunks, and small segment nudges. The engine uses constrained A* only when a simple lane would hit a service icon or protected header.
 - Choose `routing: "adaptive"` for a focused diagram whose constrained paths still need negotiated congestion cleanup. Keep the semantic layout stable before enabling it.
@@ -153,7 +174,7 @@ for (const id of ["lambda_1", "lambda_2", "lambda_3", "lambda_4", "lambda_5"]) d
 d.link("lambda_join", "s3");
 ```
 
-Include `branch("lambda_split")` or `merge("lambda_join")` in the layout tree before linking. Add `{ atBend: true }` when the shared point should move onto the natural trunk turn.
+Include `branch("lambda_split")` or `merge("lambda_join")` in the layout tree before linking. Add `{ atBend: true }` when the shared point should move onto the natural trunk turn. Add `{ equivalentOnly: true }` when the junction is intentionally homogeneous.
 
 Choose the arrow once with `new Diagram(type, { arrow: "block" })`. Link calls inherit it automatically. Use `startArrow: "block"` for a bidirectional edge when `block` is the selected diagram arrow.
 
@@ -164,9 +185,11 @@ Choose the arrow once with `new Diagram(type, { arrow: "block" })`. Link calls i
 
 ## Self-check
 
-- Run `node "$DRAWIO_CLOUD_SKILL/index.mjs" validate <file>.drawio`; clear ALL `errors`, `warnings`, and `audit.advice` before delivering. In AWS diagrams, treat a missing required Cloud, Account, Region, VPC, AZ, Subnet, or Security Group parent as a structural defect.
+- Run `node "$DRAWIO_CLOUD_SKILL/index.mjs" validate <file>.drawio`; clear every error and warning. Review `audit.advice` as presentation guidance and resolve every item that harms the requested diagram. In AWS diagrams, treat a missing required Cloud, Account, Region, VPC, AZ, Subnet, or Security Group parent as a structural defect.
+- For deployment diagrams, run `inventory` and verify the resource counts, duplicate identities, and expanded semantic relationships against the source inventory.
 - Render and inspect the PNG every round. Check every deployed service, ownership frame, label, arrowhead, and queue path. Confirm every arrow stops on the nearest service edge and every directional edge uses the selected diagram arrowhead.
 - Zoom to 200–400% around hubs, queues, buses, and edge labels. A clean full-page preview can hide a few-pixel collision.
+- Inspect the delivery image at its expected display width. Fix tiny text, excessive canvas width, label collisions, and layouts that require extreme zoom even when geometry validation passes.
 - After the validator is clean, complete the visual review and fix every visible defect or crooked, jagged line before delivery.
 - Build with `contract: "bake"` and compare each edge length with its Manhattan minimum (`|dx| + |dy|`). Use `exitX`/`exitY` and `entryX`/`entryY` as the measurement anchors.
 - Read the numbers as a hint about layout: small total excess over Manhattan but large individual minimums means the router is fine and the nodes are in the wrong place, the same message as `Long connector(s)`.

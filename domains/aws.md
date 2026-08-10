@@ -34,6 +34,7 @@ AWS Cloud (group_aws_cloud_alt)
 - Keep service labels focused on reader-facing roles. Deployment names, account IDs, Regions, interpolation syntax, variables, and placeholders belong in the source rather than the diagram.
 - Connect each operational storage, database, queue, compute, and network icon to at least one producer, consumer, dependency, or data flow.
 - Treat IAM, logging, audit, provisioning services, and decorative badges as cross-cutting context; they may remain unwired when containment or placement already explains their role.
+- Represent S3 Vectors as the deployed vector bucket and index. Do not draw its CloudFormation, CDK, Terraform, or SST provisioning construct as a runtime service peer unless the diagram is specifically about provisioning.
 
 ## Icon color and identity
 
@@ -65,10 +66,9 @@ Category colors:
 
 ## Edges
 
-- Connect an edge to a dashed `clusterBox` when that frame represents replicas of one stack across multiple AZs. One edge to the frame boundary communicates the replicated target cleanly.
+- Connect an edge to a dashed `clusterBox` only when the relationship applies to every represented replica. One edge to the frame boundary communicates that all-replica target cleanly.
 - Create each `clusterBox` before calling `d.link(...)` so its ID is available as an edge endpoint.
-- Connect directly to individual icons when the relationship is a genuine fan-out to distinct services. Use the shared branch and merge guidance in `SKILL.md` for equivalent groups.
-- Point to the icon when a frame contains different components; point to the frame when it represents replicas of one component.
+- Connect directly to individual icons for partial-group relationships. Use the shared branch and merge guidance in `SKILL.md` when a visible trunk improves traceability.
 
 ## Placement
 
